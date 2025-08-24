@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './index.css'
+import ContactBar from './components/ContactoBar'
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-        <div className="bg-blue-500 text-white p-8 rounded-lg shadow-lg">
-     ¡Tailwind CSS está funcionando!
-   </div>
+    <div>
+      <ContactBar />
+      <Header/>
+      <Footer/>
+    </div>
     </>
   )
 }
