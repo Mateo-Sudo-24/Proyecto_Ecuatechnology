@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Home, Settings, Users, Contact, LogIn, UserPlus } from 'lucide-react';
+import ContactButton from './ContactoButton.jsx';
+import ContactModal from './ContactoModal.jsx';
 
 const Header = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   return (
     <header style={{ 
       position: 'fixed', 
@@ -53,6 +57,7 @@ const Header = () => {
             Servicios
           </a>
         </li>
+        
         <li>
           <a href="#" style={{ color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
             <Users size={16} />
@@ -60,14 +65,12 @@ const Header = () => {
           </a>
         </li>
         <li>
-          <a href="#" style={{ color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
-            <Contact size={16} />
-            Contacto
-          </a>
+          <ContactButton onClick={() => setIsModalOpen(true)} />
         </li>
       </ul>
+      <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-      {/* Botones */}
+      {/* Botones para el cliente */}
       <div style={{ display: 'flex', gap: '1rem' }}>
         <button style={{ 
           border: '2px solid var(--secondary)', 

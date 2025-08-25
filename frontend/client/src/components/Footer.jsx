@@ -139,7 +139,7 @@ const Footer = () => {
         textAlign: 'center', 
         fontSize: '1rem' 
       }}>
-        © 2024 Ecuatecnology S.A. Todos los derechos reservados.
+        © 2025 Ecuatecnology S.A. Todos los derechos reservados.
       </p>
     </footer>
   );

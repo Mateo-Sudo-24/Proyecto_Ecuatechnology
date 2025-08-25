@@ -11,7 +11,8 @@
     --secondary: #3F51B5; /* Azul Marino/Púrpura */
     --accent: #B71C1C; /* Rojo */
     --neutral: #1A1A1A; /* Negro */
-    --background: #FFFFFF; /* Blanco */
+    --background: #ffffff; /* Blanco */
+    --peach-light: #FFF5E6; /* Durazno claro para contenedores */
   }
   
   /* Tipografía global */
