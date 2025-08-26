@@ -50,10 +50,20 @@
     right: 1rem;
     background: none;
     border: none;
+    outline: none;
     font-size: 1.75rem;
     cursor: pointer;
     color: #666;
     font-weight: bold;
+    transition: color 0.2s ease;
+  }
+
+  .contact-modal-close:hover {
+    color: var(--primary);
+  }
+
+  .contact-modal-close:focus {
+    outline: none;
   }
   
   .contact-modal-title {

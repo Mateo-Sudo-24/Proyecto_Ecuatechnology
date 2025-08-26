@@ -19,3 +19,6 @@ pnpm-debug.log*
 # Sistema operativo
 .DS_Store
 Thumbs.db
+
+# Reglas de Cursor (solo para entorno local)
+.cursor/

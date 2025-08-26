@@ -56,7 +56,11 @@ const ContactoModal = ({ isOpen, onClose }) => {
   return (
     <div className="contact-modal-overlay">
       <div className="contact-modal-content">
-        <button className="contact-modal-close" onClick={handleClose}>
+        <button 
+          className="contact-modal-close" 
+          onClick={handleClose}
+          style={{ outline: 'none' }}
+        >
           ×
         </button>
         <h2 className="contact-modal-title">Contáctanos</h2>

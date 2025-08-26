@@ -26,6 +26,7 @@ const Header = () => {
         display: 'flex', 
         alignItems: 'center',
         marginLeft: '2rem'
+        
       }}>
         <img 
           src="/images/logo.jpg" 
@@ -83,7 +84,8 @@ const Header = () => {
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',
-          transition: 'all 0.3s ease'
+          transition: 'all 0.3s ease',
+          outline: 'none'
         }} 
         onMouseEnter={(e) => {
           e.target.style.backgroundColor = '#3F51B5';
@@ -107,7 +109,8 @@ const Header = () => {
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
-          gap: '0.5rem'
+          gap: '0.5rem',
+          outline: 'none'
         }} className="hover:bg-primary/90">
           <UserPlus size={16} />
           Registro
@@ -117,4 +120,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Header

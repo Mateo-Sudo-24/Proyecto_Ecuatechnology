@@ -5,19 +5,15 @@ const ContactButton = ({ onClick }) => {
   return (
     <button
       style={{
-        color: 'var(--neutral)',
-        textDecoration: 'none',
         display: 'flex',
         alignItems: 'center',
         gap: '0.5rem',
         backgroundColor: 'transparent',
         border: 'none',
-        cursor: 'pointer',
-        fontSize: 'inherit',
-        fontFamily: 'inherit',
+        outline: 'none',
         padding: 0
       }}
-      className="hover:text-secondary"
+      className="hover:text-secondary focus:outline-none"
       onClick={onClick}
     >
       <Contact size={16} />
