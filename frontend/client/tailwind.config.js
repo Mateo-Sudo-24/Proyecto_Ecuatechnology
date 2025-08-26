@@ -20,4 +20,12 @@ export default {
     },
   },
   plugins: [],
+  safelist: [
+    "text-yellow-600",
+    "text-blue-600",
+    "text-red-600",
+    "bg-yellow-100",
+    "bg-blue-100",
+    "bg-red-100",
+  ],
 };

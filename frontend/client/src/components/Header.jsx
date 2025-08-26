@@ -3,6 +3,7 @@ import { Home, Settings, Users, Contact, LogIn, UserPlus } from 'lucide-react';
 import ContactButton from './ContactoButton.jsx';
 import ContactModal from './ContactoModal.jsx';
 
+
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
