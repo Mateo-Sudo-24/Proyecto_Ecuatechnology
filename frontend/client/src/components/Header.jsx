@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Settings, Users, Contact, LogIn, UserPlus } from 'lucide-react';
+import { Home, Wrench, Users, Contact, LogIn, UserPlus } from 'lucide-react';
 import ContactButton from './ContactoButton.jsx';
 import ContactModal from './ContactoModal.jsx';
 
@@ -55,7 +55,7 @@ const Header = () => {
         </li>
         <li>
           <a href="#" style={{ color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
-            <Settings size={16} />
+            <Wrench size={16} />
             Servicios
           </a>
         </li>
