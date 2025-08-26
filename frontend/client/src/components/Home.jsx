@@ -1,32 +1,33 @@
 import React from "react";
 import { Clock, Users, Shield } from "lucide-react";
 
-
 function Home() {
-
   return (
     <section
       id="inicio"
-      className="bg-gradient-to-br from-gray-50 to-gray-200 py-20"
+      // Se utiliza `from-background` y `to-muted` para coincidir con el ejemplo.
+      className="bg-gradient-to-br from-background to-muted py-20"
     >
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6">
               Soluciones Tecnológicas
-              <span className="text-[#d4a017] block">Confiables</span>
+              {/* Se usa `text-primary` para la coherencia con el tema. */}
+              <span className="text-primary block">Confiables</span>
             </h1>
-            <p className="text-xl text-gray-700 mb-8 leading-relaxed">
+            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
               Más de 15 años brindando mantenimiento preventivo y correctivo de
               equipos tecnológicos. Garantizamos la continuidad operativa de tu
               empresa con servicios rápidos y profesionales.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <button className="bg-[#d4a017] text-white hover:bg-yellow-600 py-3 px-6 rounded-lg font-medium transition-colors">
+              {/* Se usan clases de color de Tailwind basadas en las variables del tema. */}
+              <button className="bg-primary text-primary-foreground hover:bg-primary/90 py-3 px-6 rounded-lg font-medium transition-colors">
                 Solicitar Cotización
               </button>
-              <button className="bg-[#3b42f6] text-white hover:bg-blue-700 py-3 px-6 rounded-lg font-medium transition-colors">
+              <button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 py-3 px-6 rounded-lg font-medium transition-colors">
                 Ver Servicios
               </button>
             </div>
@@ -34,26 +35,27 @@ function Home() {
             <div className="grid grid-cols-3 gap-8">
               <div className="text-center">
                 <div className="flex justify-center mb-2">
-                  <Clock className="h-8 w-8 text-[#d4a017]" />
+                  {/* Los íconos ahora usan `text-primary`. */}
+                  <Clock className="h-8 w-8 text-primary" />
                 </div>
-                <div className="text-2xl font-bold text-gray-900">15+</div>
-                <div className="text-sm text-gray-600">Años de experiencia</div>
+                <div className="text-2xl font-bold text-foreground">15+</div>
+                <div className="text-sm text-muted-foreground">Años de experiencia</div>
               </div>
               <div className="text-center">
                 <div className="flex justify-center mb-2">
-                  <Users className="h-8 w-8 text-[#3b42f6]" />
+                  <Users className="h-8 w-8 text-secondary" />
                 </div>
-                <div className="text-2xl font-bold text-gray-900">500+</div>
-                <div className="text-sm text-gray-600">
+                <div className="text-2xl font-bold text-foreground">500+</div>
+                <div className="text-sm text-muted-foreground">
                   Clientes satisfechos
                 </div>
               </div>
               <div className="text-center">
                 <div className="flex justify-center mb-2">
-                  <Shield className="h-8 w-8 text-red-600" />
+                  <Shield className="h-8 w-8 text-accent" />
                 </div>
-                <div className="text-2xl font-bold text-gray-900">24/7</div>
-                <div className="text-sm text-gray-600">Soporte técnico</div>
+                <div className="text-2xl font-bold text-foreground">24/7</div>
+                <div className="text-sm text-muted-foreground">Soporte técnico</div>
               </div>
             </div>
           </div>
@@ -64,7 +66,7 @@ function Home() {
               alt="Técnico trabajando"
               className="rounded-lg shadow-2xl w-full h-[600px] object-cover"
             />
-            <div className="absolute -bottom-6 -left-6 bg-red-600 text-white p-6 rounded-lg shadow-lg">
+            <div className="absolute -bottom-6 -left-6 bg-accent text-accent-foreground p-6 rounded-lg shadow-lg">
               <div className="text-2xl font-bold">Garantía</div>
               <div className="text-sm">En todos nuestros servicios</div>
             </div>
