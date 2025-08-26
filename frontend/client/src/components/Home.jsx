@@ -23,10 +23,10 @@ function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <button className="#D4AF37 text-black hover:bg-yellow-600 py-3 px-6 rounded-lg font-medium transition-colors">
+              <button className="bg-[#d4a017] text-white hover:bg-yellow-600 py-3 px-6 rounded-lg font-medium transition-colors">
                 Solicitar Cotización
               </button>
-              <button className="bg-blue-500 text-black hover:bg-blue-600 py-3 px-6 rounded-lg font-medium transition-colors">
+              <button className="bg-[#3b42f6] text-white hover:bg-blue-700 py-3 px-6 rounded-lg font-medium transition-colors">
                 Ver Servicios
               </button>
             </div>

@@ -109,7 +109,7 @@ function ServicesSection() {
                   ))}
                 </ul>
 
-                <button className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <button className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 text-gray-800 dark:text-gray-200 hover:bg-red-400 dark:hover:bg-gray-700 transition-colors">
                   Más información
                 </button>
               </div>
@@ -119,7 +119,7 @@ function ServicesSection() {
 
         {/* Botón principal */}
         <div className="text-center mt-12">
-          <button className="px-6 py-3 rounded-lg bg-yellow-600 text-white hover:bg-yellow-500 transition-colors">
+          <button className="px-6 py-3 rounded-lg bg-[#D4AF37] text-white hover:bg-[#D4AF37]/90 transition-colors">
             Ver todos los servicios
           </button>
         </div>
