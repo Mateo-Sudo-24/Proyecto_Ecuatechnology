@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { Home, Settings, Users, Contact, LogIn, UserPlus } from 'lucide-react';
 import ContactButton from './ContactoButton.jsx';
 import ContactModal from './ContactoModal.jsx';
-
+import LoginButton from './LoginButton.jsx';
+import RegistroButton from './RegistroButton.jsx';
+import LoginModal from './LoginModal.jsx';
+import RegistroModal from './RegistroModal.jsx';
 
 const Header = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegistroOpen, setIsRegistroOpen] = useState(false);
+
   return (
     <header style={{ 
       position: 'fixed', 
@@ -26,7 +31,6 @@ const Header = () => {
         display: 'flex', 
         alignItems: 'center',
         marginLeft: '2rem'
-        
       }}>
         <img 
           src="/images/logo.jpg" 
@@ -59,7 +63,6 @@ const Header = () => {
             Servicios
           </a>
         </li>
-        
         <li>
           <a href="#" style={{ color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
             <Users size={16} />
@@ -67,57 +70,23 @@ const Header = () => {
           </a>
         </li>
         <li>
-          <ContactButton onClick={() => setIsModalOpen(true)} />
+          <ContactButton onClick={() => setIsContactOpen(true)} />
         </li>
       </ul>
-      <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      <RegistroModal isOpen={isRegistroOpen} onClose={() => setIsRegistroOpen(false)} />
 
       {/* Botones para el cliente */}
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button style={{ 
-          border: '2px solid var(--secondary)', 
-          color: 'var(--secondary)', 
-          padding: '0.5rem 1rem', 
-          borderRadius: '0.375rem', 
-          backgroundColor: 'transparent', 
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          transition: 'all 0.3s ease',
-          outline: 'none'
-        }} 
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = '#3F51B5';
-          e.target.style.color = 'white';
-          e.target.style.borderColor = '#3B82F6';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = 'transparent';
-          e.target.style.color = 'var(--secondary)';
-          e.target.style.borderColor = 'var(--secondary)';
-        }}
-        >
-          <LogIn size={16} />
-          Iniciar Sesión
-        </button>
-        <button style={{ 
-          backgroundColor: 'var(--primary)', 
-          color: 'black', 
-          padding: '0.5rem 1rem', 
-          borderRadius: '0.375rem', 
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          outline: 'none'
-        }} className="hover:bg-primary/90">
-          <UserPlus size={16} />
-          Registro
-        </button>
+        <LoginButton onClick={() => setIsLoginOpen(true)} />
+        <RegistroButton onClick={() => setIsRegistroOpen(true)} />
       </div>
+      
+      
+
     </header>
   );
 };
 
-export default Header
+export default Header;

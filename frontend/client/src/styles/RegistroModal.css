@@ -1,0 +1,109 @@
+.registro-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(107, 114, 128, 0.75); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.registro-modal-content {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 24rem;
+  position: relative;
+}
+
+.registro-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  color: #6b7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.registro-modal-close:hover {
+  color: #374151;
+}
+
+.registro-modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #d97706; 
+  margin-bottom: 1rem;
+}
+
+
+.registro-card {
+  padding: 1rem;
+  background-color: #f9fafb; 
+  border-radius: 0.375rem;
+}
+
+
+.registro-form-input,
+.registro-form-select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db; 
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.registro-form-input:focus,
+.registro-form-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #d97706; 
+}
+
+.registro-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #d97706; 
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.registro-form-submit:hover {
+  background-color: #b45309; 
+}
+
+.registro-modal-links {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+.registro-modal-links a {
+  color: #d97706;
+  text-decoration: underline;
+
+
+.registro-modal-links a:hover {
+  color: #b45309; 
+}
+
+
+.registro-modal-guarantee {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #dc2626; 
+}
+}
