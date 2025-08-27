@@ -23,7 +23,7 @@ model Usuarios {
   Estado        Boolean   @default(true)
   FechaRegistro DateTime  @default(now())
   RolID         Int
-  Rol           Roles     @relation(fields: [RolID], references: [RolID])
+  Rol           Roles     @relation(fields: [RolID], references: [RolID], onDelete: NoAction, onUpdate: NoAction)
 
   diagnosticos  Diagnosticos[]
   proformas     Proformas[]
@@ -42,32 +42,32 @@ model Clientes {
 }
 
 model Equipos {
-  EquipoID    Int       @id @default(autoincrement())
-  ClienteID   Int
-  Descripcion String
-  NumeroSerie String?
+  EquipoID     Int       @id @default(autoincrement())
+  ClienteID    Int
+  Descripcion  String
+  NumeroSerie  String?
   FechaIngreso DateTime @default(now())
-  Estado      String    @default("Ingresado")
+  Estado       String    @default("Ingresado")
 
-  cliente     Clientes  @relation(fields: [ClienteID], references: [ClienteID])
+  cliente      Clientes  @relation(fields: [ClienteID], references: [ClienteID], onDelete: NoAction, onUpdate: NoAction)
   diagnosticos Diagnosticos[]
 }
 
 model Diagnosticos {
-  DiagnosticoID   Int       @id @default(autoincrement())
-  EquipoID        Int
-  TecnicoID       Int
-  Observaciones   String?
+  DiagnosticoID    Int       @id @default(autoincrement())
+  EquipoID         Int
+  TecnicoID        Int
+  Observaciones    String?
   FechaDiagnostico DateTime @default(now())
-  Estado          String    @default("En revisión")
+  Estado           String    @default("En revisión")
 
-  equipo   Equipos  @relation(fields: [EquipoID], references: [EquipoID])
-  tecnico  Usuarios @relation(fields: [TecnicoID], references: [UsuarioID])
+  equipo    Equipos   @relation(fields: [EquipoID], references: [EquipoID], onDelete: NoAction, onUpdate: NoAction)
+  tecnico   Usuarios  @relation(fields: [TecnicoID], references: [UsuarioID], onDelete: NoAction, onUpdate: NoAction)
   proformas Proformas[]
 }
 
 model Proformas {
-  ProformaID   Int       @id @default(autoincrement())
+  ProformaID    Int       @id @default(autoincrement())
   DiagnosticoID Int
   VendedorID    Int
   PrecioTotal   Decimal
@@ -76,16 +76,16 @@ model Proformas {
   Estado        String    @default("Pendiente")
   FechaEmision  DateTime  @default(now())
 
-  diagnostico Diagnosticos @relation(fields: [DiagnosticoID], references: [DiagnosticoID])
-  vendedor    Usuarios     @relation(fields: [VendedorID], references: [UsuarioID])
+  diagnostico Diagnosticos @relation(fields: [DiagnosticoID], references: [DiagnosticoID], onDelete: NoAction, onUpdate: NoAction)
+  vendedor    Usuarios     @relation(fields: [VendedorID], references: [UsuarioID], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Reportes {
-  ReporteID      Int      @id @default(autoincrement())
-  Tipo           String
-  Descripcion    String?
+  ReporteID       Int      @id @default(autoincrement())
+  Tipo            String
+  Descripcion     String?
   FechaGeneracion DateTime @default(now())
-  GeneradoPor    Int
+  GeneradoPor     Int
 
-  usuario Usuarios @relation(fields: [GeneradoPor], references: [UsuarioID])
+  usuario Usuarios @relation(fields: [GeneradoPor], references: [UsuarioID], onDelete: NoAction, onUpdate: NoAction)
 }
