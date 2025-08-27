@@ -1,14 +1,16 @@
-import mongoose from 'mongoose'
+import { PrismaClient } from '@prisma/client';
 
-mongoose.set('strictQuery', true)
+const prisma = new PrismaClient();
 
-const connection = async()=>{
-    try {
-        const {connection} = await mongoose.connect(process.env.MONGODB_URI_LOCAL)
-        console.log(`Database is connected on ${connection.host} - ${connection.port}`)
-    } catch (error) {
-        console.log(error);
-    }
-}
+const connection = async () => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    console.log("Conexión con la base de datos realizada con éxito ✅");
+  } catch (error) {
+    console.error("Error al conectar con la base de datos:", error.message);
+  }
+};
 
-export default  connection
+connection();
+export default connection;
+export { prisma };
