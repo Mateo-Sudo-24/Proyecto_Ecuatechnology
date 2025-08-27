@@ -42,14 +42,14 @@ const services = [
 
 function ServicesSection() {
   return (
-    <section id="servicios" className="py-20 bg-gray-100 dark:bg-gray-900">
-      <div className="container mx-auto px-4">
+    <section id="servicios" className="py-20 bg-[oklch(0.96_0.01_60)]/30">
+      <div className="container mx-auto px-35">
         {/* Título principal */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          <h2 className="text-3xl lg:text-5xl font-bold text-[oklch(0.2_0_0)]  mb-6">
             Nuestros Servicios
           </h2>
-          <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-[oklch(0.65_0_0)] max-w-3xl mx-auto">
             Ofrecemos una gama completa de servicios tecnológicos para empresas y usuarios finales, garantizando soluciones rápidas y confiables.
           </p>
         </div>
@@ -109,9 +109,7 @@ function ServicesSection() {
                   ))}
                 </ul>
 
-                <button className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                  Más información
-                </button>
+               
               </div>
             );
           })}
@@ -119,7 +117,7 @@ function ServicesSection() {
 
         {/* Botón principal */}
         <div className="text-center mt-12">
-          <button className="px-6 py-3 rounded-lg bg-yellow-600 text-white hover:bg-yellow-500 transition-colors">
+          <button className="px-6 py-3 rounded-lg bg-[#D4AF37] text-[oklch(0.2_0_0)] hover:bg-[#D4AF37]/90 transition-colors">
             Ver todos los servicios
           </button>
         </div>
