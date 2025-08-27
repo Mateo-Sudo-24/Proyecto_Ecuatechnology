@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
-import Gerente from "../models/Gerente.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 //Crea un token JWT firmado con el ID y el rol del usuario.
  
@@ -27,11 +29,12 @@ const verificarTokenJWT = async (req, res, next) => {
             // 4. Usar el 'id' del token para buscar al usuario en la base de datos.
             //    Esto confirma que el usuario todavía existe y obtiene sus datos actualizados.
             //    Se busca en todas las colecciones de usuarios posibles.
-            let usuario;
 
-            if (decoded.rol === "gerente") {
-                usuario = await Gerente.findById(decoded.id).lean().select("-password -token");
-            }
+             // ✅ Buscar usuario en BD con Prisma
+            const usuario = await prisma.usuarios.findUnique({
+                where: { UsuarioID: decoded.id },
+                include: { Rol: true }, // para obtener nombre de rol también
+            });
 
             // Si el token es válido pero el usuario asociado ya no existe en la BD.
             if (!usuario) {
