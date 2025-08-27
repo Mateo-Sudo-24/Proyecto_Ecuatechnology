@@ -7,7 +7,7 @@ const Footer = () => {
       backgroundColor: 'var(--neutral)', 
       color: 'white', 
       padding: '2rem 8rem',
-      marginTop: '30rem'
+      marginTop: '0rem'
     }}>
       <div style={{ 
         maxWidth: '91rem', 
