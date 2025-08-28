@@ -1,3 +1,4 @@
+import React from "react";
 import { Monitor, Laptop, Printer, Headphones, ShoppingCart, FileText } from "lucide-react";
 
 const services = [
@@ -42,14 +43,14 @@ const services = [
 
 function ServicesSection() {
   return (
-    <section id="servicios" className="py-20 bg-[oklch(0.96_0.01_60)]/30">
-      <div className="container mx-auto px-35">
+    <section id="servicios" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="container mx-auto px-35 py-10">
         {/* Título principal */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-5xl font-bold text-[oklch(0.2_0_0)]  mb-6">
+          <h2 className="text-3xl lg:text-5xl font-heading font-bold text-neutral mb-6">
             Nuestros Servicios
           </h2>
-          <p className="text-xl text-[oklch(0.65_0_0)] max-w-3xl mx-auto">
+          <p className="text-xl font-body text-neutral max-w-3xl mx-auto">
             Ofrecemos una gama completa de servicios tecnológicos para empresas y usuarios finales, garantizando soluciones rápidas y confiables.
           </p>
         </div>
@@ -80,7 +81,8 @@ function ServicesSection() {
             return (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition-shadow duration-300 p-6 flex flex-col"
+                className=" rounded-xl shadow hover:shadow-lg transition-shadow duration-300 p-6 flex flex-col"
+                style={{ backgroundColor: 'var(--peach-light)' }}
               >
                 {/* Icono arriba a la izquierda dentro de un cuadrado */}
                 <div
@@ -89,37 +91,28 @@ function ServicesSection() {
                   <Icon className={`h-6 w-6 ${iconColor}`} />
                 </div>
 
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                <h3 className="text-xl font-heading font-semibold mb-2 text-neutral">
                   {service.title}
                 </h3>
-                <p className="text-gray-700 dark:text-gray-300 mb-4">{service.description}</p>
+                <p className="font-body text-neutral mb-4">{service.description}</p>
 
                 {/* Lista de características con viñetas coloreadas */}
-                <ul className="space-y-2 mb-6">
+                <ul className="space-y-2 mb-6 list-none">
                   {service.features.map((feature, i) => (
                     <li
                       key={i}
-                      className="flex items-center text-sm text-gray-700 dark:text-gray-300"
+                      className="flex items-start text-sm font-body text-neutral"
                     >
                       <span
-                        className={`inline-block w-3 h-3 rounded-full mr-2 ${bulletColor}`}
+                        className={`inline-block w-3 h-3 rounded-full mr-2 mt-1 ${bulletColor}`}
                       ></span>
                       {feature}
                     </li>
                   ))}
                 </ul>
-
-               
               </div>
             );
           })}
-        </div>
-
-        {/* Botón principal */}
-        <div className="text-center mt-12">
-          <button className="px-6 py-3 rounded-lg bg-[#D4AF37] text-[oklch(0.2_0_0)] hover:bg-[#D4AF37]/90 transition-colors">
-            Ver todos los servicios
-          </button>
         </div>
       </div>
     </section>
