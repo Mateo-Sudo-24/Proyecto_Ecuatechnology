@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/global.css";
 import { Clock, Users, Shield } from "lucide-react";
 
 function Home() {
@@ -6,11 +7,11 @@ function Home() {
     <section
       id="inicio"
       // Se usa la variable CSS directamente en un estilo en línea
-      style={{ backgroundColor: 'var(--background)' }}
+      style={{ color: 'var(--background)' }}
       className="py-20 mt-[7.5rem]"
     >
       <div className="container mx-auto px-35">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center" style={{ color: 'var(--neutral)' }}>
           <div>
             {/* Los estilos de fuente y color se aplican con clases o directamente */}
             <h1 className="text-4xl lg:text-6xl font-heading font-bold text-neutral mb-6 mt-15">

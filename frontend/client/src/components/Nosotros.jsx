@@ -1,11 +1,12 @@
 import React from "react";
+import "../styles/global.css";
 import { Target, Eye, Award, Users } from "lucide-react";
 
 function AboutSection() {
   return (
-    <section id="nosotros" className=" container mx-auto px-35 py-20 " style={{ backgroundColor: 'var(--background)' }}>
+    <section id="nosotros" className=" container mx-auto px-35 py-20 " style={{ color: 'var(--background)' }}>
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-center" style={{ color: 'var(--neutral)' }}>
           {/* Texto principal y tarjetas Misión/Visión */}
           <div>
             <h2 className="text-3xl lg:text-5xl font-bold text-neutral mb-8">
