@@ -4,14 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-  Tu CSS global que no choque con Tailwind.
-  Es ideal para variables de color o fuentes, pero evita
-  estilos directos en etiquetas como `button` o `div`.
-*/
-
-
-
 /* Variables de color */
 :root {
   --primary: #D4AF37;
