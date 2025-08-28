@@ -7,10 +7,10 @@ function Home() {
     <section
       id="inicio"
       // Se usa la variable CSS directamente en un estilo en línea
-      style={{ color: 'var(--background)' }}
-      className="py-20 mt-[7.5rem]"
+      style={{ color: 'var(--background)', background: 'var(--darkbackground)' }}
+      className=" py-20 mt-[6.1rem]  mx-auto px-35 "
     >
-      <div className="container mx-auto px-35">
+      
         <div className="grid lg:grid-cols-2 gap-12 items-center" style={{ color: 'var(--neutral)' }}>
           <div>
             {/* Los estilos de fuente y color se aplican con clases o directamente */}
@@ -61,11 +61,11 @@ function Home() {
             </div>
           </div>
 
-          <div className="relative">
+          <div className=" relative mx-auto">
             <img
               src="/images/tecnico.jpg"
               alt="Técnico trabajando"
-              className="rounded-lg shadow-2xl w-[700px] h-[500px] object-cover"
+              className="rounded-lg shadow-2xl w-[700px] h-[500px] object-cover "
             />
             <div className="absolute -bottom-6 -left-6   p-6 rounded-lg shadow-lg" style={{ backgroundColor: 'var(--accent)' , color: 'var(--background)' }}>
               <div className="text-2xl font-bold drop-shadow-lg  " style={{ color: 'var(--background)' }}>
@@ -75,7 +75,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </div>
+      
     </section>
   );
 }

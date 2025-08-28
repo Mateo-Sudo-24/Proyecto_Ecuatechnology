@@ -4,7 +4,7 @@ import { Target, Eye, Award, Users } from "lucide-react";
 
 function AboutSection() {
   return (
-    <section id="nosotros" className=" container mx-auto px-35 py-20 " style={{ color: 'var(--background)' }}>
+    <section id="nosotros" className="  mx-auto px-35 py-20 " style={{ color: 'var(--background)', background: 'var(--darkbackground)' }}>
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-center" style={{ color: 'var(--neutral)' }}>
           {/* Texto principal y tarjetas Misión/Visión */}
@@ -54,11 +54,11 @@ function AboutSection() {
           </div>
 
           {/* Imagen y métricas */}
-          <div className="space-y-8">
+          <div className="space-y-8 ">
             <img
               src="/images/oficinas.jpg"
               alt="Oficinas modernas de Ecuatecnology"
-              className="rounded-lg shadow-lg w-[700px] h-[500px] object-cover"
+              className="rounded-lg shadow-lg w-[700px] h-[500px] object-cover mx-auto"
             />
 
             <div className="grid grid-cols-2 gap-6">

@@ -1,5 +1,7 @@
 /* Importa fuentes de Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&family=Open+Sans&display=swap');
+
+/* Directivas de Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,9 +14,8 @@
   --neutral: #1A1A1A;
   --background: #ffffff;
   --peach-light: #FFF5E6;
-  
+  --darkbackground: #ffffff;
 }
-
 
 /* Tipografía global */
 body {
@@ -25,4 +26,10 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Work Sans', sans-serif;
   font-weight: 700;
+}
+
+
+.container {
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  max-width: 100%; /* Asegura que el contenedor no exceda el ancho del viewport */
 }

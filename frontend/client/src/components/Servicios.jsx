@@ -45,7 +45,7 @@ const services = [
 function ServicesSection() {
   return (
     <section id="servicios" style={{ color: 'var(--background)' }}>
-      <div className="container mx-auto px-35 py-10" style={{ color: 'var(--neutral)' }}>
+      <div className=" mx-auto px-35 py-10" style={{ color: 'var(--neutral)', background: 'var(--darkbackground)' }}>
         {/* Título principal */}
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-5xl font-heading font-bold text-neutral mb-6">

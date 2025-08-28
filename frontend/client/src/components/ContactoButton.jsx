@@ -12,7 +12,7 @@ const ContactButton = ({ onClick }) => {
         border: 'none',
         outline: 'none',
         padding: 0,
-        text: 'var(--neutral)'
+        color: 'var(--neutral)',
       }}
       className="hover:text-secondary focus:outline-none"
       onClick={onClick}
