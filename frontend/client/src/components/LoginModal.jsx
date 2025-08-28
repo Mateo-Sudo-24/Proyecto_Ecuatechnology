@@ -74,7 +74,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                   required
                   className="login-form-select"
                 >
-                  <option value="clientes">Clientes</option>
+                  <option value="clientes">Cliente</option>
                   <option value="administrativo">Administrativo</option>
                 </select>
               </div>
