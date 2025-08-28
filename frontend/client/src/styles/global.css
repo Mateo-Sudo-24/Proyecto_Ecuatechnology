@@ -1,53 +1,28 @@
-  /* Importa fuentes de Google Fonts */
-  @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&family=Open+Sans&display=swap');
+/* Importa fuentes de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&family=Open+Sans&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables de color */
+:root {
+  --primary: #D4AF37;
+  --secondary: #3F51B5;
+  --accent: #B71C1C;
+  --neutral: #1A1A1A;
+  --background: #ffffff;
+  --peach-light: #FFF5E6;
   
+}
 
-  /* Reset básico */
-  * {
 
-    box-sizing: border-box;
-  }
+/* Tipografía global */
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+}
 
-  /* Variables de color (basadas en OKLCH aproximadas) */
-  :root {
-    --primary: #D4AF37;
-    /* Amarillo/Dorado */
-    --secondary: #3F51B5;
-    /* Azul Marino/Púrpura */
-    --accent: #B71C1C;
-    /* Rojo */
-    --neutral: #1A1A1A;
-    /* Negro */
-    --background: #ffffff;
-    /* Blanco */
-    --peach-light: #FFF5E6;
-    /* Durazno claro para contenedores */
-  }
-
-  /* Tipografía global */
-  body {
-    font-family: 'Open Sans', sans-serif;
-    color: var(--neutral);
-    background-color: var(--background);
-    line-height: 1.6;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 700;
-  }
-
-  /* Estilos base para enlaces */
-  a {
-    color: var(--secondary);
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
+}
