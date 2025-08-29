@@ -37,7 +37,7 @@ const sendMailOTP = (userMail, otp) => {
         ${otp}
       </p>
       <p style="font-size:13px;color:#64748b;">
-        Este código expira en 10 minutos. Si no solicitaste este correo, ignóralo.
+        Este código expira en 5 minutos. Si no solicitaste este correo, ignóralo.
       </p>
     `
   )
