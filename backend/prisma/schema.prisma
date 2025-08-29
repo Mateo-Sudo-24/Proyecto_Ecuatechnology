@@ -1,91 +1,40 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
+model Administrador {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
 }
 
-model Roles {
-  RolID       Int       @id @default(autoincrement())
-  NombreRol   String
-  Descripcion String?
-  usuarios    Usuarios[]
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  telefono  String?
+  createdAt DateTime @default(now())
+  tickets   Ticket[]
 }
 
-model Usuarios {
-  UsuarioID     Int       @id @default(autoincrement())
-  Nombre        String
-  Apellido      String
-  Email         String    @unique
-  PasswordHash  String
-  Estado        Boolean   @default(true)
-  FechaRegistro DateTime  @default(now())
-  RolID         Int
-  Rol           Roles     @relation(fields: [RolID], references: [RolID], onDelete: NoAction, onUpdate: NoAction)
-
-  diagnosticos  Diagnosticos[]
-  proformas     Proformas[]
-  reportes      Reportes[]
+model Ticket {
+  id          Int      @id @default(autoincrement())
+  descripcion String
+  estado      String   @default("abierto")
+  clienteId   Int
+  cliente     Cliente  @relation(fields: [clienteId], references: [id])
+  createdAt   DateTime @default(now())
 }
 
-model Clientes {
-  ClienteID  Int      @id @default(autoincrement())
-  Nombre     String
-  Apellido   String
-  CedulaRUC  String   @unique
-  Telefono   String?
-  Email      String?
-  Direccion  String?
-  equipos    Equipos[]
-}
-
-model Equipos {
-  EquipoID     Int       @id @default(autoincrement())
-  ClienteID    Int
-  Descripcion  String
-  NumeroSerie  String?
-  FechaIngreso DateTime @default(now())
-  Estado       String    @default("Ingresado")
-
-  cliente      Clientes  @relation(fields: [ClienteID], references: [ClienteID], onDelete: NoAction, onUpdate: NoAction)
-  diagnosticos Diagnosticos[]
-}
-
-model Diagnosticos {
-  DiagnosticoID    Int       @id @default(autoincrement())
-  EquipoID         Int
-  TecnicoID        Int
-  Observaciones    String?
-  FechaDiagnostico DateTime @default(now())
-  Estado           String    @default("En revisión")
-
-  equipo    Equipos   @relation(fields: [EquipoID], references: [EquipoID], onDelete: NoAction, onUpdate: NoAction)
-  tecnico   Usuarios  @relation(fields: [TecnicoID], references: [UsuarioID], onDelete: NoAction, onUpdate: NoAction)
-  proformas Proformas[]
-}
-
-model Proformas {
-  ProformaID    Int       @id @default(autoincrement())
-  DiagnosticoID Int
-  VendedorID    Int
-  PrecioTotal   Decimal
-  Impuestos     Decimal   @default(0)
-  Descuento     Decimal   @default(0)
-  Estado        String    @default("Pendiente")
-  FechaEmision  DateTime  @default(now())
-
-  diagnostico Diagnosticos @relation(fields: [DiagnosticoID], references: [DiagnosticoID], onDelete: NoAction, onUpdate: NoAction)
-  vendedor    Usuarios     @relation(fields: [VendedorID], references: [UsuarioID], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model Reportes {
-  ReporteID       Int      @id @default(autoincrement())
-  Tipo            String
-  Descripcion     String?
-  FechaGeneracion DateTime @default(now())
-  GeneradoPor     Int
-
-  usuario Usuarios @relation(fields: [GeneradoPor], references: [UsuarioID], onDelete: NoAction, onUpdate: NoAction)
+model Documento {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  url       String
+  createdAt DateTime @default(now())
 }

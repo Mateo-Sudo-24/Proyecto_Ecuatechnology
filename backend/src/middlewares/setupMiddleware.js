@@ -1,25 +1,23 @@
-import { verificarTokenJWT } from './JWT.js';
-import { existeGerente } from './AuthMiddleware.js';
-import Gerente from '../models/Gerente.js';
+import { PrismaClient } from "@prisma/client";
+import { verificarTokenJWT } from "./JWT.js";
+import { existeAdministrador } from "./AuthMiddleware.js"; // Asegúrate de tener este middleware
+const prisma = new PrismaClient();
 
-// Este es un middleware "combinado"
-export const protegerRutaCrearGerente = async (req, res, next) => {
-    try {
-        // Contamos cuántos documentos de gerente hay en la base de datos.
-        const gerenteCount = await Gerente.countDocuments();
+// Middleware para proteger la ruta de creación del primer administrador
+export const protegerRutaCrearAdmin = async (req, res, next) => {
+  try {
+    const adminCount = await prisma.administrador.count();
 
-        if (gerenteCount === 0) {
-            // SI NO HAY GERENTES, la petición puede pasar. No se requiere token.
-            // Esto permite crear el primer "super gerente".
-            console.log("No hay gerentes. Permitiendo la creación del primer gerente.");
-            return next();
-        } else {
-            // SI YA HAY GERENTES, la ruta se vuelve privada.
-            // Ejecutamos la cadena de middlewares de seguridad normal.
-            console.log("Ya existen gerentes. La ruta requiere autenticación de gerente.");
-            return verificarTokenJWT(req, res, () => existeGerente(req, res, next));
-        }
-    } catch (error) {
-        return res.status(500).json({ msg: "Error del servidor al verificar gerentes." });
+    if (adminCount === 0) {
+      // Si no hay administradores, permitir la creación del primero sin autenticación
+      console.log("No hay administradores. Permitiendo la creación del primer administrador.");
+      return next();
+    } else {
+      // Si ya existen administradores, requerir autenticación
+      console.log("Ya existen administradores. La ruta requiere autenticación.");
+      return verificarTokenJWT(req, res, () => existeAdministrador(req, res, next));
     }
+  } catch (error) {
+    return res.status(500).json({ msg: "Error del servidor al verificar administradores." });
+  }
 };

@@ -1,29 +1,26 @@
-// Requerir los módulos
-import express from 'express'
-import dotenv from 'dotenv'
+import express from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
+import connection from './database.js';
+import administradorRouter from './routers/administrador-router.js';
 
+const app = express();
+dotenv.config();
 
+// Conexión a la base de datos
+connection();
 
-// Inicializaciones
-const app = express()
-dotenv.config()
+// Configuraciones
+app.set('port', process.env.PORT || 3000);
+app.use(cors());
+app.use(express.json());
 
-// Configuraciones 
-app.set('port',process.env.port || 3000)
-app.use(cors())
+// Ruta base
+app.get('/', (req, res) => {
+  res.send("Server on");
+});
 
-// Middlewares 
-app.use(express.json())
+// Rutas de administrador
+app.use("/api/admin", administradorRouter);
 
-
-// Variables globales
-
-
-// Rutas 
-app.get('/',(req,res)=>{
-    res.send("Server on")
-})
-
-// Exportar la instancia de express por medio de app
-export default  app
+export default app;
