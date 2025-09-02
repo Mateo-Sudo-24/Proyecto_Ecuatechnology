@@ -18,7 +18,7 @@ const AdminModule = ({ onLogout }) => {
   const [showAdminManagement, setShowAdminManagement] = useState(false);
 
   const navigationItems = [
-    { id: 'profile', label: 'Perfil De Administrador', icon: User },
+    { id: 'profile', label: 'Perfil de Administrador', icon: User },
     { id: 'stats', label: 'Estadísticas Generales', icon: BarChart3 },
     { id: 'clients', label: 'Gestión de Clientes', icon: Users },
     { id: 'tickets', label: 'Tickets de Soporte', icon: Ticket },
