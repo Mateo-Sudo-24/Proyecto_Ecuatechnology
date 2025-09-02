@@ -11,9 +11,11 @@ import {
   UserCheck
 } from 'lucide-react';
 import '../../styles/AdminModule.css';
+import AdminManagement from './AdminManagement';
 
 const AdminModule = ({ onLogout }) => {
   const [activeSection, setActiveSection] = useState('profile');
+  const [showAdminManagement, setShowAdminManagement] = useState(false);
 
   const navigationItems = [
     { id: 'profile', label: 'Perfil De Administrador', icon: User },
@@ -27,11 +29,25 @@ const AdminModule = ({ onLogout }) => {
   const renderContent = () => {
     switch (activeSection) {
       case 'profile':
+        // Se debe mostrar la ventana de gestión de administradores
+        if (showAdminManagement) {
+          return (
+            <div className="admin-content-section">
+              <AdminManagement 
+                onBack={() => setShowAdminManagement(false)} 
+              />
+            </div>
+          );
+        }
+        
         return (
           <div className="admin-content-section">
             <div className="admin-content-header">
               <h1 className="admin-content-title">Mi Perfil</h1>
-              <button className="admin-manage-button">
+              <button 
+                className="admin-manage-button"
+                onClick={() => setShowAdminManagement(true)}
+              >
                 <UserCheck size={16} />
                 Gestionar Administradores
               </button>
@@ -137,7 +153,7 @@ const AdminModule = ({ onLogout }) => {
             <Shield size={24} />
             <div className="admin-logo-text">
               <span className="admin-logo-title">Ecuatecnology</span>
-              <span className="admin-logo-subtitle">Panel Administración</span>
+              <span className="admin-logo-subtitle">Panel de Administración</span>
             </div>
           </div>
         </div>
