@@ -1,0 +1,41 @@
+.profile-container {
+  @apply p-6;
+  font-family: 'Open Sans', sans-serif; /* Inherits global body font */
+}
+
+.profile-info, .change-password {
+  @apply bg-white p-6 mt-6 rounded-lg shadow-md;
+}
+
+h2 {
+  @apply text-neutral; /* Inherits --neutral (#1A1A1A) */
+}
+
+h3 {
+  @apply text-gray-600; /* Close match to #666, adjusted for Tailwind */
+}
+
+.profile-pic {
+  @apply text-center mt-4;
+}
+
+.profile-pic img {
+  @apply w-24 h-24 rounded-full; /* Adjusted to 100px equivalent with Tailwind */
+}
+
+.profile-details div {
+  @apply mb-4;
+}
+
+.profile-details label {
+  @apply block text-neutral mb-1;
+}
+
+.profile-details input {
+  @apply w-full p-2 border border-gray-300 rounded;
+}
+
+button {
+  @apply bg-primary text-white px-6 py-2 rounded hover:bg-opacity-90;
+  cursor: pointer;
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { UserPlus } from 'lucide-react';
 import '../styles/RegistroModal.css';
 
-const RegistroModal = ({ isOpen, onClose }) => {
+const RegistroModal = ({ isOpen, onClose, onLogin }) => {
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -42,8 +42,28 @@ const RegistroModal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    clearForm();
-    onClose();
+    
+    // Validar que las contraseñas coincidan
+    if (formData.password !== formData.confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+    
+    // Validar que la contraseña tenga al menos 6 caracteres
+    if (formData.password.length < 6) {
+      alert('La contraseña debe tener al menos 6 caracteres');
+      return;
+    }
+    
+    // Simular registro exitoso con credenciales quemadas
+    // En una aplicación real, aquí harías la validación con el backend
+    if (formData.nombre && formData.apellido && formData.email && formData.telefono && formData.password) {
+      // Simular que el registro fue exitoso y automáticamente loguear como cliente
+      alert('¡Registro exitoso! Has sido logueado automáticamente.');
+      onLogin('clientes'); // Loguear como cliente después del registro
+      clearForm();
+      onClose();
+    }
   };
 
   const handleChange = (e) => {

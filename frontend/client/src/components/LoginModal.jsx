@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { LogIn } from 'lucide-react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import '../styles/LoginModal.css';
 
-const LoginModal  = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    
-  });
-
-
-/*const LoginModal = ({ isOpen, onClose }) => {
+const LoginModal = ({ isOpen, onClose, onLogin }) => {
   const [formData, setFormData] = useState({
     userType: 'clientes',
     email: '',
     password: '',
-  });*/
+  });
 
   // Función para limpiar el formulario
   const clearForm = () => {
@@ -42,9 +34,33 @@ const LoginModal  = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    navigate('/cliente');
-    clearForm();
-    onClose();
+    
+    // Credenciales quemadas para administrador
+    const adminCredentials = {
+      email: 'admin@ecua.com',
+      password: 'admin123'
+    };
+    
+    // Validar credenciales según el tipo de usuario
+    if (formData.userType === 'administrativo') {
+
+      if (formData.email === adminCredentials.email && formData.password === adminCredentials.password) {
+        onLogin('administrativo');
+        clearForm();
+        onClose();
+      } else {
+        alert('Credenciales incorrectas para administrador.\nEmail: admin@ecua.com\nContraseña: admin123');
+        return;
+      }
+    } else {
+      // Para clientes, cualquier credencial válida cuando se loguee como cliente
+      if (formData.email && formData.password) {
+        alert('¡Login exitoso como Cliente!');
+        onLogin('clientes');
+        clearForm();
+        onClose();
+      }
+    }
   };
 
   const handleChange = (e) => {

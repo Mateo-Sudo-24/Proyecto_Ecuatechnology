@@ -13,7 +13,7 @@ import Nosotros from "./Nosotros.jsx";
 
 
 
-const Header = () => {
+const Header = ({ onLogin }) => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegistroOpen, setIsRegistroOpen] = useState(false);
@@ -81,8 +81,8 @@ const Header = () => {
         </li>
       </ul>
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-      <RegistroModal isOpen={isRegistroOpen} onClose={() => setIsRegistroOpen(false)} />
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLogin={onLogin} />
+      <RegistroModal isOpen={isRegistroOpen} onClose={() => setIsRegistroOpen(false)} onLogin={onLogin} />
 
       {/* Botones para el cliente */}
       <div style={{ display: 'flex', gap: '1rem' }}>

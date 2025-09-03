@@ -1,0 +1,71 @@
+.tickets-container {
+  @apply p-6;
+}
+
+.tickets-header {
+  @apply flex justify-between items-center mt-4;
+}
+
+.tickets-header button {
+  @apply bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90;
+}
+
+.tickets-list {
+  @apply bg-white p-4 mt-4 rounded-lg shadow-md;
+}
+
+.tickets-list .ticket-item {
+  @apply border-b py-4;
+}
+
+.tickets-list .ticket-item h3 {
+  @apply text-neutral;
+}
+
+.tickets-list .ticket-item p {
+  @apply text-gray-600;
+}
+
+.tickets-list .ticket-item .status {
+  @apply px-2 py-1 rounded;
+}
+
+.tickets-list .ticket-item .status.text-blue-600 {
+  /* Abierto */
+}
+
+.tickets-list .ticket-item .status.text-yellow-600 {
+  /* En Progreso */
+}
+
+.tickets-list .ticket-item .status.text-green-600 {
+  /* Resuelto */
+}
+
+.tickets-list .ticket-item .status.text-red-600 {
+  /* Pendiente */
+}
+
+.tickets-list .ticket-item .priority, .tickets-list .ticket-item .category {
+  @apply px-2 py-1 rounded bg-gray-200;
+}
+
+.tickets-list .ticket-item .actions button {
+  @apply text-blue-600 underline mr-2;
+}
+
+.tickets-list .ticket-item .actions button:last-child {
+  @apply text-yellow-600 underline;
+}
+
+.tickets-summary {
+  @apply flex justify-between mt-4 text-gray-600;
+}
+
+.tickets-filters {
+  @apply flex space-x-4 mb-4;
+}
+
+.tickets-filters input, .tickets-filters select {
+  @apply w-full p-2 border border-gray-300 rounded;
+}
