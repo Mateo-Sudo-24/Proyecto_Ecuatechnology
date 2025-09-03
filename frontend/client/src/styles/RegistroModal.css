@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   z-index: 50;
+  padding-top: 2rem;
 }
 
 .registro-modal-content {

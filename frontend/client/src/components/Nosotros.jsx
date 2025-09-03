@@ -4,7 +4,7 @@ import { Target, Eye, Award, Users } from "lucide-react";
 
 function AboutSection() {
   return (
-    <section id="nosotros" className="  mx-auto px-35 py-20 " style={{ color: 'var(--background)', background: 'var(--darkbackground)' }}>
+    <section id="nosotros" className="container mx-auto px-[8.75rem] py-20 " style={{ color: 'var(--background)', background: 'var(--darkbackground)' }}>
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-center" style={{ color: 'var(--neutral)' }}>
           {/* Texto principal y tarjetas Misión/Visión */}

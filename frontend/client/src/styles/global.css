@@ -23,13 +23,41 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Work Sans', sans-serif;
   font-weight: 700;
 }
 
-
+/* Estilos de los contenedores */
 .container {
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
-  max-width: 100%; /* Asegura que el contenedor no exceda el ancho del viewport */
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+
+@media (max-width: 638px) {
+  .container {
+    padding: 6rem 1rem;
+
+  }
+
+
+
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu-list {
+    width: 100%;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+
 }

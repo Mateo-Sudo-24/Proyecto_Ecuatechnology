@@ -76,7 +76,7 @@ const RegistroModal = ({ isOpen, onClose, onLogin }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="registro-modal-overlay">
+    <div className=" registro-modal-overlay">
       <div className="registro-modal-content">
         <button 
           className="registro-modal-close" 
