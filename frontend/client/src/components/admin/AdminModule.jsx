@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import '../../styles/AdminModule.css';
 import AdminManagement from './AdminManagement';
+import AdminStats from './AdminStats';
+import AdminClients from './AdminClients';
 
 const AdminModule = ({ onLogout }) => {
   const [activeSection, setActiveSection] = useState('profile');
@@ -43,7 +45,7 @@ const AdminModule = ({ onLogout }) => {
         return (
           <div className="admin-content-section">
             <div className="admin-content-header">
-              <h1 className="admin-content-title">Mi Perfil</h1>
+              <h1 className="admin-content-title">Mi perfil</h1>
               <button 
                 className="admin-manage-button"
                 onClick={() => setShowAdminManagement(true)}
@@ -55,10 +57,10 @@ const AdminModule = ({ onLogout }) => {
             
             <div className="admin-profile-container">
               <div className="admin-form-section">
-                <h2 className="admin-form-title">Información Personal</h2>
+                <h2 className="admin-form-title">Información personal</h2>
                 <div className="admin-form-grid">
                   <div className="admin-form-field">
-                    <label className="admin-form-label">Nombre Completo</label>
+                    <label className="admin-form-label">Nombre completo</label>
                     <input 
                       type="text" 
                       className="admin-form-input" 
@@ -93,10 +95,10 @@ const AdminModule = ({ onLogout }) => {
               </div>
 
               <div className="admin-form-section">
-                <h2 className="admin-form-title">Cambiar Contraseña</h2>
+                <h2 className="admin-form-title">Cambiar contraseña</h2>
                 <div className="admin-form-grid">
                   <div className="admin-form-field">
-                    <label className="admin-form-label">Contraseña Actual</label>
+                    <label className="admin-form-label">Contraseña actual</label>
                     <input 
                       type="password" 
                       className="admin-form-input" 
@@ -104,7 +106,7 @@ const AdminModule = ({ onLogout }) => {
                     />
                   </div>
                   <div className="admin-form-field">
-                    <label className="admin-form-label">Nueva Contraseña</label>
+                    <label className="admin-form-label">Nueva contraseña</label>
                     <input 
                       type="password" 
                       className="admin-form-input" 
@@ -112,7 +114,7 @@ const AdminModule = ({ onLogout }) => {
                     />
                   </div>
                   <div className="admin-form-field">
-                    <label className="admin-form-label">Confirmar Nueva Contraseña</label>
+                    <label className="admin-form-label">Confirmar nueva contraseña</label>
                     <input 
                       type="password" 
                       className="admin-form-input" 
@@ -123,16 +125,16 @@ const AdminModule = ({ onLogout }) => {
               </div>
 
               <div className="admin-form-actions">
-                <button className="admin-save-button">Guardar Cambios</button>
+                <button className="admin-save-button">Guardar cambios</button>
                 <button className="admin-cancel-button">Cancelar</button>
               </div>
             </div>
           </div>
         );
       case 'stats':
-        return <div className="admin-content-section"><h1>Estadísticas Generales</h1></div>;
+        return <AdminStats />;
       case 'clients':
-        return <div className="admin-content-section"><h1>Gestión de Clientes</h1></div>;
+        return <AdminClients />;
       case 'tickets':
         return <div className="admin-content-section"><h1>Tickets de Soporte</h1></div>;
       case 'history':
@@ -184,7 +186,7 @@ const AdminModule = ({ onLogout }) => {
           <div className="admin-sidebar-footer">
             <button className="admin-logout-button" onClick={onLogout}>
               <LogOut size={20} />
-              Cerrar Sesión
+              Cerrar sesión
             </button>
           </div>
         </aside>

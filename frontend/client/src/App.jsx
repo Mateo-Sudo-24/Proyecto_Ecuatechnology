@@ -4,19 +4,18 @@ import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import "./index.css";
-import ContactBar from "./components/ContactoBar";
-import Header from "./components/Header";
 import Home from './components/Home';
+import Header from "./components/Header";
+import ContactBar from "./components/ContactoBar";
+import Footer from "./components/Footer";
 import ServicesSection from './components/Servicios';
 import AboutSection from './components/Nosotros';
-import Footer from "./components/Footer";
-
-// Importa los componentes necesarios para el enrutamiento
-import Clientes from "./components/client/Clientes";
+import DashboardClientes from "./components/client/DashboardClientes";
 import AdminModule from "./components/admin/AdminModule";
 
 // Componente para la página de inicio (LandingPage)
 const LandingPage = ({ onLogin }) => {
+  console.log('LandingPage component rendered');
   return (
     <>
       <ContactBar />
@@ -32,6 +31,8 @@ const LandingPage = ({ onLogin }) => {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userType, setUserType] = useState(null);
+
+  console.log('App component rendered', { isAuthenticated, userType });
 
   const handleLogin = (type) => {
     setUserType(type);
@@ -60,7 +61,7 @@ function App() {
               La página principal tiene un prop 'onLogin' para manejar el inicio de sesión.
             */}
             <Route path="/" element={<LandingPage onLogin={handleLogin} />} />
-            <Route path="/cliente/*" element={<Clientes />} />
+            <Route path="/cliente/*" element={<DashboardClientes />} />
           </>
         )}
       </Routes>
