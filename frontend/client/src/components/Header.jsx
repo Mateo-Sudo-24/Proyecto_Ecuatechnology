@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, animateScroll as scroll } from 'react-scroll'; 
 import { Home, Wrench, Users, Contact, LogIn, UserPlus } from 'lucide-react';
 import ContactButton from './ContactoButton.jsx';
 import ContactModal from './ContactoModal.jsx';
@@ -6,6 +7,11 @@ import LoginButton from './LoginButton.jsx';
 import RegistroButton from './RegistroButton.jsx';
 import LoginModal from './LoginModal.jsx';
 import RegistroModal from './RegistroModal.jsx';
+import  Inicio  from "./Home.jsx";
+import Servicios from "./Servicios.jsx";
+import Nosotros from "./Nosotros.jsx";
+
+
 
 const Header = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -52,22 +58,23 @@ const Header = () => {
         padding: 0 
       }}>
         <li>
-          <a href="#" style={{ color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
+          <Link to="home" smooth={true} duration={500} offset={-100} style={{cursor: 'pointer', color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
             <Home size={16} />
             Inicio
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#" style={{ color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
-            <Wrench size={16} />
+          <Link to="servicios" smooth={true} duration={500} offset={-100} style={{cursor: 'pointer', color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
+            <Wrench size={16}  />
             Servicios
-          </a>
+          </Link>
+          
         </li>
         <li>
-          <a href="#" style={{ color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
+          <Link to="nosotros" smooth={true} duration={500} offset={-100} style={{cursor: 'pointer', color: 'var(--neutral)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-secondary">
             <Users size={16} />
             Nosotros
-          </a>
+          </Link>
         </li>
         <li>
           <ContactButton onClick={() => setIsContactOpen(true)} />

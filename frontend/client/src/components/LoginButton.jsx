@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { LogIn } from 'lucide-react';
 
+
+
+
 const LoginButton = ({ onClick }) => {
   return (
-    <button
+    <button type='button'
       style={{
         border: '2px solid var(--secondary)',
         color: 'var(--secondary)',

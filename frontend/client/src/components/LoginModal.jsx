@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { LogIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import '../styles/LoginModal.css';
 
-const LoginModal = ({ isOpen, onClose }) => {
+const LoginModal  = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    
+  });
+
+
+/*const LoginModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     userType: 'clientes',
     email: '',
     password: '',
-  });
+  });*/
 
   // Función para limpiar el formulario
   const clearForm = () => {
@@ -34,6 +42,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    navigate('/cliente');
     clearForm();
     onClose();
   };
