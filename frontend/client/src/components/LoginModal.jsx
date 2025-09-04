@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { LogIn } from 'lucide-react';
 import '../styles/LoginModal.css';
+import { useNavigate } from 'react-router-dom'; // <--- CAMBIO 1: Importa useNavigate
 
 const LoginModal = ({ isOpen, onClose, onLogin }) => {
+  const navigate = useNavigate(); // <--- CAMBIO 2: Llama al hook useNavigate
+
   const [formData, setFormData] = useState({
     userType: 'clientes',
     email: '',
     password: '',
   });
 
-  // Función para limpiar el formulario
   const clearForm = () => {
     setFormData({
       userType: 'clientes',
@@ -18,13 +20,11 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
     });
   };
 
-  // Función para manejar el cierre del modal
   const handleClose = () => {
     clearForm();
     onClose();
   };
 
-  // Limpiar formulario cuando el modal se abra
   useEffect(() => {
     if (isOpen) {
       clearForm();
@@ -34,31 +34,30 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    
-    // Credenciales quemadas para administrador
+
     const adminCredentials = {
       email: 'admin@ecua.com',
       password: 'admin123'
     };
     
-    // Validar credenciales según el tipo de usuario
     if (formData.userType === 'administrativo') {
-
       if (formData.email === adminCredentials.email && formData.password === adminCredentials.password) {
         onLogin('administrativo');
         clearForm();
         onClose();
+        // Redireccionar al módulo de administrador
+        navigate('/admin'); 
       } else {
         alert('Credenciales incorrectas para administrador.\nEmail: admin@ecua.com\nContraseña: admin123');
-        return;
       }
-    } else {
-      // Para clientes, cualquier credencial válida cuando se loguee como cliente
+    } else { // Caso para clientes
       if (formData.email && formData.password) {
-        alert('¡Login exitoso como Cliente!');
         onLogin('clientes');
         clearForm();
         onClose();
+        alert('¡Login exitoso como Cliente!');
+        // <--- CAMBIO 3: Usa la función navigate() para redirigir
+        navigate('/cliente');
       }
     }
   };
@@ -150,4 +149,5 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
     </div>
   );
 };
+
 export default LoginModal;

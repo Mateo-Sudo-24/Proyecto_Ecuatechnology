@@ -12,7 +12,7 @@ import AboutSection from './components/Nosotros';
 import Footer from "./components/Footer";
 
 // Importa los componentes necesarios para el enrutamiento
-import Clientes from "./components/client/Clientes";
+import DashboardClientes from "./components/client/DashboardClientes";
 import AdminModule from "./components/admin/AdminModule";
 
 // Componente para la página de inicio (LandingPage)
@@ -60,7 +60,7 @@ function App() {
               La página principal tiene un prop 'onLogin' para manejar el inicio de sesión.
             */}
             <Route path="/" element={<LandingPage onLogin={handleLogin} />} />
-            <Route path="/cliente/*" element={<Clientes />} />
+            <Route path="/cliente/*" element={<DashboardClientes />} />
           </>
         )}
       </Routes>

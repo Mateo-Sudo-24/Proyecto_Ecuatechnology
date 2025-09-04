@@ -37,6 +37,7 @@ h6 {
 .container {
   margin: 0 auto;
   max-width: 100%;
+
 }
 
 
@@ -45,8 +46,6 @@ h6 {
     padding: 6rem 1rem;
 
   }
-
-
 
   .header-container {
     flex-direction: column;

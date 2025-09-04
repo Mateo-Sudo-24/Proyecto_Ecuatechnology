@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Wrench, Ticket, CheckCircle, Clock, AlertTriangle, Plus } from "lucide-react";
 
+
 // --- UTILIDAD Y COMPONENTES SIMPLES EN EL MISMO ARCHIVO ---
 
 const cn = (...classes) => classes.filter(Boolean).join(' ');
@@ -43,9 +44,9 @@ const CardContent = ({ className, ...props }) => (
 const Button = React.forwardRef(
   ({ className, variant = "default", size = "default", ...props }, ref) => {
     const variants = {
-      default: "bg-primary text-white hover:bg-primary/90",
-      outline: "border border-gray-200 bg-white hover:bg-gray-100 hover:text-gray-900",
-      secondary: "bg-secondary text-white hover:bg-secondary/80",
+      default: "bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--primary)]/90",
+      outline: "border border-[var(--neutral)] bg-[var(--primary)] hover:bg-[var(--neutral)]/10 text-[var(--neutral)]",
+      secondary: "bg-[var(--background)] text-[var(--neutral)] hover:bg-[var(--secondary)]/80 hover:text-[var(--background)]",
     };
 
     const sizes = {
@@ -88,21 +89,18 @@ const Badge = ({ className, variant = "default", ...props }) => {
   );
 };
 
-const DashboardHeader = ({ title, subtitle }) => {
-  return (
-    <header className="p-6">
-      <h1 className="text-3xl font-bold">{title}</h1>
-      <p className="text-sm text-gray-500">{subtitle}</p>
-    </header>
-  );
-};
+
 
 // --- COMPONENTE PRINCIPAL DEL DASHBOARD ---
 
-export default function DashboardPage() {
+ function DashboardPage() {
+
   return (
-    <div className="flex-1">
-      <DashboardHeader title="Dashboard" subtitle="Resumen de tus servicios y actividades" />
+    <div   className='max-w-[89.2rem]'>
+      <header className="p-6">
+        <h2 className="text-3xl font-bold">Dashboard</h2>
+        <p className="text-sm text-[var(--neutral)]/60">Resumen de tus servicios y actividades</p>
+      </header>
 
       <main className="p-6">
         {/* Stats Cards */}
@@ -110,7 +108,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Mantenimientos Activos</CardTitle>
-              <Wrench className="h-4 w-4 text-primary" />
+              <Wrench className="h-4 w-4 text-[var(--primary)]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">12</div>
@@ -121,7 +119,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Tickets Abiertos</CardTitle>
-              <Ticket className="h-4 w-4 text-secondary" />
+              <Ticket className="h-4 w-4 text-[var(--secondary)]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">5</div>
@@ -161,7 +159,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-4">
-                <div className="h-2 w-2 rounded-full bg-primary" />
+                <div className="h-2 w-2 rounded-full bg-[var(--primary)]" />
                 <div className="flex-1">
                   <p className="text-sm font-medium">Mantenimiento de aire acondicionado completado</p>
                   <p className="text-xs text-gray-500">Hace 2 horas</p>
@@ -170,7 +168,7 @@ export default function DashboardPage() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="h-2 w-2 rounded-full bg-secondary" />
+                <div className="h-2 w-2 rounded-full bg-[var(--secondary)]" />
                 <div className="flex-1">
                   <p className="text-sm font-medium">Nuevo ticket creado: Problema con calefacción</p>
                   <p className="text-xs text-gray-500">Hace 4 horas</p>
@@ -195,23 +193,23 @@ export default function DashboardPage() {
               <CardDescription>Gestiona tus servicios de forma rápida</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Link to="/tickets">
+              <Link to="tickets">
                 <Button className="w-full justify-start" size="lg">
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 h-4 w-4 text-white" />
                   Crear Nuevo Ticket
                 </Button>
               </Link>
 
-              <Link to="/mantenimientos">
-                <Button variant="outline" className="w-full justify-start bg-transparent" size="lg">
-                  <Wrench className="mr-2 h-4 w-4" />
+              <Link to="mantenimientos">
+                <Button variant="secondary" className="w-full justify-start" size="lg">
+                  <Wrench className="mr-2 h-4 w-4 text-neutral" />
                   Ver Mantenimientos
                 </Button>
               </Link>
 
-              <Link to="/tickets">
-                <Button variant="outline" className="w-full justify-start bg-transparent" size="lg">
-                  <AlertTriangle className="mr-2 h-4 w-4" />
+              <Link to="tickets">
+                <Button variant="secondary" className="w-full justify-start" size="lg">
+                  <AlertTriangle className="mr-2 h-4 w-4 text-neutral" />
                   Reportar Problema
                 </Button>
               </Link>
@@ -222,3 +220,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+export default DashboardPage;

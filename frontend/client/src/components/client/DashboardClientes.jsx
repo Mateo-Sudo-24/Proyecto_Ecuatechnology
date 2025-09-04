@@ -1,14 +1,14 @@
 // src/components/client/DashboardCliente.jsx
-
+import "../../styles/global.css";
+import "../../styles/Ticket.css";
 import { useState } from "react";
-import { useLocation, Link, Routes, Route } from "react-router-dom";
+import { NavLink, useLocation, Link, Routes, Route } from "react-router-dom";
 import { Wrench, Ticket, User, Menu, X, Home } from "lucide-react";
 
 import DashboardPage from "./DashboardPage";
-import MantenimientosPage from "./MantenimientosPage"; 
-
-const TicketsPage = () => <div className="p-8">Contenido de Tickets</div>;
-const PerfilPage = () => <div className="p-8">Contenido del Perfil</div>;
+import MantenimientosPage from "./MantenimientosPage";
+import Perfil from "./Profile";
+import Tickets from "./Ticket";
 
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 const navigation = [
@@ -23,51 +23,38 @@ function DashboardCliente() {
   const { pathname } = useLocation();
 
   return (
-    <section
+    <div
       id="dashboard_cliente"
-      style={{
-        color: "var(--background)",
-        background: "var(--neutral)",
-      }}
-      className="flex my-auto h-screen"
+      className=" flex min-h-screen  bg-[var(--background)] text-[var(--neutral)]"
     >
-      <div>
-        <button 
-          style={{ 
-            background: "var(--transparent)",
-            border: "1px solid var(--neutral)",
-            color: "var(--primary)",
-          }}
-          className="md:hidden flex fixed top-4 left-4 z-50"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
+
 
       <div
         style={{
-          height: "100%",
-          borderRadius: "0",
+          height: "45.5rem",
           borderRight: "1px solid var(--neutral)",
           background: "var(--background)",
           color: "var(--primary)",
+          position: "sticky", // se pega al hacer scroll
+          top: 0,
           display: "flex",
           flexDirection: "column",
         }}
-        className={cn(
-          "w-64 transform transition-transform duration-300 ease-in-out",
-          "md:translate-x-0",
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        )}
+        className="w-64 h-screen  "
+
       >
-        <div style={{ color: "var(--primary)", background: "var(--background)" }} className="flex h-16 items-center justify-center border-b border-black/10 px-6">
+        <div
+          style={{ color: "var(--primary)", background: "var(--background)" }}
+          className="flex h-16 items-center justify-center border-b border-black/10 px-6"
+        >
           <h1 className="text-[1.4rem] font-bold">Dashboard Cliente</h1>
         </div>
 
-        <nav className="flex-1 space-y-2 p-4">
+        <nav className="flex-1 space-y-2 p-4 ">
           {navigation.map((item) => {
-            const isActive = pathname === item.href || (pathname === "/cliente" && item.href === "/cliente");
+            const isActive =
+              pathname === item.href ||
+              (pathname === "/cliente" && item.href === "/cliente");
 
             return (
               <Link
@@ -88,25 +75,27 @@ function DashboardCliente() {
           })}
         </nav>
 
-        {/* Pie de página, ahora restaurado */}
         <div className="border-t border-[var(--neutral)]/10 p-4 my-6">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-full bg-[var(--primary)]" />
             <div className="flex-1">
-              <p className="text-sm font-medium text-[var(--neutral)]">Usuario Cliente</p>
-              <p className="text-xs text-[var(--neutral)]/60">cliente@empresa.com</p>
+              <p className="text-sm font-medium text-[var(--neutral)]">
+                Usuario Cliente
+              </p>
+              <p className="text-xs text-[var(--neutral)]/60">
+                cliente@empresa.com
+              </p>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="flex-1 p-4">
-        <Routes>
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="mantenimientos" element={<MantenimientosPage />} />
-          <Route path="tickets" element={<TicketsPage />} />
-          <Route path="perfil" element={<PerfilPage />} />
-        </Routes>
+      <div className=" ">
+      <Routes>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="mantenimientos" element={<MantenimientosPage />} />
+        <Route path="tickets" element={<Tickets />} />
+        <Route path="perfil" element={<Perfil />} />
+      </Routes>
       </div>
 
       {isOpen && (
@@ -115,7 +104,7 @@ function DashboardCliente() {
           onClick={() => setIsOpen(false)}
         />
       )}
-    </section>
+    </div>
   );
 }
 
