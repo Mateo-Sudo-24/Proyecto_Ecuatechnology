@@ -6,7 +6,7 @@ const AdminManagement = ({ onBack }) => {
   const [administradores, setAdministradores] = useState([
     {
       id: 1,
-      nombre: "Administrador Principal",
+      nombre: "David Ordoñez",
       telefono: "+593 99 123 4567",
       email: "admin@ecuatechnology.com",
       cargo: "Administrador del Sistema",
@@ -15,7 +15,7 @@ const AdminManagement = ({ onBack }) => {
     },
     {
       id: 2,
-      nombre: "María Supervisora",
+      nombre: "María",
       telefono: "+593 98 765 4321",
       email: "maria.supervisor@ecuatechnology.com",
       cargo: "Supervisora de Soporte",
@@ -134,7 +134,7 @@ const AdminManagement = ({ onBack }) => {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
-          Volver al Perfil
+          Volver al perfil
         </button>
         
         <h1 className="admin-management-title">Gestión de Administradores</h1>
@@ -162,7 +162,7 @@ const AdminManagement = ({ onBack }) => {
                 <th>Email</th>
                 <th>Cargo</th>
                 <th>Estado</th>
-                <th>Fecha Creación</th>
+                <th>Fecha de creación</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -223,7 +223,7 @@ const AdminManagement = ({ onBack }) => {
           <div className="admin-modal-content">
             <div className="admin-modal-header">
               <h3 className="admin-modal-title">
-                {editingAdmin ? 'Editar Administrador' : 'Crear Nuevo Administrador'}
+                {editingAdmin ? 'Editar administrador' : 'Crear nuevo administrador'}
               </h3>
               <button 
                 className="admin-modal-close"

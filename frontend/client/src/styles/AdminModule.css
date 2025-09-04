@@ -385,6 +385,8 @@
   .admin-cancel-button {
     width: 100%;
   }
+  
+
 }
 
 @media (max-width: 480px) {
@@ -429,4 +431,6 @@
     padding: 0.6rem 0.8rem;
     font-size: 0.9rem;
   }
+  
+
 }

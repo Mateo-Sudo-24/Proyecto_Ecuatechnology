@@ -1,0 +1,196 @@
+/* Estilos para el Componente de Estadísticas de Administración */
+
+/* Contenedor Principal */
+.admin-content-section {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.admin-content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.admin-content-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--neutral);
+  margin: 0;
+}
+
+/* Contenedor de Tarjetas de Estadísticas */
+.admin-stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Tarjetas de Estadísticas */
+.admin-stat-card {
+  background-color: var(--background);
+  border: 1px solid #e9ecef;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-stat-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.admin-stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.admin-stat-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--neutral);
+  margin: 0;
+}
+
+.admin-stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.admin-stat-value.tickets {
+  color: var(--secondary);
+}
+
+.admin-stat-change {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #28a745;
+}
+
+.admin-stat-change.positive {
+  color: #28a745;
+}
+
+.admin-stat-change.tickets {
+  color: var(--secondary);
+}
+
+/* Iconos de Estadísticas */
+.admin-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(212, 175, 55, 0.1);
+  color: var(--primary);
+}
+
+.admin-stat-icon.clients-icon {
+  background-color: rgba(212, 175, 55, 0.1);
+  color: var(--primary);
+}
+
+.admin-stat-icon.tickets-icon {
+  background-color: rgba(44, 62, 143, 0.1);
+  color: var(--secondary);
+}
+
+/* Diseño Responsivo */
+@media (max-width: 1024px) {
+  .admin-content-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-content-title {
+    font-size: 1.75rem;
+  }
+  
+  .admin-stats-container {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-content-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-content-title {
+    font-size: 1.5rem;
+  }
+  
+  .admin-stats-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .admin-stat-card {
+    padding: 1rem;
+  }
+  
+  .admin-stat-value {
+    font-size: 2rem;
+  }
+  
+  .admin-stat-icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-content-header {
+    margin-bottom: 1rem;
+  }
+  
+  .admin-content-title {
+    font-size: 1.25rem;
+  }
+  
+  .admin-stats-container {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .admin-stat-card {
+    padding: 0.75rem;
+  }
+  
+  .admin-stat-value {
+    font-size: 1.75rem;
+  }
+  
+  .admin-stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .admin-stat-title {
+    font-size: 0.875rem;
+  }
+  
+  .admin-stat-change {
+    font-size: 0.75rem;
+  }
+}
