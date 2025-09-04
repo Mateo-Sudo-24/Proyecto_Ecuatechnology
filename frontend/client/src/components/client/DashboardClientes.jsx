@@ -1,6 +1,5 @@
 // src/components/client/DashboardCliente.jsx
-import "../../styles/global.css";
-import "../../styles/Ticket.css";
+
 import { useState } from "react";
 import { NavLink, useLocation, Link, Routes, Route } from "react-router-dom";
 import { Wrench, Ticket, User, Menu, X, Home } from "lucide-react";
@@ -25,10 +24,8 @@ function DashboardCliente() {
   return (
     <div
       id="dashboard_cliente"
-      className=" flex min-h-screen  bg-[var(--background)] text-[var(--neutral)]"
+      className=" flex min-h-screen  bg-[var(--background)] text-[var(--neutral)] "
     >
-
-
       <div
         style={{
           height: "45.5rem",
