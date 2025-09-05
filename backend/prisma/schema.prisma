@@ -19,17 +19,19 @@ model Administrador {
 }
 
 model Cliente {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  email     String   @unique
-  telefono  String?
-  otp       String?
-  otpExpires      DateTime?   
-  token       String?
-  confirmEmail Boolean @default(false)   
-  createdAt DateTime @default(now())
-  tickets   Ticket[]
+  id           Int      @id @default(autoincrement())
+  nombre       String
+  email        String   @unique
+  telefono     String?
+  otp          String?
+  otpExpires   DateTime?   
+  token        String?
+  confirmEmail Boolean   @default(false)   
+  createdAt    DateTime  @default(now())
+  tickets      Ticket[]
+  sqlServerId  Int?      // 🔹 ID real del cliente en SQL Server
 }
+
 
 model Ticket {
   id          Int      @id @default(autoincrement())

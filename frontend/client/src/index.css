@@ -1,5 +1,6 @@
-@import './styles/global.css';
-@import "tailwindcss";
+/* Fuentes e íconos */
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&family=Open+Sans&display=swap');
+
 @import "tw-animate-css";
 
 @tailwind base;
@@ -31,9 +32,43 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  /* Tipografía global */
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
 }
 
-#root {
-  width: 100%;
-  min-height: 100vh;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
 }
+
+/* Estilos de los contenedores */
+.container {
+  margin: 0 auto ;
+  padding: auto 1.5rem; /* Ajuste el padding para espacio en los bordes */
+  max-width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
+
+@media (max-width: 638px) {
+  .container {
+    padding: 0 1rem; /* Padding para dispositivos móviles */
+  }
+
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu-list {
+    width: 100%;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+}
+  
+

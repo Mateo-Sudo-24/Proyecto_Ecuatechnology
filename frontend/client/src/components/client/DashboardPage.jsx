@@ -46,7 +46,7 @@ const Button = React.forwardRef(
     const variants = {
       default: "bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--primary)]/90",
       outline: "border border-[var(--neutral)] bg-[var(--primary)] hover:bg-[var(--neutral)]/10 text-[var(--neutral)]",
-      secondary: "bg-[var(--background)] text-[var(--neutral)] hover:bg-[var(--secondary)]/80 hover:text-[var(--background)]",
+      secondary: "bg-[var(--background)] text-[var(--neutral)] hover:bg-[var(--secondary)] hover:text-[var(--background)] ",
     };
 
     const sizes = {
@@ -202,14 +202,14 @@ const Badge = ({ className, variant = "default", ...props }) => {
 
               <Link to="mantenimientos">
                 <Button variant="secondary" className="w-full justify-start" size="lg">
-                  <Wrench className="mr-2 h-4 w-4 text-neutral" />
+                  <Wrench className="mr-2 h-4 w-4 " />
                   Ver Mantenimientos
                 </Button>
               </Link>
 
               <Link to="tickets">
                 <Button variant="secondary" className="w-full justify-start" size="lg">
-                  <AlertTriangle className="mr-2 h-4 w-4 text-neutral" />
+                  <AlertTriangle className="mr-2 h-4 w-4  " />
                   Reportar Problema
                 </Button>
               </Link>

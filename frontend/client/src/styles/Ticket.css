@@ -30,21 +30,7 @@
   @apply px-2 py-1 rounded;
 }
 
-.tickets-list .ticket-item .status.text-blue-600 {
-  /* Abierto */
-}
 
-.tickets-list .ticket-item .status.text-yellow-600 {
-  /* En Progreso */
-}
-
-.tickets-list .ticket-item .status.text-green-600 {
-  /* Resuelto */
-}
-
-.tickets-list .ticket-item .status.text-red-600 {
-  /* Pendiente */
-}
 
 .tickets-list .ticket-item .priority, .tickets-list .ticket-item .category {
   @apply px-2 py-1 rounded bg-gray-200;

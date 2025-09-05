@@ -7,8 +7,8 @@ function Home() {
     <section
       id="inicio"
       // Se usa la variable CSS directamente en un estilo en línea
-      style={{ color: 'var(--background)', background: 'var(--darkbackground)' }}
-      className="container py-20 mt-[6.1rem]  mx-auto px-[8.75rem]"
+      style={{ color: 'var(--neutral)', background: 'var(--background)' }}
+      className="py-10 mt-[6.1rem]  mx-auto px-[8.75rem]"
     >
       
         <div className="grid lg:grid-cols-2 gap-12 items-center" style={{ color: 'var(--neutral)' }}>

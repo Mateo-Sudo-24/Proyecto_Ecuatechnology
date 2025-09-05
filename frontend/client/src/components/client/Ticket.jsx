@@ -1,5 +1,15 @@
 import React, { useState } from "react";
 import "../../styles/Ticket.css";
+import {
+  Search,
+  Filter,
+  Calendar,
+  MapPin,
+  Wrench,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+} from "lucide-react";
 
 const Tickets = () => {
   const [tickets] = useState([
@@ -79,25 +89,33 @@ const Tickets = () => {
   return (
     /*mr-[34rem]  padding para pantalla completa */
 
-    <div  
-    
-    className="w-[79rem] max-w-screen pr-[2rem]  p-[2rem]  ">
-      <h2 className="text-2xl text-neutral">Tickets</h2>
-      <p className="text-gray-600">Gestiona tus solicitudes de servicio y soporte</p>
+    <div className="w-[79rem] max-w-screen pr-[2rem]  p-[2rem] text-[var(--neutral)] ">
+      <h2 className="text-2xl text-[var--(neutral)]">Tickets</h2>
+      <p className="text-gray-600">
+        Gestiona tus solicitudes de servicio y soporte
+      </p>
 
-
-        <div className="flex justify-between items-center mt-4">
-          <div>
-            <span className="text-neutral">Mis Tickets</span>
-            <span className="ml-2 text-blue-600">4 tickets</span>
-          </div>
-          <button className="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90">
-            + Crear Nuevo Ticket
-          </button>
+      <div className="flex justify-between items-center mt-4">
+        <div>
+          <span className="text-[var(--neutral)/70] font-bold ">
+            Mis Tickets
+          </span>
+          <span className="ml-2 text-white bg-[var(--secondary)] rounded px-3">
+            4 tickets
+          </span>
         </div>
+        <button className="bg-[var(--primary)] text-white px-4 py-2 rounded hover:bg-opacity-90">
+          + Crear Nuevo Ticket
+        </button>
+      </div>
 
-        <div className="bg-white p-4 mt-4 rounded-lg shadow-md">
-          <div className="flex space-x-4 mb-4">
+      <div className="bg-white p-4 mt-4 rounded-lg shadow-md ">
+        <div className=" p-2  border-0 rounded-lg mb-4">
+          <h3 className="text-2xl font-semibold leading-none tracking-tight p-4 flex items-center gap-2">
+            <Filter className="h-5 w-5" />
+            Filtros y Búsqueda
+          </h3>
+          <div className="flex space-x-4 mb-4 ">
             <input
               type="text"
               placeholder="Buscar por ID, título o descripción..."
@@ -127,61 +145,99 @@ const Tickets = () => {
               <option>Baja</option>
             </select>
           </div>
+        </div>
 
-          {filteredTickets.map((ticket) => (
-            <div key={ticket.id} className="border-b py-4">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-neutral">
-                    {ticket.title}{" "}
-                    <span className="text-sm text-gray-500">#{ticket.id}</span>
-                  </h3>
-                  <p className="text-gray-600">
-                    {ticket.description || ticket.location}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Creado: {ticket.date} | {ticket.comments} comentarios |
-                    Asignado a: {ticket.assigned} | Ubicación: {ticket.location}
-                  </p>
-                </div>
-                <div className="flex space-x-2">
-                  <span
-                    className={`px-2 py-1 rounded ${getStatusColor(
-                      ticket.status
-                    )}`}
-                  >
-                    {ticket.status}
-                  </span>
-                  <span className="px-2 py-1 rounded bg-gray-200">
-                    {ticket.priority}
-                  </span>
-                  <span className="px-2 py-1 rounded bg-gray-200">
-                    {ticket.category}
-                  </span>
-                </div>
+        {filteredTickets.map((ticket) => (
+          <div key={ticket.id} className="border-b py-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-neutral">
+                  {ticket.title}{" "}
+                  <span className="text-sm text-gray-500">#{ticket.id}</span>
+                </h3>
+                <p className="text-gray-600">
+                  {ticket.description || ticket.location}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Creado: {ticket.date} | {ticket.comments} comentarios |
+                  Asignado a: {ticket.assigned} | Ubicación: {ticket.location}
+                </p>
               </div>
-              <div classclassName="mt-2 flex space-x-2">
-                <button className="text-blue-600 underline">
-                  Descargar Detalles
-                </button>
-                <button className="text-yellow-600 underline">
-                  Agregar Comentario
-                </button>
+              <div className="flex space-x-2">
+                <span
+                  className={`px-2 py-1 rounded ${getStatusColor(
+                    ticket.status
+                  )}`}
+                >
+                  {ticket.status}
+                </span>
+                <span className="px-2 py-1 rounded bg-gray-200">
+                  {ticket.priority}
+                </span>
+                <span className="px-2 py-1 rounded bg-gray-200">
+                  {ticket.category}
+                </span>
               </div>
             </div>
-          ))}
-        </div>
-
-        <div className="flex justify-between mt-4 text-gray-600">
-          <span>Usuario Cliente: cliente@empresa.com</span>
-          <div className="flex space-x-4">
-            <div>Total Tickets: 4</div>
-            <div>Abiertos: 1</div>
-            <div>En Progreso: 1</div>
-            <div>Resueltos: 1</div>
+            <div className="flex gap-2">
+              <button className="bg-white text-black font-medium px-4 py-2 rounded-md hover:bg-blue-700 hover:text-white transition-colors">
+                Descargar Detalles
+              </button>
+              <button className="bg-yellow-500 text-white font-medium px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors ">
+                Agregar Comentario
+              </button>
+            </div>
           </div>
-        </div>
+        ))}
+      </div>
 
+     <div className="mt-8 grid gap-4 md:grid-cols-4">
+  {/* Tarjeta de Total de Tickets */}
+  <div className="rounded-lg border bg-white text-gray-900 shadow-sm">
+    <div className="p-4">
+      <div className="text-center">
+        <div className="text-2xl font-bold text-yellow-600">{tickets.length}</div>
+        <div className="text-sm text-gray-500">Total Tickets</div>
+      </div>
+    </div>
+  </div>
+
+  {/* Tarjeta de Abiertos */}
+  <div className="rounded-lg border bg-white text-gray-900 shadow-sm">
+    <div className="p-4">
+      <div className="text-center">
+        <div className="text-2xl font-bold text-blue-600">
+          {tickets.filter((t) => t.status === "Abierto").length}
+        </div>
+        <div className="text-sm text-gray-500">Abiertos</div>
+      </div>
+    </div>
+  </div>
+
+  {/* Tarjeta de En Progreso */}
+  <div className="rounded-lg border bg-white text-gray-900 shadow-sm">
+    <div className="p-4">
+      <div className="text-center">
+        <div className="text-2xl font-bold text-yellow-600">
+          {tickets.filter((t) => t.status === "En Progreso").length}
+        </div>
+        <div className="text-sm text-gray-500">En Progreso</div>
+      </div>
+    </div>
+  </div>
+
+  {/* Tarjeta de Resueltos */}
+  <div className="rounded-lg border bg-white text-gray-900 shadow-sm">
+    <div className="p-4">
+      <div className="text-center">
+        <div className="text-2xl font-bold text-green-600">
+          {tickets.filter((t) => t.status === "Resuelto").length}
+        </div>
+        <div className="text-sm text-gray-500">Resueltos</div>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
   );
 };

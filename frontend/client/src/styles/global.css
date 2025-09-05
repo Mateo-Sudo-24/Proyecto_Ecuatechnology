@@ -1,5 +1,6 @@
-/* Importa fuentes de Google Fonts */
+/* Fuentes e íconos */
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&family=Open+Sans&display=swap');
+
 
 /* Directivas de Tailwind CSS */
 @tailwind base;
@@ -35,16 +36,14 @@ h6 {
 
 /* Estilos de los contenedores */
 .container {
-  margin: 0 auto;
-  max-width: 100%;
-
+  margin: 0 auto ;
+  max-width: 100%; /* Asegura que ocupe todo el ancho disponible */
 }
 
 
 @media (max-width: 638px) {
   .container {
-    padding: 6rem 1rem;
-
+    padding: 0 1rem; /* Padding para dispositivos móviles */
   }
 
   .header-container {
@@ -57,6 +56,4 @@ h6 {
     justify-content: center;
     gap: 0.5rem;
   }
-
-
 }
