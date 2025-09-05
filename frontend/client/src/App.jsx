@@ -1,7 +1,7 @@
 // src/App.jsx
 
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
 import "./index.css";
 import Home from './components/Home';
@@ -14,6 +14,46 @@ import DashboardClientes from "./components/client/DashboardClientes";
 import AdminModule from "./components/admin/AdminModule";
 
 // Componente para la página de inicio (LandingPage)
+// Componente para manejar el título de la página
+const TitleManager = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const getTitle = (pathname) => {
+      switch (pathname) {
+        case '/':
+          return 'Inicio | Ecuatechnology';
+        case '/cliente':
+          return 'Dashboard Cliente | Ecuatechnology';
+        case '/cliente/mantenimientos':
+          return 'Mantenimientos | Ecuatechnology';
+        case '/cliente/perfil':
+          return 'Perfil | Ecuatechnology';
+        case '/cliente/ticket':
+          return 'Tickets | Ecuatechnology';
+        // Títulos para el módulo administrativo
+        case '/admin':
+          return 'Panel Administrativo | Ecuatechnology';
+        case '/admin/clientes':
+          return 'Gestión de Clientes | Ecuatechnology';
+        case '/admin/gestion':
+          return 'Gestión de Mantenimientos | Ecuatechnology';
+        case '/admin/estadisticas':
+          return 'Estadísticas | Ecuatechnology';
+        default:
+          if (pathname.startsWith('/admin')) {
+            return 'Panel Administrativo | Ecuatechnology';
+          }
+          return 'Ecuatechnology';
+      }
+    };
+
+    document.title = getTitle(location.pathname);
+  }, [location]);
+
+  return null;
+};
+
 const LandingPage = ({ onLogin }) => {
   console.log('LandingPage component rendered');
   return (
@@ -47,6 +87,7 @@ function App() {
   // Lógica principal de enrutamiento y autenticación
   return (
     <BrowserRouter>
+      <TitleManager />
       <Routes>
         {/*
           Si el usuario es un administrador, la ruta principal lo redirige al módulo de administrador

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ArrowLeft, Plus, Pencil, Trash, X } from 'lucide-react';
 import '../../styles/AdminManagement.css';
 
 const AdminManagement = ({ onBack }) => {
@@ -35,6 +36,15 @@ const AdminManagement = ({ onBack }) => {
     contraseña: '',
     estado: 'activo'
   });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [adminToDelete, setAdminToDelete] = useState(null);
+
+  // Función para ver detalles del administrador
+  const handleViewAdmin = (admin) => {
+    setEditingAdmin(admin);
+    // Aquí puedes implementar la lógica para mostrar los detalles
+    console.log('Ver detalles del administrador:', admin);
+  };
 
   // Función para abrir modal de creación
   const handleCreateAdmin = () => {
@@ -66,9 +76,16 @@ const AdminManagement = ({ onBack }) => {
 
   // Función para eliminar administrador
   const handleDeleteAdmin = (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este administrador?')) {
-      setAdministradores(administradores.filter(admin => admin.id !== id));
-    }
+    const admin = administradores.find(a => a.id === id);
+    setAdminToDelete(admin);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    // Aquí implementarías la lógica para eliminar el administrador en el backend
+    setAdministradores(administradores.filter(admin => admin.id !== adminToDelete.id));
+    setShowDeleteModal(false);
+    setAdminToDelete(null);
   };
 
   // Función para guardar administrador
@@ -131,9 +148,7 @@ const AdminManagement = ({ onBack }) => {
           className="admin-back-button"
           onClick={onBack}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-          </svg>
+          <ArrowLeft size={16} />
           Volver al perfil
         </button>
         
@@ -143,9 +158,7 @@ const AdminManagement = ({ onBack }) => {
           className="admin-create-button"
           onClick={handleCreateAdmin}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 5v14M5 12h14"/>
-          </svg>
+          <Plus size={16} />
           Crear Administrador
         </button>
       </div>
@@ -184,29 +197,20 @@ const AdminManagement = ({ onBack }) => {
                   </td>
                   <td>{admin.fechaCreacion}</td>
                   <td>
-                    <div className="admin-actions">
+                    <div className="ticket-actions">
                       <button 
-                        className="admin-action-button admin-edit-button"
+                        className="action-button edit"
                         onClick={() => handleEditAdmin(admin)}
-                        title="Editar"
+                        title="Editar administrador"
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-                          <path d="m15 5 4 4"/>
-                        </svg>
+                        <Pencil size={20} />
                       </button>
                       <button 
-                        className="admin-action-button admin-delete-button"
+                        className="action-button delete"
                         onClick={() => handleDeleteAdmin(admin.id)}
-                        title="Eliminar"
+                        title="Eliminar administrador"
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M3 6h18"/>
-                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                          <line x1="10" y1="11" x2="10" y2="17"/>
-                          <line x1="14" y1="11" x2="14" y2="17"/>
-                        </svg>
+                        <Trash size={20} />
                       </button>
                     </div>
                   </td>
@@ -216,6 +220,32 @@ const AdminManagement = ({ onBack }) => {
           </table>
         </div>
       </div>
+
+      {/* Modal de Confirmación de Eliminación */}
+      {showDeleteModal && adminToDelete && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Confirmar Eliminación</h2>
+            </div>
+            <div className="modal-form">
+              <p className="delete-message">
+                ¿Estás seguro de que deseas eliminar al administrador <strong>{adminToDelete.nombre}</strong>?
+                <br />
+                <span className="delete-warning">Esta acción no se puede deshacer.</span>
+              </p>
+              <div className="modal-actions">
+                <button type="button" className="admin-cancel-button" onClick={() => setShowDeleteModal(false)}>
+                  Cancelar
+                </button>
+                <button type="button" className="admin-delete-confirm-button" onClick={confirmDelete}>
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal de Crear/Editar Administrador */}
       {isModalOpen && (
@@ -229,10 +259,7 @@ const AdminManagement = ({ onBack }) => {
                 className="admin-modal-close"
                 onClick={handleCloseModal}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
+                <X size={20} />
               </button>
             </div>
 
