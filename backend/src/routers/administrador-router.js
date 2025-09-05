@@ -6,6 +6,7 @@ import {
   getAdminById,
   updateAdmin,
   deleteAdmin,
+  verifyOTP
 } from "../controllers/AdminController.js";
 
 import {
@@ -13,13 +14,13 @@ import {
   validateAdminLogin,
   validateAdminId,
   validateAdminUpdate,
-} from "../middlewares/validators/AdminValidator.js";
+} from "../middlewares/validator.js";
 
 import {
   verificarTokenJWT,
   existeAdministrador,
   protegerRutaCrearAdmin,
-} from "../middlewares/AuthAdminMiddleware.js";
+} from "../middlewares/AuthMiddleware.js";
 
 const router = express.Router();
 
@@ -36,6 +37,13 @@ router.post("/register", protegerRutaCrearAdmin, validateAdminCreation, register
  * @access  Público
  */
 router.post("/login", validateAdminLogin, loginAdmin);
+
+/**
+ * @route   POST /api/admin/verify-otp
+ * @desc    Verificar OTP y generar token JWT
+ * @access  Público
+ */
+router.post("/verify-otp", verifyOTP);
 
 /**
  * @route   GET /api/admin

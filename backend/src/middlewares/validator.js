@@ -14,7 +14,9 @@ const handleValidationErrors = (req, res, next) => {
 const validateEmail = body("email").isEmail().withMessage("Correo inválido.").normalizeEmail();
 const validatePassword = body("password").isLength({ min: 8 }).withMessage("La contraseña debe tener al menos 8 caracteres.");
 
-// Validaciones específicas
+/* -------------------------------------------------------------------------- */
+/*                                VALIDACIONES ADMIN                          */
+/* -------------------------------------------------------------------------- */
 export const validateAdminId = [
   param("id").isInt({ min: 1 }).withMessage("El ID debe ser un número entero positivo."),
   handleValidationErrors,
@@ -41,5 +43,37 @@ export const validateAdminUpdate = [
 export const validateAdminPasswordChange = [
   body("passwordActual").notEmpty().withMessage("La contraseña actual es obligatoria."),
   body("passwordNuevo").isLength({ min: 8 }).withMessage("La nueva contraseña debe tener al menos 8 caracteres."),
+  handleValidationErrors,
+];
+
+
+/* -------------------------------------------------------------------------- */
+/*                               VALIDACIONES CLIENTE                         */
+/* -------------------------------------------------------------------------- */
+
+export const validateClienteId = [
+  param("id").isInt({ min: 1 }).withMessage("El ID debe ser un número entero positivo."),
+  handleValidationErrors,
+];
+
+export const validateClienteCreation = [
+  body("nombre").notEmpty().withMessage("El nombre es obligatorio."),
+  validateEmail,
+  validatePassword,
+  body("telefono").optional().isMobilePhone().withMessage("Número de teléfono inválido."),
+  handleValidationErrors,
+];
+
+export const validateClienteLogin = [
+  validateEmail,
+  body("password").notEmpty().withMessage("La contraseña es obligatoria."),
+  handleValidationErrors,
+];
+
+export const validateClienteUpdate = [
+  body("nombre").optional().notEmpty().withMessage("El nombre no puede estar vacío."),
+  body("email").optional().isEmail().withMessage("Correo inválido.").normalizeEmail(),
+  body("telefono").optional().isMobilePhone().withMessage("Número de teléfono inválido."),
+  body("password").optional().isLength({ min: 8 }).withMessage("La contraseña debe tener al menos 8 caracteres."),
   handleValidationErrors,
 ];
