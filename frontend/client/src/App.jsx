@@ -10,8 +10,9 @@ import ContactBar from "./components/ContactoBar";
 import Footer from "./components/Footer";
 import ServicesSection from './components/Servicios';
 import AboutSection from './components/Nosotros';
-import DashboardClientes from "./components/client/DashboardClientes";
+
 import AdminModule from "./components/admin/AdminModule";
+import ClienteModulo from "./components/client/ClienteModulo";
 
 // Componente para la página de inicio (LandingPage)
 const LandingPage = ({ onLogin }) => {
@@ -61,7 +62,7 @@ function App() {
               La página principal tiene un prop 'onLogin' para manejar el inicio de sesión.
             */}
             <Route path="/" element={<LandingPage onLogin={handleLogin} />} />
-            <Route path="/cliente/*" element={<DashboardClientes />} />
+            <Route path="/cliente/*" element={<ClienteModulo />} />
           </>
         )}
       </Routes>

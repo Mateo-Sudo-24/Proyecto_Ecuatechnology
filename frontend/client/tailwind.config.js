@@ -16,6 +16,7 @@ export default {
         background: '#FFFFFF',
       },
       fontFamily: {
+        sans: ['"Open Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         heading: ['Work Sans', 'sans-serif'],
         body: ['Open Sans', 'sans-serif'],
       },

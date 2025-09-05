@@ -27,8 +27,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="profile-container">
-      <h2>Mi Perfil</h2>
+    <div className="profile-container text-neutral ">
+      <h2 className='text-2xl font-bold'>Mi Perfil</h2>
       <p>Gestiona tu información personal y configuración de cuenta</p>
       
       <div className="profile-info">
@@ -39,8 +39,8 @@ const Profile = () => {
           <button>Cambiar Foto</button>
           <p>JPG, PNG o GIF, Máximo 2MB</p>
         </div>
-        <div className="profile-details">
-          <div>
+        <div className="profile-details ">
+          <div >
             <label>Nombre Completo</label>
             <input type="text" value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })} />
           </div>

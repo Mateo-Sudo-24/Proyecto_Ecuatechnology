@@ -9,7 +9,7 @@
 
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans',system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -38,6 +38,7 @@ h5,
 h6 {
   font-family: 'Work Sans', sans-serif;
   font-weight: 700;
+
 }
 
 /* Estilos de los contenedores */

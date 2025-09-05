@@ -1,42 +1,61 @@
 
 .profile-container {
-  @apply p-6;
-  font-family: 'Open Sans', sans-serif; /* Inherits global body font */
+  @apply p-6 bg-background text-neutral font-sans w-full;
 }
 
-.profile-info, .change-password {
+.profile-info {
+  @apply bg-white p-6 rounded-lg shadow-md;
+}
+
+.change-password {
   @apply bg-white p-6 mt-6 rounded-lg shadow-md;
 }
 
-h2 {
-  @apply text-neutral; /* Inherits --neutral (#1A1A1A) */
+.profile-info h3, .change-password h3 {
+  @apply text-lg font-bold mb-2 text-neutral;
 }
 
-h3 {
-  @apply text-gray-600; /* Close match to #666, adjusted for Tailwind */
+.profile-details {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-x-12;
 }
 
-.profile-pic {
-  @apply text-center mt-4;
-}
-
-.profile-pic img {
-  @apply w-24 h-24 rounded-full; /* Adjusted to 100px equivalent with Tailwind */
-}
-
-.profile-details div {
+.profile-details div, .change-password div {
   @apply mb-4;
 }
 
-.profile-details label {
-  @apply block text-neutral mb-1;
+.profile-details label, .change-password label {
+  @apply block text-sm font-medium text-neutral mb-1;
 }
 
-.profile-details input {
-  @apply w-full p-2 border border-gray-300 rounded;
+.profile-details input, .change-password input {
+  @apply w-full p-2 border border-gray-300 rounded-lg bg-gray-100 text-neutral;
+}
+
+.profile-pic {
+  @apply flex items-center gap-4 mb-4;
+}
+
+.profile-pic img {
+  @apply w-24 h-24 rounded-full;
+}
+
+.profile-pic button {
+  @apply bg-gray-100 text-neutral   px-4 py-2 rounded-lg hover:bg-blue-500  hover:text-white transition-colors;
+}
+
+
+.change-password ul {
+  @apply list-none pl-0 text-sm text-neutral;
+}
+
+.change-password ul li::before {
+  content: "•";
+  @apply text-neutral mr-2;
+}
+.change-password button{
+  @apply mt-4
 }
 
 button {
-  @apply bg-primary text-white px-6 py-2 rounded hover:bg-opacity-90;
-  cursor: pointer;
+  @apply bg-yellow-500 text-white  p-2 px-6 py-2 rounded-lg hover:bg-yellow-600 transition-colors;
 }

@@ -96,10 +96,10 @@ const Badge = ({ className, variant = "default", ...props }) => {
  function DashboardPage() {
 
   return (
-    <div   className='max-w-[89.2rem]'>
+    <div   className='max-w-[89.2rem] font-sans'>
       <header className="p-6">
-        <h2 className="text-3xl font-bold">Dashboard</h2>
-        <p className="text-sm text-[var(--neutral)]/60">Resumen de tus servicios y actividades</p>
+        <h2 className="text-3xl font-bold text-neutral">Dashboard</h2>
+        <p className="text-sm text-neutral/60">Resumen de tus servicios y actividades</p>
       </header>
 
       <main className="p-6">

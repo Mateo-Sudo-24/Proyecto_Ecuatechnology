@@ -25,6 +25,7 @@ const Badge = ({ className, variant = "default", children, ...props }) => {
     destructive: "bg-red-100 text-red-800",
     outline: "border border-gray-200 text-gray-800",
   };
+  
 
   return (
     <div
@@ -112,13 +113,13 @@ export default function MantenimientosPage() {
   });
 
   return (
-    <div className="max-w-[89.2rem]">
-      <header className="p-6 flex justify-between items-center">
+    <div className="max-w-[89.2rem] font-sans">
+      <header className="p-6 flex justify-between items-center text-neutral">
         <div>
           <h2 className="text-3xl font-bold">Mantenimientos</h2>
           <p className="text-sm text-[var(--neutral)]/60">Gestiona y visualiza todos tus servicios de mantenimiento</p>
         </div>
-        <div className="relative">
+        {/*<div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
           <Input
             placeholder="Buscar..."
@@ -126,7 +127,7 @@ export default function MantenimientosPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </div>
+        </div>*/}
       </header>
 
       <main className="p-6">
@@ -140,14 +141,15 @@ export default function MantenimientosPage() {
           </div>
           <div className="  p-6 pt-0">
             <div className=" flex gap-4 md:flex-row md:items-center">
-              <div className="relative flex-1">
-                <Search className="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+              <div className="relative ">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 " />
                 <Input
                   placeholder="Buscar por título, descripción o ubicación..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 w-[40rem]"
                 />
+                
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectItem value="all">Todos los estados</SelectItem>
@@ -220,7 +222,7 @@ export default function MantenimientosPage() {
                       Descargar Factura
                     </Button>
                     {service.status === "scheduled" && (
-                      <Button className="flex-1" style={{ backgroundColor: 'transparent', color: 'var(--neutral)', border: '1px solid var(--neutral)' }}>
+                      <Button className="flex-1 text-neutral bg-transparent hover:bg-blue-500 hover:text-white" style={{  border: '1px solid var(--neutral) ' }}>
                         Reprogramar
                       </Button>
                     )}

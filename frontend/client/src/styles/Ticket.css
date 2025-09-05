@@ -1,5 +1,6 @@
 .tickets-container {
-  @apply p-6;
+    @apply p-6;
+  font-family: 'Open Sans', sans-serif; 
 }
 
 .tickets-header {

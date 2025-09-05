@@ -89,8 +89,8 @@ const Tickets = () => {
   return (
     /*mr-[34rem]  padding para pantalla completa */
 
-    <div className="w-[79rem] max-w-screen pr-[2rem]  p-[2rem] text-[var(--neutral)] ">
-      <h2 className="text-2xl text-[var--(neutral)]">Tickets</h2>
+    <div className="w-full max-w-screen pr-[2rem]  p-[2rem] text-[var(--neutral)] font-sans ">
+      <h2 className="text-2xl font-bold text-[var(--neutral)]">Tickets</h2>
       <p className="text-gray-600">
         Gestiona tus solicitudes de servicio y soporte
       </p>
@@ -115,18 +115,18 @@ const Tickets = () => {
             <Filter className="h-5 w-5" />
             Filtros y Búsqueda
           </h3>
-          <div className="flex space-x-4 mb-4 ">
+          <div className="flex space-x-4 mb-4   ">
             <input
               type="text"
               placeholder="Buscar por ID, título o descripción..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border border-gray-300 rounded placeholder:text-neutral bg-transparent "
             />
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="p-2 border border-gray-300 rounded"
+              className="p-2 border border-gray-300 rounded bg-transparent text-neutral"
             >
               <option>Todos los estados</option>
               <option>Abierto</option>
@@ -137,7 +137,7 @@ const Tickets = () => {
             <select
               value={filterPriority}
               onChange={(e) => setFilterPriority(e.target.value)}
-              className="p-2 border border-gray-300 rounded"
+              className="p-2 border border-gray-300 rounded bg-transparent text-neutral"
             >
               <option>Todas las prioridades</option>
               <option>Alta</option>
@@ -148,7 +148,7 @@ const Tickets = () => {
         </div>
 
         {filteredTickets.map((ticket) => (
-          <div key={ticket.id} className="border-b py-4">
+          <div key={ticket.id} className="border-b py-4 ">
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-neutral">
@@ -179,14 +179,14 @@ const Tickets = () => {
                 </span>
               </div>
             </div>
-            <div className="flex gap-2">
-              <button className="bg-white text-black font-medium px-4 py-2 rounded-md hover:bg-blue-700 hover:text-white transition-colors">
-                Descargar Detalles
-              </button>
-              <button className="bg-yellow-500 text-white font-medium px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors ">
-                Agregar Comentario
-              </button>
-            </div>
+            <div className="flex justify-end gap-2 p-2 space-x-5">
+  <button className="bg-white text-black font-medium px-4 py-2 rounded-md hover:bg-blue-700 hover:text-white transition-colors border border-neutral/70">
+    Descargar Detalles
+  </button>
+  <button className="bg-primary-400 text-white font-medium px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors border border-neutral/70">
+    Agregar Comentario
+  </button>
+</div>
           </div>
         ))}
       </div>

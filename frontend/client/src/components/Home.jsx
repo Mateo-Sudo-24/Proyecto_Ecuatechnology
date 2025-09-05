@@ -5,10 +5,10 @@ import { Clock, Users, Shield } from "lucide-react";
 function Home() {
   return (
     <section
-      id="inicio"
+      id="home"
       // Se usa la variable CSS directamente en un estilo en línea
       style={{ color: 'var(--neutral)', background: 'var(--background)' }}
-      className="py-10 mt-[6.1rem]  mx-auto px-[8.75rem]"
+      className="py-10 mt-[6.1rem]  mx-auto px-[8.75rem] font-sans w-full"
     >
       
         <div className="grid lg:grid-cols-2 gap-12 items-center" style={{ color: 'var(--neutral)' }}>
