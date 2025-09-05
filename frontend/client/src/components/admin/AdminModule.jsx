@@ -14,6 +14,9 @@ import '../../styles/AdminModule.css';
 import AdminManagement from './AdminManagement';
 import AdminStats from './AdminStats';
 import AdminClients from './AdminClients';
+import AdminTickets from './AdminTickets';
+import AdminConfiguration from './AdminConfiguration';
+import AdminChangeHistory from './AdminChangeHistory';
 
 const AdminModule = ({ onLogout }) => {
   const [activeSection, setActiveSection] = useState('profile');
@@ -136,11 +139,11 @@ const AdminModule = ({ onLogout }) => {
       case 'clients':
         return <AdminClients />;
       case 'tickets':
-        return <div className="admin-content-section"><h1>Tickets de Soporte</h1></div>;
+        return <AdminTickets />;
       case 'history':
-        return <div className="admin-content-section"><h1>Historial de Cambios</h1></div>;
+        return <AdminChangeHistory />;
       case 'settings':
-        return <div className="admin-content-section"><h1>Configuración</h1></div>;
+        return <AdminConfiguration />;
       default:
         return <div className="admin-content-section"><h1>Mi Perfil</h1></div>;
     }
