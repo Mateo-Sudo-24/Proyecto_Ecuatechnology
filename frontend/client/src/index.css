@@ -1,12 +1,26 @@
 /* Fuentes e íconos */
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&family=Open+Sans&display=swap');
 
-@import "tw-animate-css";
+/* @import "tw-animate-css"; */ /* Comentado temporalmente si causa problemas */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+@theme {
+  --primary: #D4AF37;
+  --secondary: #3B5998;
+  --accent: #DC3545;
+  --neutral: #333333;
+  --background: #FFFFFF;
+  --color-primary: #D4AF37;
+  --color-secondary: #3B5998;
+  --color-accent: #DC3545;
+  --color-neutral: #333333;
+  --color-background: #FFFFFF;
+  --color-red:
+ 
+  --font-family-heading: "Work Sans", sans-serif;
+  --font-family-body: "Open Sans", sans-serif;
+}
 
 :root {
   font-family: 'Open Sans',system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -45,12 +59,11 @@ h5,
 h6 {
   font-family: 'Work Sans', sans-serif;
   font-weight: 700;
-
 }
 
 /* Estilos de los contenedores */
 .container {
-  margin: 0 auto ;
+  margin: 0 auto;
   padding: auto 1.5rem; /* Ajuste el padding para espacio en los bordes */
   max-width: 100%; /* Asegura que ocupe todo el ancho disponible */
 }
@@ -71,5 +84,3 @@ h6 {
     gap: 0.5rem;
   }
 }
-  
-

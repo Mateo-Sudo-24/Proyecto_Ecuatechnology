@@ -44,9 +44,9 @@ const CardContent = ({ className, ...props }) => (
 const Button = React.forwardRef(
   ({ className, variant = "default", size = "default", ...props }, ref) => {
     const variants = {
-      default: "bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--primary)]/90",
-      outline: "border border-[var(--neutral)] bg-[var(--primary)] hover:bg-[var(--neutral)]/10 text-[var(--neutral)]",
-      secondary: "bg-[var(--background)] text-[var(--neutral)] hover:bg-[var(--secondary)] hover:text-[var(--background)] ",
+      default: "bg-primary text-background hover:bg-primary/90",
+      outline: "border border-neutral bg-primary hover:bg-neutral/10 text-neutral",
+      secondary: "bg-background text-neutral hover:bg-secondary hover:text-background",
     };
 
     const sizes = {

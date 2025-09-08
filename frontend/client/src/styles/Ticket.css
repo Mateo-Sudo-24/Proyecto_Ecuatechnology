@@ -1,58 +1,106 @@
+/* Tickets CSS convertido a CSS puro (sin @apply) */
+
 .tickets-container {
-    @apply p-6;
-  font-family: 'Open Sans', sans-serif; 
+  padding: 1.5rem;
+  font-family: 'Open Sans', sans-serif;
+
+  
+}
+.tickets-container button{
+  background-color: var(--color-primary);
+  border-radius: 0cap;
+  
 }
 
 .tickets-header {
-  @apply flex justify-between items-center mt-4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .tickets-header button {
-  @apply bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.tickets-header button:hover {
+  opacity: 0.9;
 }
 
 .tickets-list {
-  @apply bg-white p-4 mt-4 rounded-lg shadow-md;
+  background-color: white;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .tickets-list .ticket-item {
-  @apply border-b py-4;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 1rem 0;
 }
 
 .tickets-list .ticket-item h3 {
-  @apply text-neutral;
+  color: var(--color-neutral);
 }
 
 .tickets-list .ticket-item p {
-  @apply text-gray-600;
+  color: #4B5563;
 }
 
 .tickets-list .ticket-item .status {
-  @apply px-2 py-1 rounded;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  display: inline-block;
 }
 
-
-
-.tickets-list .ticket-item .priority, .tickets-list .ticket-item .category {
-  @apply px-2 py-1 rounded bg-gray-200;
+.tickets-list .ticket-item .priority, 
+.tickets-list .ticket-item .category {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #E5E7EB;
+  display: inline-block;
 }
 
 .tickets-list .ticket-item .actions button {
-  @apply text-blue-600 underline mr-2;
+  color: #2563EB;
+  text-decoration: underline;
+  margin-right: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .tickets-list .ticket-item .actions button:last-child {
-  @apply text-yellow-600 underline;
+  color: #D97706;
+  text-decoration: underline;
+  margin-right: 0;
 }
 
 .tickets-summary {
-  @apply flex justify-between mt-4 text-gray-600;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  color: #4B5563;
 }
 
 .tickets-filters {
-  @apply flex space-x-4 mb-4;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.tickets-filters input, .tickets-filters select {
-  @apply w-full p-2 border border-gray-300 rounded;
+.tickets-filters input, 
+.tickets-filters select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.25rem;
 }

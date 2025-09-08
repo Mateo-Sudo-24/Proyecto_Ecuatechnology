@@ -89,7 +89,7 @@ const Tickets = () => {
   return (
     /*mr-[34rem]  padding para pantalla completa */
 
-    <div className="w-full max-w-screen pr-[2rem]  p-[2rem] text-[var(--neutral)] font-sans ">
+    <div className="w-full max-w-screen pr-[2rem]  p-[2rem] text-neutral font-sans ">
       <h2 className="text-2xl font-bold text-[var(--neutral)]">Tickets</h2>
       <p className="text-gray-600">
         Gestiona tus solicitudes de servicio y soporte
@@ -183,7 +183,7 @@ const Tickets = () => {
   <button className="bg-white text-black font-medium px-4 py-2 rounded-md hover:bg-blue-700 hover:text-white transition-colors border border-neutral/70">
     Descargar Detalles
   </button>
-  <button className="bg-primary-400 text-white font-medium px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors border border-neutral/70">
+  <button className="bg-primary text-white font-medium px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors border border-neutral/70">
     Agregar Comentario
   </button>
 </div>

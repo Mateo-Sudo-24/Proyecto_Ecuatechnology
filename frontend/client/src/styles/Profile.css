@@ -1,61 +1,127 @@
+/* Profile CSS convertido a CSS puro (sin @apply) */
 
 .profile-container {
-  @apply p-6 bg-background text-neutral font-sans w-full;
+  padding: 1.5rem;
+  background-color: var(--color-background);
+  color: var(--color-neutral);
+  font-family: var(--font-family-body);
+  width: 100%;
 }
+.profile-container button{
 
+  background-color: var(--color-primary);
+  color: white;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  
+}
 .profile-info {
-  @apply bg-white p-6 rounded-lg shadow-md;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .change-password {
-  @apply bg-white p-6 mt-6 rounded-lg shadow-md;
+  background-color: white;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .profile-info h3, .change-password h3 {
-  @apply text-lg font-bold mb-2 text-neutral;
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-neutral);
 }
 
 .profile-details {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-x-12;
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .profile-details {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .profile-details div, .change-password div {
-  @apply mb-4;
+  margin-bottom: 1rem;
 }
 
 .profile-details label, .change-password label {
-  @apply block text-sm font-medium text-neutral mb-1;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-neutral);
+  margin-bottom: 0.25rem;
 }
 
 .profile-details input, .change-password input {
-  @apply w-full p-2 border border-gray-300 rounded-lg bg-gray-100 text-neutral;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  background-color: #F3F4F6;
+  color: var(--color-neutral);
 }
 
 .profile-pic {
-  @apply flex items-center gap-4 mb-4;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .profile-pic img {
-  @apply w-24 h-24 rounded-full;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
 }
 
 .profile-pic button {
-  @apply bg-gray-100 text-neutral   px-4 py-2 rounded-lg hover:bg-blue-500  hover:text-white transition-colors;
+  background-color: #F3F4F6;
+  color: var(--color-neutral);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
+.profile-pic button:hover {
+  background-color: #3B82F6;
+  color: white;
+}
 
 .change-password ul {
-  @apply list-none pl-0 text-sm text-neutral;
+  list-style: none;
+  padding-left: 0;
+  font-size: 0.875rem;
+  color: var(--color-neutral);
 }
 
 .change-password ul li::before {
   content: "•";
-  @apply text-neutral mr-2;
+  color: var(--color-neutral);
+  margin-right: 0.5rem;
 }
-.change-password button{
-  @apply mt-4
+
+.change-password button {
+  margin-top: 1rem;
 }
 
 button {
-  @apply bg-yellow-500 text-white  p-2 px-6 py-2 rounded-lg hover:bg-yellow-600 transition-colors;
+  
+ 
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
+

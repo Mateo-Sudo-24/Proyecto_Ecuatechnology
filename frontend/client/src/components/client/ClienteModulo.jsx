@@ -1,5 +1,6 @@
 // src/components/client/DashboardCliente.jsx
 
+
 import { useState } from "react";
 import { NavLink, useLocation, Link, Routes, Route } from "react-router-dom";
 import {
@@ -19,6 +20,7 @@ import Perfil from "./Profile";
 import Tickets from "./Ticket";
 
 const cn = (...classes) => classes.filter(Boolean).join(" ");
+
 const navigation = [
   { name: "Inicio", href: "/cliente", icon: Home },
   { name: "Mantenimientos", href: "/cliente/mantenimientos", icon: Wrench },
@@ -34,19 +36,19 @@ function Cliente_Page() {
     <div className="min-h-screen w-full flex flex-col bg-background overflow-x-hidden">
       {/* Encabezado */}
       <header className="bg-neutral text-background p-4 md:p-5 flex justify-between items-center shadow-md z-50 w-full">
-        <div className="flex items-center gap-2 ">
+        <div className="flex items-center gap-2">
           <Shield size={24} className="text-background" />
           <div className="flex flex-col">
-            <span className="text-xl font-bold text-background">
+            <span className="text-xl font-bold text-background font-heading">
               Ecuatecnology
             </span>
-            <span className="text-sm text-primary font-medium">
+            <span className="text-sm text-primary font-medium font-body">
               Panel de Cliente
             </span>
           </div>
         </div>
         <div className="flex items-center gap-2 text-background">
-          <span className="text-sm font-medium hidden md:block">
+          <span className="text-sm font-medium hidden md:block font-body">
             Usuario Cliente
           </span>
           <User size={20} />
@@ -73,6 +75,7 @@ function Cliente_Page() {
           >
             <X size={24} />
           </button>
+          
           <nav className="flex-1 flex flex-col gap-1 mt-8 md:mt-0">
             {navigation.map((item) => {
               const Icon = item.icon;
@@ -83,7 +86,7 @@ function Cliente_Page() {
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "flex items-center gap-3 py-3 px-4 rounded-lg cursor-pointer transition-colors duration-200 font-medium text-sm",
+                    "flex items-center gap-3 py-3 px-4 rounded-lg cursor-pointer transition-colors duration-200 font-medium text-sm font-body",
                     isActive
                       ? "bg-primary text-background font-semibold"
                       : "text-neutral hover:bg-gray-200 hover:text-primary"
@@ -96,18 +99,22 @@ function Cliente_Page() {
               );
             })}
           </nav>
+          
           <div className="border-t border-gray-200 pt-6 mt-auto">
-            <div className="flex items-center gap-3 ">
+            <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-full bg-primary" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-neutral">
+                <p className="text-sm font-medium text-neutral font-body">
                   Usuario Cliente
                 </p>
-                <p className="text-xs text-neutral/60">cliente@empresa.com</p>
+                <p className="text-xs text-neutral opacity-60 font-body">
+                  cliente@empresa.com
+                </p>
               </div>
             </div>
+            
             <div className="border-t border-gray-200 pt-6 mt-4">
-              <button className="bg-transparent border border-gray-300 flex items-center gap-2 py-3 px-4 rounded-lg cursor-pointer transition-colors duration-200 font-medium text-sm text-accent hover:bg-red-100 hover:text-red-600 w-full text-left">
+              <button className="bg-transparent border border-gray-300 flex items-center gap-2 py-3 px-4 rounded-lg cursor-pointer transition-colors duration-200 font-medium text-sm text-accent hover:bg-red-100 hover:text-red-600 w-full text-left font-body">
                 <LogOut size={20} />
                 <span>Cerrar sesión</span>
               </button>
@@ -118,7 +125,7 @@ function Cliente_Page() {
         {/* Overlay para móvil */}
         {isOpen && (
           <div
-            className="fixed inset-0 z-30 bg-neutral/50 md:hidden"
+            className="fixed inset-0 z-30 bg-neutral opacity-50 md:hidden"
             onClick={() => setIsOpen(false)}
           />
         )}
