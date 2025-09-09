@@ -2,7 +2,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { sendMailToRegister, sendMailOTP } from "../config/nodemailer";
+import { sendMailToRegister, sendMailOTP } from "../config/nodemailer.js";
 
 const prisma = new PrismaClient();
 const SECRET = process.env.JWT_SECRET || "ECUATECH_SECRET"; // Usa variable de entorno

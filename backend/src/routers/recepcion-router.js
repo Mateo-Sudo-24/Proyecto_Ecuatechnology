@@ -1,4 +1,4 @@
-import express from "express";
+/*import express from "express";
 import {
   loginRecepcionista,
   registrarEquipo,
@@ -36,4 +36,4 @@ router.post("/equipos/:id/notificar", validateMongoId, notificarAreaTecnica);
 // Editar ingreso
 router.put("/equipos/:id", validateMongoId, editarIngreso);
 
-export default router;
+export default router;*/

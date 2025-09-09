@@ -4,12 +4,12 @@ import {
   confirmEmailCliente,
   loginCliente,
   verifyOTPCliente,
-} from "../controllers/ClienteController.js";
+} from "../controllers/cliente-controller.js";
 
 import {
   validateClienteCreation,
   validateClienteLogin,
-} from "../middlewares/validators/AdminValidator.js";
+} from "../middlewares/validator.js";
 
 const router = express.Router();
 

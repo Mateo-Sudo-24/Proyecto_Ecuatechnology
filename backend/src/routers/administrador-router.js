@@ -6,19 +6,21 @@ import {
   getAdminById,
   updateAdmin,
   deleteAdmin,
-  verifyOTP
-} from "../controllers/AdminController.js";
+  verifyOTP,
+  confirmEmail // ¡Esta es la importación que faltaba!
+} from "../controllers/administrador-controllers.js"; // Cambiado de AdminController.js a administrador-controllers.js
 
 import {
   validateAdminCreation,
   validateAdminLogin,
   validateAdminId,
   validateAdminUpdate,
-} from "../middlewares/validator.js";
+} from "../middlewares/validator.js"; // Asegúrate que la ruta sea correcta, si `validator.js` está en la misma carpeta que `AuthMiddleware.js`
 
+// src/routers/administrador-router.js (CORREGIDO)
 import {
   verificarTokenJWT,
-  existeAdministrador,
+  esAdministrador,
   protegerRutaCrearAdmin,
 } from "../middlewares/AuthMiddleware.js";
 
@@ -30,6 +32,13 @@ const router = express.Router();
  * @access  Público si no hay administradores, privado si ya existen
  */
 router.post("/register", protegerRutaCrearAdmin, validateAdminCreation, registerAdmin);
+
+/**
+ * @route   GET /api/admin/confirm/:token
+ * @desc    Confirmar el correo del administrador
+ * @access  Público
+ */
+router.get("/confirm/:token", confirmEmail); // Agregado para la confirmación de correo
 
 /**
  * @route   POST /api/admin/login
@@ -50,27 +59,27 @@ router.post("/verify-otp", verifyOTP);
  * @desc    Obtener todos los administradores
  * @access  Privado
  */
-router.get("/", verificarTokenJWT, existeAdministrador, getAdmins);
+router.get("/", verificarTokenJWT, esAdministrador, getAdmins);
 
 /**
  * @route   GET /api/admin/:id
  * @desc    Obtener administrador por ID
  * @access  Privado
  */
-router.get("/:id", verificarTokenJWT, existeAdministrador, validateAdminId, getAdminById);
+router.get("/:id", verificarTokenJWT, esAdministrador, validateAdminId, getAdminById);
 
 /**
  * @route   PUT /api/admin/:id
  * @desc    Actualizar administrador
  * @access  Privado
  */
-router.put("/:id", verificarTokenJWT, existeAdministrador, validateAdminId, validateAdminUpdate, updateAdmin);
+router.put("/:id", verificarTokenJWT, esAdministrador, validateAdminId, validateAdminUpdate, updateAdmin);
 
 /**
  * @route   DELETE /api/admin/:id
  * @desc    Eliminar administrador
  * @access  Privado
  */
-router.delete("/:id", verificarTokenJWT, existeAdministrador, validateAdminId, deleteAdmin);
+router.delete("/:id", verificarTokenJWT, esAdministrador, validateAdminId, deleteAdmin);
 
 export default router;

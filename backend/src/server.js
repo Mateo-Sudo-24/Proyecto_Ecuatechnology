@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connection from './database.js';
 import administradorRouter from './routers/administrador-router.js';
+import clienteRouter from './routers/cliente-router.js';
 
 const app = express();
 dotenv.config();
@@ -22,5 +23,6 @@ app.get('/', (req, res) => {
 
 // Rutas de administrador
 app.use("/api/admin", administradorRouter);
+app.use("/api/cliente", clienteRouter);
 
 export default app;

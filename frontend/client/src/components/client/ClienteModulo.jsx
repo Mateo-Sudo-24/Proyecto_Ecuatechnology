@@ -1,6 +1,5 @@
 // src/components/client/DashboardCliente.jsx
 
-
 import { useState } from "react";
 import { NavLink, useLocation, Link, Routes, Route } from "react-router-dom";
 import {
