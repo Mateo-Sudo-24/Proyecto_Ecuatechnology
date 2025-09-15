@@ -1,0 +1,125 @@
+import React, { useState } from 'react';
+import { Link } from 'react-scroll';
+import { Home, Wrench, Users, Phone, Mail, Clock, Contact, LogIn, UserPlus } from 'lucide-react';
+import LoginModal from './LoginModal.jsx';
+import RegistroModal from './RegistroModal.jsx';
+import ContactoModal from './ContactoModal.jsx';
+
+const Header = () => {
+  // Estados para abrir/cerrar los modales
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegistroOpen, setIsRegistroOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
+  return (
+    <header className=" z-50 font-sans sticky top-0">
+      {/* Barra superior */}
+      <section className="bg-secondary text-white px-8 py-2 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-2">
+            <Phone size={16} />
+            <span>+593 962590039</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Mail size={16} />
+            <span>contacto@ecuatecnology.com</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Clock size={16} />
+          <span>15+ años de experiencia</span>
+        </div>
+      </section>
+
+      {/* Menú principal */}
+      <section className="fixed top-10 left-0 right-0 z-40 bg-background px-6 py-4 flex justify-between items-center shadow-md">
+        {/* Logo */}
+        <div className="flex items-center">
+          <img src="/images/logo.jpg" alt="Logo" className="h-12 w-auto object-contain" />
+        </div>
+
+        {/* Navegación */}
+        <ul className="flex items-center gap-6 list-none m-0 p-0">
+          {/* Scroll interno */}
+          <li>
+            <Link
+              to="home"
+              smooth={true}
+              duration={500}
+              offset={-100}
+              className="flex items-center gap-1 text-neutral hover:text-secondary cursor-pointer"
+            >
+              <Home size={16} />
+              Inicio
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="servicios"
+              smooth={true}
+              duration={500}
+              offset={-100}
+              className="flex items-center gap-1 text-neutral hover:text-secondary cursor-pointer"
+            >
+              <Wrench size={16} />
+              Servicios
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="nosotros"
+              smooth={true}
+              duration={500}
+              offset={-100}
+              className="flex items-center gap-1 text-neutral hover:text-secondary cursor-pointer"
+            >
+              <Users size={16} />
+              Nosotros
+            </Link>
+          </li>
+
+          {/* Botón Contacto */}
+          <li>
+            <button
+              type="button"
+              onClick={() => setIsContactOpen(true)}
+              className="flex items-center gap-1 text-neutral hover:text-secondary cursor-pointer"
+            >
+              <Contact size={16} />
+              Contacto
+            </button>
+          </li>
+
+          {/* Botones Login / Registro */}
+          <li>
+            <button
+              type="button"
+              onClick={() => setIsLoginOpen(true)}
+              className="flex items-center gap-1 text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition"
+            >
+              <LogIn size={16} />
+              Login
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              onClick={() => setIsRegistroOpen(true)}
+              className="flex items-center gap-1 text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition"
+            >
+              <UserPlus size={16} />
+              Registro
+            </button>
+          </li>
+        </ul>
+
+        {/* Modales */}
+        <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+        <RegistroModal isOpen={isRegistroOpen} onClose={() => setIsRegistroOpen(false)} />
+        <ContactoModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      </section>
+    </header>
+  );
+};
+
+export default Header;

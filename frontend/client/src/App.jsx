@@ -1,113 +1,64 @@
 // src/App.jsx
-
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-import "./index.css";
-import Home from './components/Home';
-import Header from "./components/Header";
-import ContactBar from "./components/ContactoBar";
-import Footer from "./components/Footer";
-import ServicesSection from './components/Servicios';
-import AboutSection from './components/Nosotros';
+// Páginas públicas
+import Home from "./pages/Home";
+import Header from "./pages/Header";
+import Footer from "./pages/Footer";
+import LoginModal from "./pages/LoginModal";
+import RegistroModal from "./pages/RegistroModal";
+import ConfirmacionCorreo from "./pages/ConfirmacionCorreo";
 
-import AdminModule from "./components/admin/AdminModule";
-import ClienteModulo from "./components/client/ClienteModulo";
+// Dashboards privados
+import AdminModule from "./layout/admin/AdminModule";
+import ClienteModulo from "./layout/client/ClienteModulo";
 
-// Componente para la página de inicio (LandingPage)
-// Componente para manejar el título de la página
-const TitleManager = () => {
-  const location = useLocation();
+// Rutas protegidas
+import PrivateRoute from "./components/auth/PrivateRoute";
 
-  useEffect(() => {
-    const getTitle = (pathname) => {
-      switch (pathname) {
-        case '/':
-          return 'Inicio | Ecuatechnology';
-        case '/cliente':
-          return 'Dashboard Cliente | Ecuatechnology';
-        case '/cliente/mantenimientos':
-          return 'Mantenimientos | Ecuatechnology';
-        case '/cliente/perfil':
-          return 'Perfil | Ecuatechnology';
-        case '/cliente/ticket':
-          return 'Tickets | Ecuatechnology';
-        // Títulos para el módulo administrativo
-        case '/admin':
-          return 'Panel Administrativo | Ecuatechnology';
-        case '/admin/clientes':
-          return 'Gestión de Clientes | Ecuatechnology';
-        case '/admin/gestion':
-          return 'Gestión de Mantenimientos | Ecuatechnology';
-        case '/admin/estadisticas':
-          return 'Estadísticas | Ecuatechnology';
-        default:
-          if (pathname.startsWith('/admin')) {
-            return 'Panel Administrativo | Ecuatechnology';
-          }
-          return 'Ecuatechnology';
-      }
-    };
+// LandingPage con props para mostrar el login modal
+const LandingPage = ({ showLoginModal = false }) => {
+  const [isLoginOpen, setIsLoginOpen] = React.useState(showLoginModal);
 
-    document.title = getTitle(location.pathname);
-  }, [location]);
+  const handleLoginOpen = () => setIsLoginOpen(true);
+  const handleLoginClose = () => setIsLoginOpen(false);
 
-  return null;
-};
-
-const LandingPage = ({ onLogin }) => {
-  console.log('LandingPage component rendered');
   return (
     <>
-      <ContactBar />
-      <Header onLogin={onLogin} />
+      <Header onLogin={handleLoginOpen} />
       <Home />
-      <ServicesSection />
-      <AboutSection />
       <Footer />
+      {isLoginOpen && <LoginModal isOpen={isLoginOpen} onClose={handleLoginClose} />}
     </>
   );
 };
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userType, setUserType] = useState(null);
-
-  console.log('App component rendered', { isAuthenticated, userType });
-
-  const handleLogin = (type) => {
-    setUserType(type);
-    setIsAuthenticated(true);
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setUserType(null);
-  };
-
-  // Lógica principal de enrutamiento y autenticación
   return (
     <BrowserRouter>
-      <TitleManager />
       <Routes>
-        {/*
-          Si el usuario es un administrador, la ruta principal lo redirige al módulo de administrador
-          Este patrón protege las rutas de admin.
-        */}
-        {isAuthenticated && userType === 'administrativo' ? (
-          <Route path="/*" element={<AdminModule onLogout={handleLogout} />} />
-        ) : (
-          <>
-            {/*
-              Si no es administrador, se muestran las rutas públicas y del cliente.
-              La página principal tiene un prop 'onLogin' para manejar el inicio de sesión.
-            */}
-            <Route path="/" element={<LandingPage onLogin={handleLogin} />} />
-            <Route path="/cliente/*" element={<ClienteModulo />} />
-          </>
-        )}
+        {/* Rutas públicas */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LandingPage showLoginModal={true} />} />
+        <Route path="/register" element={<RegistroModal isOpen={true} onClose={() => {}} />} />
+        <Route path="/confirm/:token" element={<ConfirmacionCorreo />} />
+
+        {/* Dashboard Admin protegido por rol */}
+        <Route element={<PrivateRoute allowedRoles={["administrador"]} />}>
+          <Route path="/admin/*" element={<AdminModule />} />
+        </Route>
+
+        {/* Dashboard Cliente protegido por rol */}
+        <Route element={<PrivateRoute allowedRoles={["cliente"]} />}>
+          <Route path="/cliente/*" element={<ClienteModulo />} />
+        </Route>
+
+        {/* Redirigir rutas no encontradas */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
       <ToastContainer />
     </BrowserRouter>
   );
