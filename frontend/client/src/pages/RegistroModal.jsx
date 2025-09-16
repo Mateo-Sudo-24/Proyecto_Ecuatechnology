@@ -11,16 +11,30 @@ const RegistroModal = ({ isOpen, onClose }) => {
 
   const [formData, setFormData] = useState({
     nombre: "",
+    apellido: "",
     email: "",
     password: "",
+    confirmarPassword: "",
     telefono: "",
+    empresa: "",
+    aceptaTerminos: false
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (isOpen) setFormData({ nombre: "", email: "", password: "", telefono: "" });
+    if (isOpen) setFormData({
+      nombre: "",
+      apellido: "",
+      email: "",
+      password: "",
+      confirmarPassword: "",
+      telefono: "",
+      empresa: "",
+      aceptaTerminos: false
+    });
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -30,10 +44,30 @@ const RegistroModal = ({ isOpen, onClose }) => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    
+    if (formData.password !== formData.confirmarPassword) {
+      alert("Las contraseñas no coinciden");
+      return;
+    }
+    
+    if (!formData.aceptaTerminos) {
+      alert("Debes aceptar los términos y condiciones");
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
-      await fetchWithToast(fetchDataBackend, "/cliente/register", formData, "POST");
+      const dataToSend = {
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        email: formData.email,
+        password: formData.password,
+        telefono: formData.telefono,
+        empresa: formData.empresa
+      };
+      
+      await fetchWithToast(fetchDataBackend, "/cliente/register", dataToSend, "POST");
       onClose();
       navigate("/");
     } catch (error) {
@@ -42,72 +76,160 @@ const RegistroModal = ({ isOpen, onClose }) => {
       setIsSubmitting(false);
     }
   };
+  
+  const handleCheckboxChange = () => {
+    setFormData({
+      ...formData,
+      aceptaTerminos: !formData.aceptaTerminos
+    });
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+      <div className="bg-[#FFF5E6] rounded-2xl shadow-xl w-full max-w-md p-6 relative">
         <button
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
           onClick={onClose}
         >
           ×
         </button>
-        <h2 className="text-2xl font-bold text-center mb-6">Registro</h2>
+        <h2 className="text-2xl font-bold text-center text-[#D4AF37] mb-2">Registro</h2>
+        <p className="text-center text-gray-600 mb-6">Crea tu cuenta en Ecuatecnology</p>
 
         <form onSubmit={handleRegister} className="space-y-4">
-          <input
-            type="text"
-            name="nombre"
-            placeholder="Nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-green-300 outline-none"
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Correo electrónico"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-green-300 outline-none"
-            required
-          />
-          <div className="relative">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Nombre</label>
+              <input
+                type="text"
+                name="nombre"
+                placeholder="Tu nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Apellido</label>
+              <input
+                type="text"
+                name="apellido"
+                placeholder="Tu apellido"
+                value={formData.apellido}
+                onChange={handleChange}
+                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+                required
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1">Correo Electrónico</label>
             <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Contraseña"
-              value={formData.password}
+              type="email"
+              name="email"
+              placeholder="tu@email.com"
+              value={formData.email}
               onChange={handleChange}
-              className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-green-300 outline-none"
+              className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
               required
             />
-            <span
-              className="absolute top-2.5 right-3 cursor-pointer text-gray-500"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
           </div>
-          <input
-            type="text"
-            name="telefono"
-            placeholder="Teléfono (opcional)"
-            value={formData.telefono}
-            onChange={handleChange}
-            className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-green-300 outline-none"
-          />
+          
+          <div>
+            <label className="block text-sm font-medium mb-1">Teléfono</label>
+            <input
+              type="text"
+              name="telefono"
+              placeholder="+593 999 999 999"
+              value={formData.telefono}
+              onChange={handleChange}
+              className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1">Empresa (Opcional)</label>
+            <input
+              type="text"
+              name="empresa"
+              placeholder="Nombre de tu empresa"
+              value={formData.empresa}
+              onChange={handleChange}
+              className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1">Contraseña</label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Mínimo 8 caracteres"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+                required
+              />
+              <span
+                className="absolute top-3 right-3 cursor-pointer text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </span>
+            </div>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1">Confirmar Contraseña</label>
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmarPassword"
+                placeholder="Repite tu contraseña"
+                value={formData.confirmarPassword}
+                onChange={handleChange}
+                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+                required
+              />
+              <span
+                className="absolute top-3 right-3 cursor-pointer text-gray-500"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </span>
+            </div>
+          </div>
+          
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="terminos"
+              checked={formData.aceptaTerminos}
+              onChange={handleCheckboxChange}
+              className="mr-2"
+              required
+            />
+            <label htmlFor="terminos" className="text-sm">
+              Acepto los <span className="text-[#D4AF37] font-medium">términos y condiciones</span>
+            </label>
+          </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-2 rounded-lg text-white transition ${
-              isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
-            }`}
+            className="w-full py-3 rounded-lg flex items-center justify-center gap-2 text-black transition"
+            style={{ backgroundColor: 'var(--primary)' }}
           >
-            <UserPlus size={18} /> {isSubmitting ? "Registrando..." : "Registrarse"}
+            {isSubmitting ? "Creando cuenta..." : "Crear Cuenta"}
           </button>
+          
+          <div className="text-center text-sm mt-4">
+            ¿Ya tienes cuenta? <span className="text-[#D4AF37] font-medium cursor-pointer" onClick={() => {onClose(); document.querySelector('[data-login-button]')?.click();}}>Inicia sesión aquí</span>
+          </div>
         </form>
       </div>
     </div>

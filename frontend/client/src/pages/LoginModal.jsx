@@ -1,6 +1,6 @@
 // src/pages/LoginModal.jsx
 import React, { useState, useEffect } from "react";
-import { LogIn } from "lucide-react";
+import { LogIn, CheckCircle, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
@@ -10,13 +10,14 @@ const LoginModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const [step, setStep] = useState("login"); // 'login' o 'otp'
-  const [formData, setFormData] = useState({ email: "", password: "", role: "cliente" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [otp, setOtp] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      setFormData({ email: "", password: "", role: "cliente" });
+      setFormData({ email: "", password: "" });
       setOtp("");
       setStep("login");
     }
@@ -31,7 +32,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const endpoint = formData.role === "administrador" ? "/admin/login" : "/cliente/login";
+      const endpoint = "/cliente/login";
       await fetchWithToast(fetchDataBackend, endpoint, {
         email: formData.email,
         password: formData.password,
@@ -51,18 +52,17 @@ const LoginModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const endpoint = formData.role === "administrador" ? "/admin/verify-otp" : "/cliente/verify-otp";
+      const endpoint = "/cliente/verify-otp";
       const res = await fetchWithToast(fetchDataBackend, endpoint, {
         email: formData.email,
         otp,
       }, "POST");
 
-      // Guardar token y rol en localStorage
+      // Guardar token en localStorage
       localStorage.setItem("token", res.token);
-      localStorage.setItem("role", formData.role);
-
-      // Redirigir al dashboard correspondiente
-      navigate(formData.role === "administrador" ? "/admin" : "/cliente");
+      
+      // Redirigir al dashboard del cliente
+      navigate("/cliente");
       onClose();
     } catch (error) {
       console.error("Error en verificación OTP:", error);
@@ -73,7 +73,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+      <div className="bg-[#FFF5E6] rounded-2xl shadow-xl w-full max-w-md p-6 relative">
         <button
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
           onClick={onClose}
@@ -81,57 +81,66 @@ const LoginModal = ({ isOpen, onClose }) => {
           ×
         </button>
 
-        <h2 className="text-2xl font-bold text-center mb-6">
+        <h2 className="text-2xl font-bold text-center text-[#D4AF37] mb-2">
           {step === "login" ? "Iniciar Sesión" : "Ingresa OTP"}
         </h2>
+        <p className="text-center text-gray-600 mb-6">
+          {step === "login" ? "Accede a tu cuenta de Ecuatecnology" : "Verifica tu identidad"}
+        </p>
 
         {step === "login" && (
           <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Soy:</label>
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring focus:ring-blue-300 outline-none"
-              >
-                <option value="cliente">Cliente</option>
-                <option value="administrador">Administrador</option>
-              </select>
-            </div>
-
             <div>
               <label className="block text-sm font-medium mb-1">Correo Electrónico</label>
               <input
                 type="email"
                 name="email"
+                placeholder="tu@email.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring focus:ring-blue-300 outline-none"
+                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
                 required
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-1">Contraseña</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring focus:ring-blue-300 outline-none"
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Tu contraseña"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+                  required
+                />
+                <span
+                  className="absolute top-3 right-3 cursor-pointer text-gray-500"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </span>
+              </div>
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full flex items-center justify-center gap-2 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition
-                ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+              className="w-full py-3 rounded-lg flex items-center justify-center gap-2 text-black transition"
+              style={{ backgroundColor: 'var(--primary)' }}
             >
-              <LogIn size={18} /> {isSubmitting ? "Enviando..." : "Iniciar Sesión"}
+              {isSubmitting ? "Enviando..." : "Iniciar Sesión"}
             </button>
+            
+            <div className="text-center text-sm mt-4">
+              <p className="mb-2">
+                <span className="text-[#D4AF37] font-medium cursor-pointer">¿Olvidaste tu contraseña?</span>
+              </p>
+              <p>
+                ¿No tienes cuenta? <span className="text-[#D4AF37] font-medium cursor-pointer" onClick={() => {onClose(); document.querySelector('[data-registro-button]')?.click();}}>Regístrate aquí</span>
+              </p>
+            </div>
           </form>
         )}
 
@@ -142,8 +151,9 @@ const LoginModal = ({ isOpen, onClose }) => {
               <input
                 type="text"
                 value={otp}
+                placeholder="Ingresa el código recibido"
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring focus:ring-blue-300 outline-none"
+                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
                 required
               />
             </div>
@@ -151,8 +161,8 @@ const LoginModal = ({ isOpen, onClose }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition
-                ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+              className="w-full py-3 rounded-lg flex items-center justify-center gap-2 text-black transition"
+              style={{ backgroundColor: 'var(--primary)' }}
             >
               {isSubmitting ? "Verificando..." : "Verificar OTP"}
             </button>

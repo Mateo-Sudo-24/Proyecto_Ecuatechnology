@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <header className=" z-50 font-sans sticky top-0">
       {/* Barra superior */}
-      <section className="bg-secondary text-white px-8 py-2 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+      <section className="bg-neutral text-white px-8 py-2 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-2">
             <Phone size={16} />
@@ -39,7 +39,7 @@ const Header = () => {
         </div>
 
         {/* Navegación */}
-        <ul className="flex items-center gap-6 list-none m-0 p-0">
+        <ul className="flex items-center gap-10 list-none m-0 p-0">
           {/* Scroll interno */}
           <li>
             <Link
@@ -95,17 +95,21 @@ const Header = () => {
             <button
               type="button"
               onClick={() => setIsLoginOpen(true)}
-              className="flex items-center gap-1 text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition"
+              className="flex items-center justify-center gap-2 text-black px-4 py-2 rounded-lg transition"
+              style={{ backgroundColor: 'var(--primary)' }}
+              data-login-button
             >
               <LogIn size={16} />
-              Login
+              Iniciar Sesión
             </button>
           </li>
           <li>
             <button
               type="button"
               onClick={() => setIsRegistroOpen(true)}
-              className="flex items-center gap-1 text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition"
+              className="flex items-center justify-center gap-2 text-black px-4 py-2 rounded-lg transition"
+              style={{ backgroundColor: 'var(--primary)' }}
+              data-registro-button
             >
               <UserPlus size={16} />
               Registro
