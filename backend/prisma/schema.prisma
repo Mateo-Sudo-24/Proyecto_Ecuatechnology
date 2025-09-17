@@ -1,45 +1,45 @@
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
 model Administrador {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  otp       String?
-  otpExpires      DateTime?   
-  token       String?
-  confirmEmail Boolean @default(false)   
-  createdAt DateTime @default(now())
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  password     String
+  otp          String?
+  otpExpires   DateTime?
+  token        String?
+  confirmEmail Boolean   @default(false)
+  createdAt    DateTime  @default(now())
 }
 
 model Cliente {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   nombre       String
-  email        String   @unique
+  email        String    @unique
   telefono     String?
+  password     String
   otp          String?
-  otpExpires   DateTime?   
+  otpExpires   DateTime?
   token        String?
-  confirmEmail Boolean   @default(false)   
+  confirmEmail Boolean   @default(false)
   createdAt    DateTime  @default(now())
+  sqlServerId  Int?
   tickets      Ticket[]
-  sqlServerId  Int?      // 🔹 ID real del cliente en SQL Server
 }
-
 
 model Ticket {
   id          Int      @id @default(autoincrement())
   descripcion String
   estado      String   @default("abierto")
   clienteId   Int
-  cliente     Cliente  @relation(fields: [clienteId], references: [id])
   createdAt   DateTime @default(now())
+  cliente     Cliente  @relation(fields: [clienteId], references: [id])
 }
 
 model Documento {

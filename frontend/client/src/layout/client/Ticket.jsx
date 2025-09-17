@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/Ticket.css";
+import "../../styles/componentes.css";
 import {
   Search,
   Filter,

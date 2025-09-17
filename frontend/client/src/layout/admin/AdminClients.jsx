@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, UserPlus, Eye, Pencil, Trash, Download, FileText, Plus } from 'lucide-react';
-import '../../styles/AdminClients.css';
+import '../../styles/admin.css';
 
 const AdminClients = () => {
   const [searchTerm, setSearchTerm] = useState('');

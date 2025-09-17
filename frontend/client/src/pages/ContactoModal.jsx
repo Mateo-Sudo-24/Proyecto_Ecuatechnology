@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
-import '../styles/ContactoModal.css';
+import '../styles/modales.css';
 
 const ContactoModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({

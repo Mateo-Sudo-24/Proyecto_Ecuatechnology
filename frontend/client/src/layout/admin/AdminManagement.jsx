@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Plus, Pencil, Trash, X } from 'lucide-react';
-import '../../styles/AdminManagement.css';
+import '../../styles/admin.css';
 
 const AdminManagement = ({ onBack }) => {
   // Estado para la lista de administradores

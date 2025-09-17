@@ -10,7 +10,7 @@ const sendMailToRegister = (userMail, token) => {
         Gracias por registrarte. Haz clic en el botón de abajo para confirmar tu cuenta:
       </p>
       <p style="text-align:center;margin:30px 0;">
-        <a href="${process.env.URL_BACKEND}confirmar/${token}" 
+        <a href="${process.env.URL_FRONTEND}confirmar/${token}" 
            style="background:#1e40af;color:#ffffff;text-decoration:none;
            padding:12px 24px;border-radius:6px;font-size:16px;">
           Confirmar cuenta

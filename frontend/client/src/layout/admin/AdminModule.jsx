@@ -13,7 +13,7 @@ import {
   UserCheck
 } from 'lucide-react';
 import useAuthStore from "../../context/storeAuth";
-import '../../styles/AdminModule.css';
+import '../../styles/admin.css';
 
 // Componentes internos
 import AdminManagement from './AdminManagement';

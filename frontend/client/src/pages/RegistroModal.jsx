@@ -4,6 +4,7 @@ import { UserPlus, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
+import "../styles/modales.css";
 
 const RegistroModal = ({ isOpen, onClose }) => {
   const { fetchDataBackend } = useFetch();
@@ -14,14 +15,10 @@ const RegistroModal = ({ isOpen, onClose }) => {
     apellido: "",
     email: "",
     password: "",
-    confirmarPassword: "",
-    telefono: "",
-    empresa: "",
-    aceptaTerminos: false
+    telefono: ""
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -30,10 +27,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
       apellido: "",
       email: "",
       password: "",
-      confirmarPassword: "",
-      telefono: "",
-      empresa: "",
-      aceptaTerminos: false
+      telefono: ""
     });
   }, [isOpen]);
 
@@ -44,17 +38,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    
-    if (formData.password !== formData.confirmarPassword) {
-      alert("Las contraseñas no coinciden");
-      return;
-    }
-    
-    if (!formData.aceptaTerminos) {
-      alert("Debes aceptar los términos y condiciones");
-      return;
-    }
-    
+
     setIsSubmitting(true);
 
     try {
@@ -63,10 +47,9 @@ const RegistroModal = ({ isOpen, onClose }) => {
         apellido: formData.apellido,
         email: formData.email,
         password: formData.password,
-        telefono: formData.telefono,
-        empresa: formData.empresa
+        telefono: formData.telefono
       };
-      
+
       await fetchWithToast(fetchDataBackend, "/cliente/register", dataToSend, "POST");
       onClose();
       navigate("/");
@@ -77,12 +60,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
     }
   };
   
-  const handleCheckboxChange = () => {
-    setFormData({
-      ...formData,
-      aceptaTerminos: !formData.aceptaTerminos
-    });
-  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
@@ -125,7 +102,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium mb-1">Correo Electrónico</label>
+            <label className="block text-sm font-medium mb-1">Correo electrónico</label>
             <input
               type="email"
               name="email"
@@ -138,7 +115,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium mb-1">Teléfono</label>
+            <label className="block text-sm font-medium mb-1">Teléfono (Opcional)</label>
             <input
               type="text"
               name="telefono"
@@ -146,21 +123,9 @@ const RegistroModal = ({ isOpen, onClose }) => {
               value={formData.telefono}
               onChange={handleChange}
               className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
-              required
             />
           </div>
           
-          <div>
-            <label className="block text-sm font-medium mb-1">Empresa (Opcional)</label>
-            <input
-              type="text"
-              name="empresa"
-              placeholder="Nombre de tu empresa"
-              value={formData.empresa}
-              onChange={handleChange}
-              className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
-            />
-          </div>
           
           <div>
             <label className="block text-sm font-medium mb-1">Contraseña</label>
@@ -183,40 +148,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
             </div>
           </div>
           
-          <div>
-            <label className="block text-sm font-medium mb-1">Confirmar Contraseña</label>
-            <div className="relative">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                name="confirmarPassword"
-                placeholder="Repite tu contraseña"
-                value={formData.confirmarPassword}
-                onChange={handleChange}
-                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
-                required
-              />
-              <span
-                className="absolute top-3 right-3 cursor-pointer text-gray-500"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </span>
-            </div>
-          </div>
           
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="terminos"
-              checked={formData.aceptaTerminos}
-              onChange={handleCheckboxChange}
-              className="mr-2"
-              required
-            />
-            <label htmlFor="terminos" className="text-sm">
-              Acepto los <span className="text-[#D4AF37] font-medium">términos y condiciones</span>
-            </label>
-          </div>
 
           <button
             type="submit"
@@ -224,7 +156,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
             className="w-full py-3 rounded-lg flex items-center justify-center gap-2 text-black transition"
             style={{ backgroundColor: 'var(--primary)' }}
           >
-            {isSubmitting ? "Creando cuenta..." : "Crear Cuenta"}
+            {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
           </button>
           
           <div className="text-center text-sm mt-4">

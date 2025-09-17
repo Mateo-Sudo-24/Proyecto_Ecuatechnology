@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Plus, Eye, Pencil, Download, FileSpreadsheet, FileText, ArrowLeft } from 'lucide-react';
 import TicketModal from './TicketModal';
 import TicketDetails from './TicketDetails';
-import '../../styles/AdminTickets.css';
+import '../../styles/admin.css';
 
 const AdminTickets = () => {
   const [searchTerm, setSearchTerm] = useState('');

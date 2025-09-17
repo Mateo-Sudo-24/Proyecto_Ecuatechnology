@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Download, Calendar, User, Filter, Square } from 'lucide-react';
-import '../../styles/AdminChangeHistory.css';
+import '../../styles/admin.css';
 
 const AdminChangeHistory = () => {
   const [searchTerm, setSearchTerm] = useState('');

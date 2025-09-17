@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Save, Key, Download, Database, Check } from 'lucide-react';
-import '../../styles/AdminConfiguration.css';
+import '../../styles/admin.css';
 
 const AdminConfiguration = () => {
   const [companyInfo, setCompanyInfo] = useState({

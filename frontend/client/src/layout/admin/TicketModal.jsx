@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/TicketModal.css';
+import '../../styles/modales.css';
 
 const TicketModal = ({ isOpen, onClose, title, ticket, onSubmit }) => {
   if (!isOpen) return null;

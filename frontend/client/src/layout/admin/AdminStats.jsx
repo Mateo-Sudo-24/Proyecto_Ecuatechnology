@@ -1,6 +1,6 @@
 import React from 'react';
 import { Users, Ticket } from 'lucide-react';
-import '../../styles/AdminStats.css';
+import '../../styles/admin.css';
 
 const AdminStats = () => {
   return (

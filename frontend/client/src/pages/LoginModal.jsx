@@ -4,6 +4,7 @@ import { LogIn, CheckCircle, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
+import "../styles/modales.css";
 
 const LoginModal = ({ isOpen, onClose }) => {
   const { fetchDataBackend } = useFetch();
@@ -134,9 +135,6 @@ const LoginModal = ({ isOpen, onClose }) => {
             </button>
             
             <div className="text-center text-sm mt-4">
-              <p className="mb-2">
-                <span className="text-[#D4AF37] font-medium cursor-pointer">¿Olvidaste tu contraseña?</span>
-              </p>
               <p>
                 ¿No tienes cuenta? <span className="text-[#D4AF37] font-medium cursor-pointer" onClick={() => {onClose(); document.querySelector('[data-registro-button]')?.click();}}>Regístrate aquí</span>
               </p>

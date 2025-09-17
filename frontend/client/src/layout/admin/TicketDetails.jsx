@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pencil, Play, XSquare, UserPlus } from 'lucide-react';
-import '../../styles/TicketDetails.css';
+import '../../styles/admin.css';
 
 const TicketDetails = ({ ticket, onBack }) => {
   const [currentTicket, setCurrentTicket] = useState(ticket);
