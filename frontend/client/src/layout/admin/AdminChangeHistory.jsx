@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Search, Download, Calendar, User, Filter, Square } from 'lucide-react';
+import { Search, Download, User, Filter, RefreshCw } from 'lucide-react';
 import '../../styles/admin.css';
 
 const AdminChangeHistory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUser, setSelectedUser] = useState('Todos los usuarios');
-  const [selectedAction, setSelectedAction] = useState('Todas las acciones');
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -60,29 +60,32 @@ const AdminChangeHistory = () => {
 
   // Opciones para los filtros
   const userOptions = ['Todos los usuarios', 'admin@ecuatechnology.com', 'maria.supervisor@ecuatechnology.com'];
-  const actionOptions = ['Todas las acciones', 'Crear', 'Editar', 'Eliminar', 'Actualizar'];
 
   // Filtrar datos
   const filteredHistory = changeHistory.filter(change => {
-    const matchesSearch = 
+    const matchesSearch =
       change.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
       change.module.toLowerCase().includes(searchTerm.toLowerCase()) ||
       change.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
       change.details.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesUser = selectedUser === 'Todos los usuarios' || change.user === selectedUser;
-    const matchesAction = selectedAction === 'Todas las acciones' || 
-      change.action.toLowerCase().includes(selectedAction.toLowerCase());
-    
-    const matchesDate = (!startDate || change.date >= startDate) && 
+
+    const matchesDate = (!startDate || change.date >= startDate) &&
                        (!endDate || change.date <= endDate);
-    
-    return matchesSearch && matchesUser && matchesAction && matchesDate;
+
+    return matchesSearch && matchesUser && matchesDate;
   });
 
   const handleDownloadHistory = (format) => {
     console.log(`Descargando historial en formato ${format}`);
     // Aquí implementarías la lógica para descargar el historial
+  };
+
+  const handleRefreshHistory = () => {
+    setRefreshTrigger(prev => prev + 1);
+    console.log('Refrescando historial de cambios');
+    // Aquí implementarías la lógica para recargar los datos del historial
   };
 
   const getActionBadgeClass = (actionType) => {
@@ -140,38 +143,31 @@ const AdminChangeHistory = () => {
             ))}
           </select>
           
-          <select
-            value={selectedAction}
-            onChange={(e) => setSelectedAction(e.target.value)}
-            className="filter-select"
+          <button
+            onClick={handleRefreshHistory}
+            className="refresh-button"
+            title="Actualizar Historial"
           >
-            {actionOptions.map(option => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
+            <RefreshCw size={16} />
+            Actualizar
+          </button>
           
           <div className="date-range-group">
-            <div className="date-input-wrapper">
-              <Calendar size={20} className="date-icon left" />
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="date-input"
-              />
-              <Square size={16} className="date-icon right" />
-            </div>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="date-input"
+              placeholder="Fecha inicio"
+            />
             <span className="date-separator">hasta</span>
-            <div className="date-input-wrapper">
-              <Calendar size={20} className="date-icon left" />
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="date-input"
-              />
-              <Square size={16} className="date-icon right" />
-            </div>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="date-input"
+              placeholder="Fecha fin"
+            />
           </div>
         </div>
       </div>
