@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
 import useAuthStore from "../context/storeAuth";
+import { normalizeEmail } from "../helpers/normalizeEmail"; // 🔹 Importamos normalizeEmail
 import "../styles/modales.css";
 
 const LoginModal = ({ isOpen, onClose }) => {
@@ -41,6 +42,9 @@ const LoginModal = ({ isOpen, onClose }) => {
     setIsSubmitting(true);
 
     try {
+      // 🔹 Normalizamos el email antes de enviarlo
+      const emailNormalized = normalizeEmail(formData.email);
+
       // Detectar admin: si el correo empieza con "admin" (mayúsculas o minúsculas)
       const isAdmin = formData.email.toLowerCase().startsWith("admin");
       const endpoint = isAdmin ? "/admin/login" : "/cliente/login";
@@ -48,7 +52,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       await fetchWithToast(
         fetchDataBackend,
         endpoint,
-        { email: formData.email, password: formData.password },
+        { email: emailNormalized, password: formData.password }, // 🔹 usamos emailNormalized
         "POST"
       );
 
@@ -56,7 +60,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       setRol(detectedRole);
 
       // Guardar rol temporal en store/localStorage antes del OTP
-      setUser({ token: null, role: detectedRole, email: formData.email });
+      setUser({ token: null, role: detectedRole, email: emailNormalized });
 
       // Pasamos al paso OTP
       setOtpMessage("Se ha enviado un OTP a tu correo");
@@ -76,15 +80,18 @@ const LoginModal = ({ isOpen, onClose }) => {
     try {
       const endpoint = rol === "administrador" ? "/admin/verify-otp" : "/cliente/verify-otp";
 
+      // 🔹 Normalizamos el email también aquí antes de enviar OTP
+      const emailNormalized = normalizeEmail(formData.email);
+
       const res = await fetchWithToast(
         fetchDataBackend,
         endpoint,
-        { email: formData.email, otp },
+        { email: emailNormalized, otp }, // 🔹 usamos emailNormalized
         "POST"
       );
 
       // Guardar token y rol en store + localStorage
-      setUser({ token: res.token, role: rol, email: formData.email });
+      setUser({ token: res.token, role: rol, email: emailNormalized });
 
       // Redirigir al dashboard correspondiente
       navigate(rol === "administrador" ? "/admin" : "/cliente");
@@ -126,7 +133,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                 placeholder="tu@email.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] transition-all"
                 required
               />
             </div>
@@ -140,7 +147,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                   placeholder="Tu contraseña"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+                  className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] transition-all"
                   required
                 />
                 <span
@@ -177,7 +184,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                 value={otp}
                 placeholder="Ingresa el código recibido"
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] transition-all"
                 required
               />
             </div>

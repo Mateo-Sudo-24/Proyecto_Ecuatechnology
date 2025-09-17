@@ -12,7 +12,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
 
   const [formData, setFormData] = useState({
     nombre: "",
-    apellido: "",
     email: "",
     password: "",
     telefono: ""
@@ -24,7 +23,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) setFormData({
       nombre: "",
-      apellido: "",
       email: "",
       password: "",
       telefono: ""
@@ -38,13 +36,11 @@ const RegistroModal = ({ isOpen, onClose }) => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     setIsSubmitting(true);
 
     try {
       const dataToSend = {
         nombre: formData.nombre,
-        apellido: formData.apellido,
         email: formData.email,
         password: formData.password,
         telefono: formData.telefono
@@ -59,7 +55,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
@@ -74,33 +69,19 @@ const RegistroModal = ({ isOpen, onClose }) => {
         <p className="text-center text-gray-600 mb-6">Crea tu cuenta en Ecuatecnology</p>
 
         <form onSubmit={handleRegister} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Nombre</label>
-              <input
-                type="text"
-                name="nombre"
-                placeholder="Tu nombre"
-                value={formData.nombre}
-                onChange={handleChange}
-                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Apellido</label>
-              <input
-                type="text"
-                name="apellido"
-                placeholder="Tu apellido"
-                value={formData.apellido}
-                onChange={handleChange}
-                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
-                required
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Nombre completo</label>
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Ej. Juan Pérez"
+              value={formData.nombre}
+              onChange={handleChange}
+              className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
+              required
+            />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Correo electrónico</label>
             <input
@@ -113,7 +94,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Teléfono (Opcional)</label>
             <input
@@ -125,8 +106,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
               className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
             />
           </div>
-          
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Contraseña</label>
             <div className="relative">
@@ -147,8 +127,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
               </span>
             </div>
           </div>
-          
-          
 
           <button
             type="submit"
@@ -158,7 +136,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
           >
             {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
           </button>
-          
+
           <div className="text-center text-sm mt-4">
             ¿Ya tienes cuenta? <span className="text-[#D4AF37] font-medium cursor-pointer" onClick={() => {onClose(); document.querySelector('[data-login-button]')?.click();}}>Inicia sesión aquí</span>
           </div>
