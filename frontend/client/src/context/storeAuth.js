@@ -1,4 +1,4 @@
-// src/store/storeAuth.js
+// src/context/storeAuth.jsx
 import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
@@ -6,27 +6,31 @@ const useAuthStore = create((set) => ({
   role: null,
   email: null,
 
-  // Guardar usuario en store y localStorage
+  // Guardar usuario completo
   setUser: ({ token, role, email }) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("role", role);
-    localStorage.setItem("email", email || "");
     set({ token, role, email });
+    if (token) localStorage.setItem("token", token);
+    if (role) localStorage.setItem("role", role);
+    if (email) localStorage.setItem("email", email);
   },
 
-  // Inicializar store desde localStorage al cargar la app
+  // Inicializar store desde localStorage
   initializeUser: () => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
     const email = localStorage.getItem("email");
-    if (token && role) set({ token, role, email });
+
+    if (token && role && email) {
+      set({ token, role, email });
+    }
   },
 
+  // Cerrar sesión
   logout: () => {
+    set({ token: null, role: null, email: null });
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("email");
-    set({ token: null, role: null, email: null });
   },
 }));
 
