@@ -1,45 +1,65 @@
 // src/pages/LoginModal.jsx
 import React, { useState, useEffect } from "react";
-import { LogIn, CheckCircle, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
+import useAuthStore from "../context/storeAuth";
 import "../styles/modales.css";
 
 const LoginModal = ({ isOpen, onClose }) => {
   const { fetchDataBackend } = useFetch();
   const navigate = useNavigate();
+  const setUser = useAuthStore((state) => state.setUser);
 
-  const [step, setStep] = useState("login"); // 'login' o 'otp'
+  const [step, setStep] = useState("login"); // login | otp
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [otp, setOtp] = useState("");
+  const [rol, setRol] = useState(null); // admin o cliente
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [otpMessage, setOtpMessage] = useState("");
 
   useEffect(() => {
     if (isOpen) {
       setFormData({ email: "", password: "" });
       setOtp("");
+      setRol(null);
+      setOtpMessage("");
       setStep("login");
     }
   }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   // Paso 1: Login email + password
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
-      const endpoint = "/cliente/login";
-      await fetchWithToast(fetchDataBackend, endpoint, {
-        email: formData.email,
-        password: formData.password,
-      }, "POST");
 
-      // Si backend envía OTP → siguiente paso
+    try {
+      // Detectar admin: si el correo empieza con "admin" (mayúsculas o minúsculas)
+      const isAdmin = formData.email.toLowerCase().startsWith("admin");
+      const endpoint = isAdmin ? "/admin/login" : "/cliente/login";
+
+      await fetchWithToast(
+        fetchDataBackend,
+        endpoint,
+        { email: formData.email, password: formData.password },
+        "POST"
+      );
+
+      const detectedRole = isAdmin ? "administrador" : "cliente";
+      setRol(detectedRole);
+
+      // Guardar rol temporal en store/localStorage antes del OTP
+      setUser({ token: null, role: detectedRole, email: formData.email });
+
+      // Pasamos al paso OTP
+      setOtpMessage("Se ha enviado un OTP a tu correo");
       setStep("otp");
     } catch (error) {
       console.error("Error en login:", error);
@@ -52,18 +72,23 @@ const LoginModal = ({ isOpen, onClose }) => {
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
-      const endpoint = "/cliente/verify-otp";
-      const res = await fetchWithToast(fetchDataBackend, endpoint, {
-        email: formData.email,
-        otp,
-      }, "POST");
 
-      // Guardar token en localStorage
-      localStorage.setItem("token", res.token);
-      
-      // Redirigir al dashboard del cliente
-      navigate("/cliente");
+    try {
+      const endpoint = rol === "administrador" ? "/admin/verify-otp" : "/cliente/verify-otp";
+
+      const res = await fetchWithToast(
+        fetchDataBackend,
+        endpoint,
+        { email: formData.email, otp },
+        "POST"
+      );
+
+      // Guardar token y rol en store + localStorage
+      setUser({ token: res.token, role: rol, email: formData.email });
+
+      // Redirigir al dashboard correspondiente
+      navigate(rol === "administrador" ? "/admin" : "/cliente");
+
       onClose();
     } catch (error) {
       console.error("Error en verificación OTP:", error);
@@ -86,7 +111,9 @@ const LoginModal = ({ isOpen, onClose }) => {
           {step === "login" ? "Iniciar Sesión" : "Ingresa OTP"}
         </h2>
         <p className="text-center text-gray-600 mb-6">
-          {step === "login" ? "Accede a tu cuenta de Ecuatecnology" : "Verifica tu identidad"}
+          {step === "login"
+            ? "Accede a tu cuenta de Ecuatecnology"
+            : "Verifica tu identidad para continuar"}
         </p>
 
         {step === "login" && (
@@ -120,7 +147,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                   className="absolute top-3 right-3 cursor-pointer text-gray-500"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                 </span>
               </div>
             </div>
@@ -129,21 +156,20 @@ const LoginModal = ({ isOpen, onClose }) => {
               type="submit"
               disabled={isSubmitting}
               className="w-full py-3 rounded-lg flex items-center justify-center gap-2 text-black transition"
-              style={{ backgroundColor: 'var(--primary)' }}
+              style={{ backgroundColor: "var(--primary)" }}
             >
               {isSubmitting ? "Enviando..." : "Iniciar Sesión"}
             </button>
-            
-            <div className="text-center text-sm mt-4">
-              <p>
-                ¿No tienes cuenta? <span className="text-[#D4AF37] font-medium cursor-pointer" onClick={() => {onClose(); document.querySelector('[data-registro-button]')?.click();}}>Regístrate aquí</span>
-              </p>
-            </div>
           </form>
         )}
 
         {step === "otp" && (
           <form onSubmit={handleVerifyOTP} className="space-y-4">
+            {otpMessage && (
+              <p className="text-green-700 text-center font-medium bg-green-100 py-2 rounded-lg">
+                {otpMessage}
+              </p>
+            )}
             <div>
               <label className="block text-sm font-medium mb-1">Código OTP</label>
               <input
@@ -155,12 +181,11 @@ const LoginModal = ({ isOpen, onClose }) => {
                 required
               />
             </div>
-
             <button
               type="submit"
               disabled={isSubmitting}
               className="w-full py-3 rounded-lg flex items-center justify-center gap-2 text-black transition"
-              style={{ backgroundColor: 'var(--primary)' }}
+              style={{ backgroundColor: "var(--primary)" }}
             >
               {isSubmitting ? "Verificando..." : "Verificar OTP"}
             </button>
