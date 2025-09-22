@@ -2,7 +2,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
+import "react-toastify/dist/ReactToastify.css";
 // Páginas públicas
 import Home from "./pages/Home";
 import Header from "./pages/Header";
@@ -59,7 +59,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      <ToastContainer />
+      <ToastContainer className="font-arial font-bold " />
     </BrowserRouter>
   );
 }

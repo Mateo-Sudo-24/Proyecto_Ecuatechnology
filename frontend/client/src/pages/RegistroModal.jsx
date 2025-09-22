@@ -1,6 +1,6 @@
 // src/pages/RegistroModal.jsx
 import React, { useState, useEffect } from "react";
-import { UserPlus, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
@@ -39,18 +39,19 @@ const RegistroModal = ({ isOpen, onClose }) => {
     setIsSubmitting(true);
 
     try {
-      const dataToSend = {
-        nombre: formData.nombre,
-        email: formData.email,
-        password: formData.password,
-        telefono: formData.telefono
-      };
+      const dataToSend = { ...formData };
 
-      await fetchWithToast(fetchDataBackend, "/cliente/register", dataToSend, "POST");
-      onClose();
-      navigate("/");
+      const res = await fetchWithToast(fetchDataBackend, "/cliente/register", dataToSend, "POST");
+
+      // Si no hay errores, cerramos modal y navegamos
+      if (!res.errors) {
+        onClose();
+        navigate("/");
+      }
+
     } catch (error) {
-      console.error("Error en registro:", error.message);
+      console.error("Error en registro:", error);
+      // No hace falta más, los errores ya se muestran en toast
     } finally {
       setIsSubmitting(false);
     }
@@ -74,7 +75,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
             <input
               type="text"
               name="nombre"
-              placeholder="Ej. Juan Pérez"
+              placeholder="Ej. Juan Pérez "
               value={formData.nombre}
               onChange={handleChange}
               className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] focus:ring-0 focus:shadow-[0_0_0_3px_rgba(212,175,55,0.25)] transition-all"
