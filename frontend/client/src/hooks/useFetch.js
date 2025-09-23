@@ -8,9 +8,7 @@ const API_URL = import.meta.env.VITE_URL_BACK.endsWith("/")
 function useFetch() {
   const fetchDataBackend = useCallback(
     async (endpoint, data = null, method = "GET") => {
-      const url = endpoint.startsWith("/")
-        ? `${API_URL}${endpoint.slice(1)}`
-        : `${API_URL}${endpoint}`;
+      const url = endpoint.startsWith("/") ? `${API_URL}${endpoint.slice(1)}` : `${API_URL}${endpoint}`;
       try {
         const token = localStorage.getItem("token");
         const isFormData = data instanceof FormData;
@@ -30,8 +28,14 @@ function useFetch() {
         const response = await axios(options);
         return response.data;
       } catch (error) {
-        // DEVUELVE EL BODY COMPLETO, NO THROW
-        return error.response?.data || { message: "Error desconocido" };
+        const errorMsg =
+          error?.response?.data?.msg ||
+          error?.response?.data?.message ||
+          error?.response?.data?.error ||
+          error?.message ||
+          "Error desconocido";
+
+        throw new Error(errorMsg);
       }
     },
     []

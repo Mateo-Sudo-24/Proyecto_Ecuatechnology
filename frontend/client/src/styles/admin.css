@@ -2945,3 +2945,43 @@
   font-weight: 600 !important;
   font-size: 1.125rem !important;
 }
+
+/* Estilos para el modal de detalles de administrador */
+.admin-details-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 1rem !important;
+}
+
+.admin-detail-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.75rem 0 !important;
+  border-bottom: 1px solid #e9ecef !important;
+}
+
+.admin-detail-item:last-child {
+  border-bottom: none !important;
+}
+
+.admin-detail-label {
+  font-weight: 600 !important;
+  color: var(--neutral) !important;
+  font-size: 0.875rem !important;
+}
+
+.admin-detail-value {
+  color: var(--neutral) !important;
+  font-size: 0.875rem !important;
+}
+
+.admin-detail-value.confirmed {
+  color: #28a745 !important;
+  font-weight: 500 !important;
+}
+
+.admin-detail-value.pending {
+  color: #ffc107 !important;
+  font-weight: 500 !important;
+}
