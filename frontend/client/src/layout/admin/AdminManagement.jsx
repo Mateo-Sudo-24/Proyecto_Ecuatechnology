@@ -1,29 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Plus, Pencil, Trash, X } from 'lucide-react';
+import useAdmins from '../../hooks/useAdmins'; // Importar el hook que consume el backend
 import '../../styles/admin.css';
 
 const AdminManagement = ({ onBack }) => {
-  // Estado para la lista de administradores
-  const [administradores, setAdministradores] = useState([
-    {
-      id: 1,
-      nombre: "David Ordoñez",
-      telefono: "+593 99 123 4567",
-      email: "admin@ecuatechnology.com",
-      cargo: "Administrador del Sistema",
-      estado: "activo",
-      fechaCreacion: "2024-01-01"
-    },
-    {
-      id: 2,
-      nombre: "María",
-      telefono: "+593 98 765 4321",
-      email: "maria.supervisor@ecuatechnology.com",
-      cargo: "Supervisora de Soporte",
-      estado: "activo",
-      fechaCreacion: "2025-02-15"
-    }
-  ]);
+  // Uso del hook para obtener administradores del backend
+  const { administradores, loading, error, getAdministradores } = useAdmins();
 
   // Estado para el modal de crear/editar administrador
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -166,8 +148,37 @@ const AdminManagement = ({ onBack }) => {
       {/* Lista de Administradores */}
       <div className="admin-management-content">
         <h2 className="admin-list-title">Lista de Administradores</h2>
-        
-        <div className="admin-table-container">
+
+        {/* Mostrar loading */}
+        {loading && (
+          <div className="loading-container" style={{ textAlign: 'center', padding: '20px' }}>
+            <p>Cargando administradores...</p>
+          </div>
+        )}
+
+        {/* Mostrar error */}
+        {error && (
+          <div className="error-container" style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
+            <p>Error: {error}</p>
+            <button
+              onClick={getAdministradores}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: '#D4AF37',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}
+            >
+              Reintentar
+            </button>
+          </div>
+        )}
+
+        {/* Mostrar tabla solo si no hay loading ni error */}
+        {!loading && !error && (
+          <div className="admin-table-container">
           <table className="admin-table">
             <thead>
               <tr>
@@ -219,6 +230,7 @@ const AdminManagement = ({ onBack }) => {
             </tbody>
           </table>
         </div>
+        )}
       </div>
 
       {/* Modal de Confirmación de Eliminación */}

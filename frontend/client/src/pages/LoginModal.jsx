@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
 import useAuthStore from "../context/storeAuth";
-import { normalizeEmail } from "../helpers/normalizeEmail"; // 🔹 Importamos normalizeEmail
+import { normalizeEmail } from "../helpers/normalizeEmail"; //Importamos normalizeEmail
 import "../styles/modales.css";
 
 const LoginModal = ({ isOpen, onClose }) => {
