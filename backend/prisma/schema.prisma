@@ -1,10 +1,11 @@
-generator client {
-  provider = "prisma-client-js"
+// prisma/schema.prisma (Versión Final para la Web)
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
+generator client {
+  provider = "prisma-client-js"
 }
 
 model Administrador {
@@ -22,24 +23,30 @@ model Cliente {
   id           Int       @id @default(autoincrement())
   nombre       String
   email        String    @unique
-  telefono     String?
   password     String
+  telefono     String?
   otp          String?
   otpExpires   DateTime?
   token        String?
   confirmEmail Boolean   @default(false)
   createdAt    DateTime  @default(now())
-  sqlServerId  Int?
   tickets      Ticket[]
+  sqlServerId  Int?
 }
 
 model Ticket {
-  id          Int      @id @default(autoincrement())
-  descripcion String
-  estado      String   @default("abierto")
-  clienteId   Int
-  createdAt   DateTime @default(now())
-  cliente     Cliente  @relation(fields: [clienteId], references: [id])
+  id               Int       @id @default(autoincrement())
+  descripcion      String
+  // --- Campos para simular el flujo completo ---
+  estado           String    @default("Ingresado") // Estado visible para el cliente
+  diagnostico      String?   // Notas del "técnico" (admin)
+  proformaDetalles String?   // Detalles de partes/servicios
+  precioTotal      Decimal?  @db.Decimal(10, 2) // Precio de la proforma
+  proformaEstado   String?   @default("Pendiente") // Pendiente, Aprobado, Rechazado
+  
+  clienteId        Int
+  cliente          Cliente   @relation(fields: [clienteId], references: [id])
+  createdAt        DateTime  @default(now())
 }
 
 model Documento {
