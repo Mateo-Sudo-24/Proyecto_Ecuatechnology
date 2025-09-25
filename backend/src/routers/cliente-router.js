@@ -9,18 +9,18 @@ import {
   getClientTickets,
   processProforma,
   getClientInvoicePDF,
-} from "../controllers/cliente.controller.js";
+} from "../controllers/cliente-controller.js";
 
 import {
   authenticateJWT,
   requireClientRole
-} from "../middlewares/auth.middleware.js";
+} from "../middlewares/AuthMiddleware.js";
 
 import {
   validateClienteCreation,
   validateLogin,
   validateTicketCreation
-} from "../middlewares/validator.middleware.js";
+} from "../middlewares/validator.js";
 
 const router = express.Router();
 

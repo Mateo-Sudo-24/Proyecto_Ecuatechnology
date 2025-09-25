@@ -50,6 +50,17 @@ const validatePhoneNumber = body("telefono")
 const validatePositiveIntegerId = param("id")
   .isInt({ min: 1 }).withMessage("El ID debe ser un número entero positivo.");
 
+
+// -------------------------------------------------------------------------- //
+//                             VALIDACIÓN LOGIN GENÉRICA                     //
+// -------------------------------------------------------------------------- //
+
+export const validateLogin = [
+  validateEmail,
+  body("password").notEmpty().withMessage("La contraseña es obligatoria para el inicio de sesión."),
+  handleValidationErrors,
+];
+
 // -------------------------------------------------------------------------- //
 //                             VALIDACIONES ADMIN                             //
 // -------------------------------------------------------------------------- //
@@ -89,6 +100,7 @@ export const validateAdminPasswordChange = [
   handleValidationErrors,
 ];
 
+
 // -------------------------------------------------------------------------- //
 //                             VALIDACIONES CLIENTE                           //
 // -------------------------------------------------------------------------- //
@@ -117,5 +129,16 @@ export const validateClienteUpdate = [
   body("email").optional().isEmail().withMessage("Formato de correo electrónico inválido.").normalizeEmail(),
   validatePhoneNumber,
   validateOptionalPassword, // Usar la validación opcional
+  handleValidationErrors,
+];
+
+// -------------------------------------------------------------------------- //
+//                  VALIDACIÓN CREACIÓN DE TICKET CLIENTE                    //
+// -------------------------------------------------------------------------- //
+
+export const validateTicketCreation = [
+  body("titulo").trim().notEmpty().withMessage("El título es obligatorio."),
+  body("descripcion").trim().notEmpty().withMessage("La descripción es obligatoria."),
+  body("prioridad").optional().isIn(["baja", "media", "alta"]).withMessage("La prioridad debe ser baja, media o alta."),
   handleValidationErrors,
 ];

@@ -5,8 +5,8 @@ import cors from 'cors';
 import { prisma } from './database.js'; // Importamos la instancia de prisma
 
 // --- Importar Rutas ---
-import administradorRouter from './routers/administrador.router.js';
-import clienteRouter from './routers/cliente.router.js';
+import administradorRouter from './routers/administrador-router.js';
+import clienteRouter from './routers/cliente-router.js';
 
 // Cargar variables de entorno
 dotenv.config();
