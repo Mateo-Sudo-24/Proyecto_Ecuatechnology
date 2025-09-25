@@ -1,44 +1,45 @@
+// src/routers/cliente.router.js (VERSIÓN FINAL Y LIMPIA)
 import express from "express";
 import {
   registerCliente,
   confirmEmailCliente,
   loginCliente,
   verifyOTPCliente,
-} from "../controllers/cliente-controller.js";
+  createTicket,
+  getClientTickets,
+  processProforma,
+  getClientInvoicePDF,
+} from "../controllers/cliente.controller.js";
+
+import {
+  authenticateJWT,
+  requireClientRole
+} from "../middlewares/auth.middleware.js";
 
 import {
   validateClienteCreation,
-  validateClienteLogin,
-} from "../middlewares/validator.js";
+  validateLogin,
+  validateTicketCreation
+} from "../middlewares/validator.middleware.js";
 
 const router = express.Router();
 
-/**
- * @route   POST /api/clientes/register
- * @desc    Registrar un nuevo cliente
- * @access  Público
- */
+// --- RUTAS PÚBLICAS DE AUTENTICACIÓN ---
 router.post("/register", validateClienteCreation, registerCliente);
-
-/**
- * @route   GET /api/clientes/confirm/:token
- * @desc    Confirmar el correo del cliente
- * @access  Público
- */
 router.get("/confirm/:token", confirmEmailCliente);
-
-/**
- * @route   POST /api/clientes/login
- * @desc    Login de cliente (genera OTP)
- * @access  Público
- */
-router.post("/login", validateClienteLogin, loginCliente);
-
-/**
- * @route   POST /api/clientes/verify-otp
- * @desc    Verificar OTP y generar JWT
- * @access  Público
- */
+router.post("/login", validateLogin, loginCliente);
 router.post("/verify-otp", verifyOTPCliente);
+
+// --- RUTAS PROTEGIDAS (Requieren Token de Cliente) ---
+
+// Crear y ver sus solicitudes de servicio (tickets)
+router.post("/tickets", authenticateJWT, requireClientRole, validateTicketCreation, createTicket);
+router.get("/tickets", authenticateJWT, requireClientRole, getClientTickets);
+
+// Aprobar o Rechazar una proforma
+router.post("/tickets/proforma", authenticateJWT, requireClientRole, processProforma);
+
+// Descargar la factura de un ticket específico
+router.get("/tickets/:ticketId/invoice", authenticateJWT, requireClientRole, getClientInvoicePDF);
 
 export default router;

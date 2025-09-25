@@ -1,101 +1,63 @@
-// middlewares/AuthMiddleware.js
+import jwt from 'jsonwebtoken';
 import { PrismaClient } from "@prisma/client";
-import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
-const SECRET = process.env.JWT_SECRET || "ECUATECH_SECRET"; // Siempre usa variables de entorno
+const SECRET = process.env.JWT_SECRET || "ECUATECH_WEB_SECRET";
 
 /**
- * @function verificarTokenJWT
- * @description Middleware para verificar la validez de un token JWT.
- *              Extrae el payload del token y lo adjunta a `req.usuario`.
+ * Middleware para verificar la validez de un token JWT.
+ * Si es válido, adjunta el payload del token a `req.auth`.
  */
-export const verificarTokenJWT = (req, res, next) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
-
-  if (!token) {
-    return res.status(401).json({ msg: "Acceso denegado. Token no proporcionado." });
+export const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Acceso no autorizado. Se requiere un token.' });
   }
 
+  const token = authHeader.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, SECRET);
-    req.usuario = decoded; // Adjunta el payload del token (id, email)
+    req.auth = jwt.verify(token, SECRET); // Adjunta payload como { adminId, type: 'admin' }
     next();
-  } catch (error) {
-    console.error("Error al verificar token JWT:", error.message);
-    return res.status(401).json({ msg: "Token inválido o expirado." });
+  } catch (err) {
+    return res.status(403).json({ error: 'Token inválido o expirado.' });
   }
 };
 
 /**
- * @function existeAdministrador
- * @description Middleware para verificar si el usuario autenticado (desde JWT) es un administrador válido.
- *              Debe ser usado DESPUÉS de `verificarTokenJWT`.
+ * Middleware para verificar que el usuario autenticado es un Administrador.
+ * Debe usarse DESPUÉS de `authenticateJWT`.
  */
-export const esAdministrador = async (req, res, next) => {
-  if (!req.usuario || !req.usuario.id) {
-    return res.status(401).json({ msg: "Usuario no autenticado para verificar rol de administrador." });
-  }
-  try {
-    const { id } = req.usuario;
-    const admin = await prisma.administrador.findUnique({ where: { id } });
-
-    if (!admin) {
-      return res.status(403).json({ msg: "Acceso denegado. Se requiere rol de Administrador." });
+export const requireAdminRole = (req, res, next) => {
+    if (req.auth && req.auth.type === 'admin') {
+        return next();
     }
-    // Opcional: Adjuntar el objeto completo del administrador a la solicitud si se necesita más adelante
-    req.admin = admin;
-    next();
-  } catch (error) {
-    console.error("Error al verificar rol de administrador:", error.message);
-    return res.status(500).json({ msg: "Error del servidor al verificar rol de administrador." });
-  }
+    res.status(403).json({ error: "Acceso denegado. Se requiere rol de administrador." });
 };
 
 /**
- * @function esCliente
- * @description Middleware para verificar si el usuario autenticado (desde JWT) es un cliente válido.
- *              Debe ser usado DESPUÉS de `verificarTokenJWT`.
+ * Middleware para verificar que el usuario autenticado es un Cliente.
+ * Debe usarse DESPUÉS de `authenticateJWT`.
  */
-export const esCliente = async (req, res, next) => {
-  if (!req.usuario || !req.usuario.id) {
-    return res.status(401).json({ msg: "Usuario no autenticado para verificar rol de cliente." });
-  }
-  try {
-    const { id } = req.usuario;
-    const cliente = await prisma.cliente.findUnique({ where: { id } });
-
-    if (!cliente) {
-      return res.status(403).json({ msg: "Acceso denegado. Se requiere rol de Cliente." });
+export const requireClientRole = (req, res, next) => {
+    if (req.auth && req.auth.type === 'cliente') {
+        return next();
     }
-    // Opcional: Adjuntar el objeto completo del cliente a la solicitud
-    req.cliente = cliente;
-    next();
-  } catch (error) {
-    console.error("Error al verificar rol de cliente:", error.message);
-    return res.status(500).json({ msg: "Error del servidor al verificar rol de cliente." });
-  }
+    res.status(403).json({ error: "Acceso denegado. Se requiere rol de cliente." });
 };
 
 /**
- * @function protegerRutaCrearAdmin
- * @description Middleware para permitir la creación del primer administrador sin autenticación.
- *              Si ya existe al menos un administrador, requiere autenticación JWT.
+ * Middleware especial para proteger la creación del primer administrador.
+ * Si no hay admins, permite el paso. Si ya hay, requiere autenticación de admin.
  */
-export const protegerRutaCrearAdmin = async (req, res, next) => {
+export const protectFirstAdminCreation = async (req, res, next) => {
   try {
     const adminCount = await prisma.administrador.count();
-
     if (adminCount === 0) {
-      console.log("No hay administradores. Permitiendo la creación del primer administrador.");
-      return next(); // Permitir sin token
-    } else {
-      console.log("Ya existen administradores. La ruta requiere autenticación.");
-      // Si ya existen, aplicar la verificación JWT y luego el rol de administrador
-      return verificarTokenJWT(req, res, () => esAdministrador(req, res, next));
+      return next(); // No hay admins, se permite crear el primero.
     }
+    // Si ya existen, se encadenan los middlewares de autenticación y rol.
+    authenticateJWT(req, res, () => requireAdminRole(req, res, next));
   } catch (error) {
-    console.error("Error en protegerRutaCrearAdmin:", error.message);
-    return res.status(500).json({ msg: "Error del servidor al verificar administradores existentes." });
+    res.status(500).json({ error: "Error del servidor al verificar administradores." });
   }
 };

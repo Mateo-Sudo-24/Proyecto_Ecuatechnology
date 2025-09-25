@@ -154,3 +154,124 @@ export const deleteAdmin = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// --- GESTIÓN DE TICKETS (Simulación del Flujo de Trabajo) ---
+
+export const getAllTickets = async (req, res) => {
+    try {
+        const tickets = await prisma.ticket.findMany({
+            include: { cliente: { select: { nombre: true, email: true } } },
+            orderBy: { createdAt: 'desc' }
+        });
+        res.json(tickets);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener las solicitudes.", details: error.message });
+    }
+};
+
+export const updateTicketDiagnosis = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+        const { diagnostico } = req.body;
+        
+        const ticket = await prisma.ticket.update({
+            where: { id: Number(ticketId) },
+            data: {
+                diagnostico,
+                estado: "En Diagnóstico"
+            }
+        });
+        res.json({ message: "Diagnóstico agregado con éxito.", ticket });
+    } catch (error) {
+        res.status(500).json({ error: "Error al actualizar el diagnóstico.", details: error.message });
+    }
+};
+
+export const createTicketProforma = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+        const { proformaDetalles, precioTotal } = req.body;
+
+        const ticket = await prisma.ticket.update({
+            where: { id: Number(ticketId) },
+            data: {
+                proformaDetalles,
+                precioTotal: parseFloat(precioTotal),
+                estado: "Esperando Aprobación",
+                proformaEstado: "Enviado"
+            }
+        });
+        res.json({ message: "Proforma creada y enviada para aprobación del cliente.", ticket });
+    } catch (error) {
+        res.status(500).json({ error: "Error al crear la proforma.", details: error.message });
+    }
+};
+
+export const updateTicketStatus = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+        const { nuevoEstado } = req.body; // ej: "En Reparación", "Completado", "Listo para Entrega"
+
+        const ticket = await prisma.ticket.update({
+            where: { id: Number(ticketId) },
+            data: { estado: nuevoEstado }
+        });
+        res.json({ message: `El estado de la solicitud ha sido actualizado a: ${nuevoEstado}`, ticket });
+    } catch (error) {
+        res.status(500).json({ error: "Error al actualizar el estado.", details: error.message });
+    }
+};
+
+// --- SIMULACIÓN DE FACTURACIÓN ---
+
+export const getInvoiceXML = (req, res) => {
+    const { ticketId } = req.params;
+    
+    // Datos quemados para la simulación
+    const fakeXML = `<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.1.0">
+    <infoTributaria>
+        <ambiente>2</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>ECUATECHNOLOGY S.A.</razonSocial>
+        <nombreComercial>ECUATECHNOLOGY</nombreComercial>
+        <ruc>0999999999001</ruc>
+        <claveAcceso>mock_clave_acceso_${ticketId}_${Date.now()}</claveAcceso>
+        <codDoc>01</codDoc>
+        <estab>001</estab>
+        <ptoEmi>001</ptoEmi>
+        <secuencial>000000123</secuencial>
+        <dirMatriz>AV. 9 DE OCTUBRE Y MALECON</dirMatriz>
+    </infoTributaria>
+    <infoFactura>
+        <fechaEmision>25/09/2025</fechaEmision>
+        <totalSinImpuestos>150.00</totalSinImpuestos>
+        <totalConImpuestos>
+            <totalImpuesto>
+                <codigo>2</codigo>
+                <codigoPorcentaje>2</codigoPorcentaje>
+                <baseImponible>150.00</baseImponible>
+                <valor>18.00</valor>
+            </totalImpuesto>
+        </totalConImpuestos>
+        <importeTotal>168.00</importeTotal>
+        <moneda>DOLAR</moneda>
+    </infoFactura>
+</factura>`;
+
+    res.header('Content-Type', 'application/xml');
+    res.send(fakeXML);
+};
+
+export const getInvoicePDF = (req, res) => {
+    const { ticketId } = req.params;
+    
+    // En un caso real, generarías un PDF y lo enviarías.
+    // Aquí, simplemente devolvemos un JSON con un enlace a un PDF de muestra.
+    res.json({
+        message: "PDF de factura generado (simulación).",
+        ticketId: ticketId,
+        // URL de un PDF genérico para pruebas
+        pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    });
+};
