@@ -2,7 +2,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
+import { useProfileStore } from "./context/storeProfile";
 // Páginas públicas
 import Home from "./pages/Home";
 import Header from "./pages/Header";
@@ -34,6 +34,12 @@ const LandingPage = ({ showLoginModal = false }) => {
     </>
   );
 };
+// Inicializar storeProfile desde localStorage al cargar la app
+
+const profile = JSON.parse(localStorage.getItem("profile") || "null");
+if (profile) {
+  useProfileStore.getState().setUser(profile);
+}
 
 function App() {
   return (
