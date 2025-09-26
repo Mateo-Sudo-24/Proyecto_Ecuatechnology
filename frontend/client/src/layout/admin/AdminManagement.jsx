@@ -98,7 +98,7 @@ const AdminManagement = ({ onBack }) => {
             </tbody>
           </table>
         </div>
-        )}
+        
       </div>
 
       {/* Modal de Confirmación de Eliminación */}

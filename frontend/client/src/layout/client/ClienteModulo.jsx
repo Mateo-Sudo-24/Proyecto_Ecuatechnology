@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { NavLink, useLocation, Link, Routes, Route, useNavigate } from "react-router-dom";
 import useAuthStore  from "../../context/storeAuth"; 
+
 import {
   Wrench,
   Ticket,
@@ -19,6 +20,7 @@ import ClientePage from "./ClientePage";
 import MantenimientosPage from "./MantenimientosPage";
 import Perfil from "./Profile";
 import Tickets from "./Ticket";
+import { useProfileStore } from "../../context/storeProfile";
 
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 
@@ -35,7 +37,8 @@ function Cliente_Page() {
   const navigate = useNavigate();
 
   // Sacar las funciones de auth global
-  const logout = useAuthStore((state) => state.logout); 
+  const logout = useAuthStore((state) => state.logout);
+  const usuario = useProfileStore((state) => state.user) || {};
 
   const handleLogout = () => {
     // 1. Borrar token de almacenamiento
@@ -66,7 +69,7 @@ function Cliente_Page() {
         </div>
         <div className="flex items-center gap-2 text-background">
           <span className="text-sm font-medium hidden md:block font-body">
-            Usuario Cliente
+            {usuario?.nombre || "Usuario Desconocido"}
           </span>
           <User size={20} />
           <button
@@ -122,10 +125,10 @@ function Cliente_Page() {
               <div className="h-10 w-10 rounded-full bg-primary" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-neutral font-body">
-                  Usuario Cliente
+                  {usuario?.nombre || "Nombre Cliente"}
                 </p>
                 <p className="text-xs text-neutral opacity-60 font-body">
-                  cliente@empresa.com
+                  {usuario?.email || "cliente@empresa.com"}
                 </p>
               </div>
             </div>

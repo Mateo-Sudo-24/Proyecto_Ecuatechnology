@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
 import useAuthStore from "../context/storeAuth";
+import { useProfileStore } from "../context/storeProfile";
 import { normalizeEmail } from "../helpers/normalizeEmail"; //Importamos normalizeEmail
 import "../styles/modales.css";
 
@@ -47,7 +48,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
       // Detectar admin: si el correo empieza con "admin" (mayúsculas o minúsculas)
       const isAdmin = formData.email.toLowerCase().startsWith("admin");
-      const endpoint = isAdmin ? "/admin/login" : "/cliente/login";
+      const endpoint = isAdmin ? "/admin/login" : "/clientes/login";
 
       await fetchWithToast(
         fetchDataBackend,
@@ -78,7 +79,8 @@ const LoginModal = ({ isOpen, onClose }) => {
     setIsSubmitting(true);
 
     try {
-      const endpoint = rol === "administrador" ? "/admin/verify-otp" : "/cliente/verify-otp";
+      const endpoint =
+        rol === "administrador" ? "/admin/verify-otp" : "/clientes/verify-otp";
 
       // 🔹 Normalizamos el email también aquí antes de enviar OTP
       const emailNormalized = normalizeEmail(formData.email);
@@ -90,8 +92,25 @@ const LoginModal = ({ isOpen, onClose }) => {
         "POST"
       );
 
-      // Guardar token y rol en store + localStorage
+      // Guardar token y rol , email en store Auth + localStorage
       setUser({ token: res.token, role: rol, email: emailNormalized });
+
+      //  Guardar perfil completo en storeProfile
+      useProfileStore.getState().setUser({
+        nombre: res.cliente?.nombre,
+        email: res.cliente?.email,
+        role: res.cliente?.role,
+      });
+
+      // Guardar perfil en localStorage para persistencia
+      localStorage.setItem(
+        "profile",
+        JSON.stringify({
+          nombre: res.cliente?.nombre,
+          email: res.cliente?.email,
+          role: res.cliente?.role,
+        })
+      );
 
       // Redirigir al dashboard correspondiente
       navigate(rol === "administrador" ? "/admin" : "/cliente");
@@ -126,7 +145,9 @@ const LoginModal = ({ isOpen, onClose }) => {
         {step === "login" && (
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Correo Electrónico</label>
+              <label className="block text-sm font-medium mb-1">
+                Correo Electrónico
+              </label>
               <input
                 type="email"
                 name="email"
@@ -139,7 +160,9 @@ const LoginModal = ({ isOpen, onClose }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Contraseña</label>
+              <label className="block text-sm font-medium mb-1">
+                Contraseña
+              </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -178,7 +201,9 @@ const LoginModal = ({ isOpen, onClose }) => {
               </p>
             )}
             <div>
-              <label className="block text-sm font-medium mb-1">Código OTP</label>
+              <label className="block text-sm font-medium mb-1">
+                Código OTP
+              </label>
               <input
                 type="text"
                 value={otp}

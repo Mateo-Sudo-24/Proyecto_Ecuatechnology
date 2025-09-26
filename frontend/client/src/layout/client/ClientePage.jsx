@@ -1,223 +1,119 @@
-// src/components/client/DashboardPage.jsx
+// src/layout/client/ClientePage.jsx
+import React, { useEffect, useState, useCallback } from "react";
+import { Ticket } from "lucide-react";
+import useFetch from "../../hooks/useFetch";
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Wrench, Ticket, CheckCircle, Clock, AlertTriangle, Plus } from "lucide-react";
+const cn = (...classes) => classes.filter(Boolean).join("");
 
-
-// --- UTILIDAD Y COMPONENTES SIMPLES EN EL MISMO ARCHIVO ---
-
-const cn = (...classes) => classes.filter(Boolean).join(' ');
-
-const Card = ({ className, ...props }) => (
-  <div
-    className={cn(
-      "rounded-lg border bg-white text-gray-900 shadow-sm",
-      className
-    )}
-    {...props}
-  />
+const Card = ({ className, children }) => (
+  <div className={cn("rounded-lg border bg-white shadow-sm text-gray-900 p-6", className)}>
+    {children}
+  </div>
 );
 
-const CardHeader = ({ className, ...props }) => (
-  <div
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  />
+const CardHeader = ({ children }) => (
+  <div className="flex justify-between items-center mb-2">{children}</div>
 );
+const CardTitle = ({ children }) => <h3 className="text-lg font-semibold">{children}</h3>;
+const CardContent = ({ children }) => <div className="mt-2">{children}</div>;
 
-const CardTitle = ({ className, ...props }) => (
-  <h3
-    className={cn("text-2xl font-semibold leading-none tracking-tight", className)}
-    {...props}
-  />
-);
+const ClientePage = () => {
+  const { fetchDataBackend } = useFetch();
+  const [tickets, setTickets] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-const CardDescription = ({ className, ...props }) => (
-  <p className={cn("text-sm text-gray-500", className)} {...props} />
-);
+  const loadTickets = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchDataBackend("clientes/tickets");
+      setTickets(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchDataBackend]);
 
-const CardContent = ({ className, ...props }) => (
-  <div className={cn("p-6 pt-0", className)} {...props} />
-);
+  useEffect(() => {
+    loadTickets();
+  }, [loadTickets]);
 
-const Button = React.forwardRef(
-  ({ className, variant = "default", size = "default", ...props }, ref) => {
-    const variants = {
-      default: "bg-primary text-background hover:bg-primary/90",
-      outline: "border border-neutral bg-primary hover:bg-neutral/10 text-neutral",
-      secondary: "bg-background text-neutral hover:bg-secondary hover:text-background",
-    };
-
-    const sizes = {
-      default: "h-10 px-4 py-2",
-      lg: "h-11 px-8",
-    };
-
-    return (
-      <button
-        className={cn(
-          "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50",
-          variants[variant],
-          sizes[size],
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-Button.displayName = "Button";
-
-const Badge = ({ className, variant = "default", ...props }) => {
-  const variants = {
-    default: "bg-gray-100 text-gray-800",
-    secondary: "bg-secondary text-white",
-    outline: "border border-gray-200 text-gray-800",
+  // Aprobar o rechazar proforma
+  const handleProformaAction = async (ticketId, action) => {
+    try {
+      const updated = await fetchDataBackend(
+        "clientes/tickets/proforma",
+        { ticketId, action },
+        "POST"
+      );
+      setTickets(prev => prev.map(t => (t.id === updated.id ? updated : t)));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  if (loading) return <p className="p-6 font-sans text-gray-500">Cargando dashboard...</p>;
+  if (error) return <p className="p-6 font-sans text-red-500">Error: {error}</p>;
+
+  const totalTickets = tickets.length;
+  const progressWidth = `${Math.min(totalTickets * 10, 100)}%`; // Ejemplo de barra proporcional
+
   return (
-    <div
-      className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold",
-        variants[variant],
-        className
-      )}
-      {...props}
-    />
+    <div className="max-w-7xl mx-auto p-6 font-sans">
+      <h2 className="text-3xl font-bold mb-6 text-gray-900">Inicio</h2>
+
+      {/* Indicador de tickets creados */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Tickets Creados</CardTitle>
+          <Ticket className="h-5 w-5 text-blue-500" />
+        </CardHeader>
+        <CardContent>
+          <div className="w-full bg-gray-200 h-4 rounded-full">
+            <div className="bg-blue-400 h-4 rounded-full transition-all" style={{ width: progressWidth }} />
+          </div>
+          <p className="mt-2 text-sm text-gray-600">{totalTickets} ticket{totalTickets !== 1 ? "s" : ""} cread{totalTickets !== 1 ? "os" : "o"}</p>
+        </CardContent>
+      </Card>
+
+      {/* Lista de proformas pendientes */}
+      <div className="mt-6">
+        <h3 className="text-xl font-semibold mb-2 text-gray-900">Proformas Pendientes</h3>
+        {tickets.filter(t => t.estado?.toLowerCase() === "esperando aprobación").length === 0 && (
+          <p className="text-gray-500">No hay proformas pendientes.</p>
+        )}
+
+        <div className="space-y-4">
+          {tickets
+            .filter(t => t.estado?.toLowerCase() === "esperando aprobación")
+            .map(ticket => (
+              <div key={ticket.id} className="border p-4 rounded shadow flex justify-between items-center bg-white">
+                <div>
+                  <p className="font-semibold">{ticket.titulo || `Ticket #${ticket.id}`}</p>
+                  <p className="text-sm text-gray-500">{ticket.descripcion}</p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleProformaAction(ticket.id, "aprobar")}
+                    className="px-3 py-1 bg-green-500 text-white rounded text-sm"
+                  >
+                    Aprobar
+                  </button>
+                  <button
+                    onClick={() => handleProformaAction(ticket.id, "rechazar")}
+                    className="px-3 py-1 bg-red-500 text-white rounded text-sm"
+                  >
+                    Rechazar
+                  </button>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
-
-
-// --- COMPONENTE PRINCIPAL DEL DASHBOARD ---
-
- function DashboardPage() {
-
-  return (
-    <div   className='max-w-[89.2rem] font-sans'>
-      <header className="p-6">
-        <h2 className="text-3xl font-bold text-neutral">Dashboard</h2>
-        <p className="text-sm text-neutral/60">Resumen de tus servicios y actividades</p>
-      </header>
-
-      <main className="p-6">
-        {/* Stats Cards */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Mantenimientos Activos</CardTitle>
-              <Wrench className="h-4 w-4 text-[var(--primary)]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">12</div>
-              <p className="text-xs text-gray-500">+2 desde el mes pasado</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Tickets Abiertos</CardTitle>
-              <Ticket className="h-4 w-4 text-[var(--secondary)]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">5</div>
-              <p className="text-xs text-gray-500">3 pendientes de respuesta</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Servicios Completados</CardTitle>
-              <CheckCircle className="h-4 w-4 text-green-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">28</div>
-              <p className="text-xs text-gray-500">Este mes</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Próximos Servicios</CardTitle>
-              <Clock className="h-4 w-4 text-orange-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">3</div>
-              <p className="text-xs text-gray-500">Esta semana</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Recent Activity */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Actividad Reciente</CardTitle>
-              <CardDescription>Últimas actualizaciones de tus servicios</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="h-2 w-2 rounded-full bg-[var(--primary)]" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Mantenimiento de aire acondicionado completado</p>
-                  <p className="text-xs text-gray-500">Hace 2 horas</p>
-                </div>
-                <Badge variant="outline">Completado</Badge>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="h-2 w-2 rounded-full bg-[var(--secondary)]" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Nuevo ticket creado: Problema con calefacción</p>
-                  <p className="text-xs text-gray-500">Hace 4 horas</p>
-                </div>
-                <Badge variant="secondary">Nuevo</Badge>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="h-2 w-2 rounded-full bg-orange-500" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Recordatorio: Mantenimiento programado mañana</p>
-                  <p className="text-xs text-gray-500">Hace 1 día</p>
-                </div>
-                <Badge variant="outline">Recordatorio</Badge>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Acciones Rápidas</CardTitle>
-              <CardDescription>Gestiona tus servicios de forma rápida</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Link to="tickets">
-                <Button className="w-full justify-start" size="lg">
-                  <Plus className="mr-2 h-4 w-4 text-white" />
-                  Crear Nuevo Ticket
-                </Button>
-              </Link>
-
-              <Link to="mantenimientos">
-                <Button variant="secondary" className="w-full justify-start" size="lg">
-                  <Wrench className="mr-2 h-4 w-4 " />
-                  Ver Mantenimientos
-                </Button>
-              </Link>
-
-              <Link to="tickets">
-                <Button variant="secondary" className="w-full justify-start" size="lg">
-                  <AlertTriangle className="mr-2 h-4 w-4  " />
-                  Reportar Problema
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-    </div>
-  );
-}
-export default DashboardPage;
+export default ClientePage;

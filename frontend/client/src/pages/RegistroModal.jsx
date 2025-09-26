@@ -46,7 +46,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
         telefono: formData.telefono
       };
 
-      await fetchWithToast(fetchDataBackend, "/cliente/register", dataToSend, "POST");
+      await fetchWithToast(fetchDataBackend, "/clientes/register", dataToSend, "POST");
       onClose();
       navigate("/");
     } catch (error) {
