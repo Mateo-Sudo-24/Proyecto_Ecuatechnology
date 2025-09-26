@@ -20,7 +20,7 @@ import {
   // Facturación
   getInvoiceXML,
   getInvoicePDF,
-} from "../controllers/administrador.controller.js";
+} from "../controllers/administrador-controllers.js";
 
 // --- Importación de Middlewares de Autenticación y Roles ---
 // Usaremos un conjunto de nombres consistente para los middlewares
@@ -28,7 +28,7 @@ import {
   authenticateJWT,
   requireAdminRole,
   protectFirstAdminCreation,
-} from "../middlewares/auth.middleware.js";
+} from "../middlewares/AuthMiddleware.js";
 
 // --- Importación de Middlewares de Validación ---
 import {
@@ -36,7 +36,7 @@ import {
   validateLogin,
   validateAdminId,
   validateAdminUpdate,
-} from "../middlewares/validator.middleware.js";
+} from "../middlewares/validator.js";
 
 const router = express.Router();
 

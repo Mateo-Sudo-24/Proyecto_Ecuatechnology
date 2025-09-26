@@ -95,7 +95,7 @@ export const verifyOTP = async (req, res) => {
       data: { otp: null, otpExpires: null },
     });
 
-    const token = jwt.sign({ id: admin.id, email: admin.email }, SECRET, { expiresIn: "2h" });
+    const token = jwt.sign({ id: admin.id, email: admin.email, type: 'admin' }, SECRET, { expiresIn: "2h" });
 
 
     res.json({ message: "Login exitoso", token });
