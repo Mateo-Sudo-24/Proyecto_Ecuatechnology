@@ -8,7 +8,7 @@ const AdminManagement = ({ onBack }) => {
   // Hook para obtener administradores
   const { administradores, loading: adminsLoading, error: adminsError, getAdministradores } = useAdmins();
 
-  // Hook para eliminar administradores
+  // Hook para eliminar administradores IMPLUMTADO
   const { deleteAdmin, loading: deleteLoading } = useDeleteAdmin();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
