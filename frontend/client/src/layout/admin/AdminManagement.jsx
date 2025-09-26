@@ -1,29 +1,12 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Plus, Pencil, Trash, X } from 'lucide-react';
 import '../../styles/admin.css';
+import useAdmins from '../../hooks/useAdmins';
+import useDeleteAdmin from '../../hooks/useDeleteAdmin';
 
 const AdminManagement = ({ onBack }) => {
-  // Estado para la lista de administradores
-  const [administradores, setAdministradores] = useState([
-    {
-      id: 1,
-      nombre: "David Ordoñez",
-      telefono: "+593 99 123 4567",
-      email: "admin@ecuatechnology.com",
-      cargo: "Administrador del Sistema",
-      estado: "activo",
-      fechaCreacion: "2024-01-01"
-    },
-    {
-      id: 2,
-      nombre: "María",
-      telefono: "+593 98 765 4321",
-      email: "maria.supervisor@ecuatechnology.com",
-      cargo: "Supervisora de Soporte",
-      estado: "activo",
-      fechaCreacion: "2025-02-15"
-    }
-  ]);
+  // Hook para obtener administradores
+  const { administradores, loading: adminsLoading, error: adminsError, getAdministradores } = useAdmins();
 
   // Hook para eliminar administradores
   const { deleteAdmin, loading: deleteLoading } = useDeleteAdmin();
@@ -64,7 +47,10 @@ const AdminManagement = ({ onBack }) => {
       {/* Lista de Administradores */}
       <div className="admin-management-content">
         <h2 className="admin-list-title">Lista de Administradores</h2>
-        
+
+        {adminsLoading && <p>Cargando administradores...</p>}
+        {adminsError && <p>Error: {adminsError}</p>}
+
         <div className="admin-table-container">
           <table className="admin-table">
             <thead>
@@ -98,7 +84,6 @@ const AdminManagement = ({ onBack }) => {
             </tbody>
           </table>
         </div>
-        )}
       </div>
 
       {/* Modal de Confirmación de Eliminación */}
