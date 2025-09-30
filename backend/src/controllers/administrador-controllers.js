@@ -326,7 +326,7 @@ export const downloadTicketPDF = async (req, res) => {
         </head>
         <body>
             <div class="header">
-                <h1>ECUATECHNOLOGY S.A.</h1>
+                <h1>ECUATECNOLOGY S.A.</h1>
                 <h2>Reporte de Ticket de Soporte</h2>
             </div>
 

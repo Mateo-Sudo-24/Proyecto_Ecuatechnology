@@ -8,7 +8,7 @@ const AdminConfiguration = () => {
   const { updatePassword, loading: passwordLoading, error: passwordError } = useUpdatePassword();
 
   const [companyInfo, setCompanyInfo] = useState({
-    name: 'Ecuatechnology S.A.',
+    name: 'Ecuatecnology S.A.',
     phone: '099 123 4567',
     email: 'admin@ecuatechnology.com',
     address: 'Quito, Ecuador'

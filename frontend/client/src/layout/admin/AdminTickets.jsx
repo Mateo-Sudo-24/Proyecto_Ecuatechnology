@@ -71,14 +71,35 @@ const AdminTickets = () => {
     : [];
 
   const filteredTickets = tickets.filter(ticket => {
-    const matchesSearch = 
-      ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.description.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = statusFilter === 'Todos los estados' || ticket.status === statusFilter.toLowerCase();
+    // Filtro de búsqueda mejorado - busca por ID, título, cliente y descripción
+    const matchesSearch =
+      ticket.number.toLowerCase().includes(searchTerm.toLowerCase()) || // Buscar por ID (#1, #2, etc.)
+      ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) || // Buscar por título
+      ticket.client.toLowerCase().includes(searchTerm.toLowerCase()) || // Buscar por cliente
+      ticket.description.toLowerCase().includes(searchTerm.toLowerCase()); // Buscar por descripción
+
+    // Filtro de estado mejorado - mapea los estados reales del backend
+    const matchesStatus = statusFilter === 'Todos los estados' || (() => {
+      switch(statusFilter) {
+        case 'Ingresado':
+          return ticket.status === 'ingresado';
+        case 'En Diagnóstico':
+          return ticket.status === 'en-diagnostico' || ticket.status === 'en diagnóstico';
+        case 'Esperando Aprobación':
+          return ticket.status === 'esperando-aprobacion' || ticket.status === 'esperando aprobación';
+        case 'En Reparación':
+          return ticket.status === 'en-reparacion' || ticket.status === 'en reparación';
+        case 'Completado':
+          return ticket.status === 'completado';
+        case 'Cerrado':
+          return ticket.status === 'cerrado';
+        default:
+          return false;
+      }
+    })();
+
     const matchesDate = !dateFilter || ticket.date === dateFilter;
-    
+
     return matchesSearch && matchesStatus && matchesDate;
   });
 
@@ -169,7 +190,7 @@ const AdminTickets = () => {
             <Search size={20} className="search-icon" />
             <input
               type="text"
-              placeholder="Buscar tickets..."
+              placeholder="Buscar por ID (#1), título o cliente..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
@@ -181,8 +202,11 @@ const AdminTickets = () => {
             className="status-filter"
           >
             <option>Todos los estados</option>
-            <option>Abierto</option>
-            <option>En progreso</option>
+            <option>Ingresado</option>
+            <option>En Diagnóstico</option>
+            <option>Esperando Aprobación</option>
+            <option>En Reparación</option>
+            <option>Completado</option>
             <option>Cerrado</option>
           </select>
           <input
@@ -202,6 +226,11 @@ const AdminTickets = () => {
             Actualizar
           </button>
         </div>
+      </div>
+
+      {/* Indicador de resultados */}
+      <div className="tickets-summary">
+        <p>Mostrando {filteredTickets.length} de {tickets.length} tickets</p>
       </div>
 
       <div className="tickets-table-container">
@@ -269,6 +298,23 @@ const AdminTickets = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Mensaje cuando no hay resultados */}
+      {filteredTickets.length === 0 && tickets.length > 0 && (
+        <div className="no-results">
+          <p>No se encontraron tickets que coincidan con los filtros aplicados.</p>
+          <button
+            onClick={() => {
+              setSearchTerm('');
+              setStatusFilter('Todos los estados');
+              setDateFilter('');
+            }}
+            className="clear-filters-button"
+          >
+            Limpiar Filtros
+          </button>
+        </div>
+      )}
 
     </div>
   );

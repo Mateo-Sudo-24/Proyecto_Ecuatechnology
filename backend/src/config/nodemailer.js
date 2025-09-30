@@ -3,9 +3,9 @@ import sendMail from "../helpers/sendMail.js";
 const sendMailToRegister = (userMail, token) => {
   return sendMail(
     userMail,
-    "Bienvenido a Ecuatechnology - Confirma tu cuenta",
+    "Bienvenido a Ecuatecnology - Confirma tu cuenta",
     `
-      <h2 style="color:#1e293b;">¡Bienvenido a Ecuatechnology!</h2>
+      <h2 style="color:#1e293b;">¡Bienvenido a Ecuatecnology!</h2>
       <p style="font-size:15px;color:#334155;">
         Gracias por registrarte. Haz clic en el botón de abajo para confirmar tu cuenta:
       </p>
@@ -26,7 +26,7 @@ const sendMailToRegister = (userMail, token) => {
 const sendMailOTP = (userMail, otp) => {
   return sendMail(
     userMail,
-    "Tu código de verificación - Ecuatechnology",
+    "Tu código de verificación - Ecuatecnology",
     `
       <h2 style="color:#1e293b;">Validación en 2 Pasos</h2>
       <p style="font-size:15px;color:#334155;">
@@ -46,7 +46,7 @@ const sendMailOTP = (userMail, otp) => {
 const sendMailResetPassword = (userMail, token) => {
   return sendMail(
     userMail,
-    "Restablece tu contraseña - Ecuatechnology",
+    "Restablece tu contraseña - Ecuatecnology",
     `
       <h2 style="color:#1e293b;">¿Olvidaste tu contraseña?</h2>
       <p style="font-size:15px;color:#334155;">

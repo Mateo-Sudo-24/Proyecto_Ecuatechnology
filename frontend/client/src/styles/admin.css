@@ -786,6 +786,58 @@
   align-items: center !important;
 }
 
+.tickets-summary {
+  background-color: #f8f9fa !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 1rem !important;
+  border: 1px solid #e9ecef !important;
+}
+
+.tickets-summary p {
+  margin: 0 !important;
+  color: #6c757d !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.no-results {
+  text-align: center !important;
+  padding: 3rem 2rem !important;
+  background-color: #f8f9fa !important;
+  border-radius: 0.75rem !important;
+  border: 1px solid #e9ecef !important;
+  margin-top: 1rem !important;
+}
+
+.no-results p {
+  color: #6c757d !important;
+  font-size: 1rem !important;
+  margin: 0 0 1.5rem 0 !important;
+  font-weight: 500 !important;
+}
+
+.clear-filters-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  background-color: var(--primary) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.clear-filters-button:hover {
+  background-color: #b8941f !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
 .tickets-table-container {
   background-color: var(--background) !important;
   border: 1px solid #E5E7EB !important;
@@ -2335,8 +2387,10 @@
 /* Información del ticket mejorada */
 .ticket-id {
   color: var(--primary) !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   font-family: monospace !important;
+  font-size: 1.5rem !important; /* Tamaño más grande para mejor visibilidad */
+  letter-spacing: 0.05em !important;
 }
 
 /* Estilos para los nuevos modales de operaciones */
@@ -2437,10 +2491,11 @@
 }
 
 .operations-card h3 {
-  color: #111827 !important;
-  font-size: 1.125rem !important;
-  font-weight: 600 !important;
+  color: #1F2937 !important;
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
   margin: 0 0 1rem 0 !important;
+  letter-spacing: -0.025em !important;
 }
 
 .operations-list {
@@ -2555,6 +2610,39 @@
   color: white !important;
 }
 
+.quick-action-button.diagnosis {
+  color: #7c3aed !important;
+  border-color: #7c3aed !important;
+  background-color: #f3e8ff !important;
+}
+
+.quick-action-button.diagnosis:hover:not(:disabled) {
+  background-color: #7c3aed !important;
+  color: white !important;
+}
+
+.quick-action-button.waiting {
+  color: #b45309 !important;
+  border-color: #b45309 !important;
+  background-color: #fef3c7 !important;
+}
+
+.quick-action-button.waiting:hover:not(:disabled) {
+  background-color: #b45309 !important;
+  color: white !important;
+}
+
+.quick-action-button.success {
+  color: #059669 !important;
+  border-color: #059669 !important;
+  background-color: #d1fae5 !important;
+}
+
+.quick-action-button.success:hover:not(:disabled) {
+  background-color: #059669 !important;
+  color: white !important;
+}
+
 .quick-action-button.secondary {
   color: #6b7280 !important;
   border-color: #6b7280 !important;
@@ -2604,10 +2692,11 @@
 
 .details-card h3,
 .actions-card h3 {
-  color: #111827 !important;
-  font-size: 0.875rem !important;
-  font-weight: 600 !important;
+  color: #1F2937 !important;
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
   margin: 0 0 1rem 0 !important;
+  letter-spacing: -0.025em !important;
 }
 
 .details-list {
@@ -2674,15 +2763,17 @@
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  padding: 1.25rem 1.5rem !important;
+  padding: 1.5rem 1.5rem !important;
   border-bottom: 1px solid #e5e7eb !important;
+  background-color: #f8f9fa !important;
 }
 
 .info-header h2 {
-  font-size: 1.125rem !important;
-  font-weight: 600 !important;
-  color: #111827 !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: #1F2937 !important;
   margin: 0 !important;
+  letter-spacing: -0.025em !important;
 }
 
 .edit-button {
@@ -2726,15 +2817,18 @@
 
 .info-field label {
   font-size: 0.875rem !important;
-  font-weight: 500 !important;
-  color: #6B7280 !important;
+  font-weight: 600 !important;
+  color: #4B5563 !important;
+  margin-bottom: 0.25rem !important;
+  display: block !important;
 }
 
 .info-field p {
-  font-size: 0.875rem !important;
-  color: #111827 !important;
-  line-height: 1.5 !important;
+  font-size: 0.9rem !important;
+  color: #1F2937 !important;
+  line-height: 1.6 !important;
   margin: 0 !important;
+  font-weight: 500 !important;
 }
 
 .info-right {

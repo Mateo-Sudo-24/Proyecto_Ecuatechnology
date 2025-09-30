@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Play, XSquare, UserPlus, Plus, FileText, Download } from 'lucide-react';
+import { Play, XSquare, Plus, FileText, Download, Search, Clock, CheckCircle } from 'lucide-react';
 import useTicketOperations from '../../hooks/useTicketOperations';
 import '../../styles/admin.css';
 
 const TicketDetails = ({ ticket, onBack }) => {
   const [currentTicket, setCurrentTicket] = useState(ticket);
-  const [showReassignModal, setShowReassignModal] = useState(false);
   const [showDiagnosisModal, setShowDiagnosisModal] = useState(false);
   const [showProformaModal, setShowProformaModal] = useState(false);
   const [diagnosisText, setDiagnosisText] = useState('');
@@ -40,7 +39,35 @@ const TicketDetails = ({ ticket, onBack }) => {
     }
   };
 
-  // Función para marcar ticket en progreso
+  // Función para marcar ticket en diagnóstico
+  const handleMarkDiagnosis = async () => {
+    try {
+      await updateStatus(currentTicket.id, 'En Diagnóstico');
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'En Diagnóstico'
+      }));
+      alert('Ticket marcado en diagnóstico exitosamente');
+    } catch (err) {
+      alert('Error al marcar ticket en diagnóstico: ' + err.message);
+    }
+  };
+
+  // Función para marcar ticket esperando aprobación
+  const handleMarkWaitingApproval = async () => {
+    try {
+      await updateStatus(currentTicket.id, 'Esperando Aprobación');
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'Esperando Aprobación'
+      }));
+      alert('Ticket marcado esperando aprobación exitosamente');
+    } catch (err) {
+      alert('Error al marcar ticket esperando aprobación: ' + err.message);
+    }
+  };
+
+  // Función para marcar ticket en reparación
   const handleMarkInProgress = async () => {
     try {
       await updateStatus(currentTicket.id, 'En Reparación');
@@ -51,6 +78,20 @@ const TicketDetails = ({ ticket, onBack }) => {
       alert('Ticket marcado en reparación exitosamente');
     } catch (err) {
       alert('Error al marcar ticket en reparación: ' + err.message);
+    }
+  };
+
+  // Función para marcar ticket completado
+  const handleMarkCompleted = async () => {
+    try {
+      await updateStatus(currentTicket.id, 'Completado');
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'Completado'
+      }));
+      alert('Ticket marcado como completado exitosamente');
+    } catch (err) {
+      alert('Error al marcar ticket como completado: ' + err.message);
     }
   };
 
@@ -68,20 +109,6 @@ const TicketDetails = ({ ticket, onBack }) => {
     }
   };
 
-  // Función para reasignar ticket
-  const handleReassignTicket = () => {
-    setShowReassignModal(true);
-  };
-
-  // Función para confirmar reasignación
-  const handleConfirmReassign = (newAssignee) => {
-    setCurrentTicket(prev => ({
-      ...prev,
-      assignedTo: newAssignee
-    }));
-    setShowReassignModal(false);
-    console.log('Ticket reasignado a:', newAssignee);
-  };
 
   // Función para mostrar modal de diagnóstico
   const handleShowDiagnosisModal = () => {
@@ -222,12 +249,36 @@ const TicketDetails = ({ ticket, onBack }) => {
             <h3>Acciones Rápidas</h3>
             <div className="actions-list">
               <button
+                className="quick-action-button diagnosis"
+                onClick={() => handleMarkDiagnosis()}
+                disabled={loading.status}
+              >
+                <Search size={16} />
+                {loading.status ? 'Procesando...' : 'Marcar en Diagnóstico'}
+              </button>
+              <button
+                className="quick-action-button waiting"
+                onClick={() => handleMarkWaitingApproval()}
+                disabled={loading.status}
+              >
+                <Clock size={16} />
+                {loading.status ? 'Procesando...' : 'Esperando Aprobación'}
+              </button>
+              <button
                 className="quick-action-button primary"
                 onClick={() => handleMarkInProgress()}
                 disabled={loading.status}
               >
                 <Play size={16} />
-                {loading.status ? 'Procesando...' : 'Marcar en Progreso'}
+                {loading.status ? 'Procesando...' : 'Marcar en Reparación'}
+              </button>
+              <button
+                className="quick-action-button success"
+                onClick={() => handleMarkCompleted()}
+                disabled={loading.status}
+              >
+                <CheckCircle size={16} />
+                {loading.status ? 'Procesando...' : 'Marcar Completado'}
               </button>
               <button
                 className="quick-action-button danger"
@@ -236,13 +287,6 @@ const TicketDetails = ({ ticket, onBack }) => {
               >
                 <XSquare size={16} />
                 {loading.status ? 'Procesando...' : 'Cerrar Ticket'}
-              </button>
-              <button
-                className="quick-action-button secondary"
-                onClick={() => handleReassignTicket()}
-              >
-                <UserPlus size={16} />
-                Reasignar Ticket
               </button>
             </div>
           </div>
@@ -297,44 +341,6 @@ const TicketDetails = ({ ticket, onBack }) => {
       </div>
 
 
-      {/* Modal de Reasignación */}
-      {showReassignModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Reasignar Ticket</h2>
-            </div>
-            <div className="modal-body">
-              <p className="modal-description">
-                Selecciona el área a la que deseas reasignar este ticket:
-              </p>
-              <div className="assignee-options">
-                <button
-                  className="assignee-option"
-                  onClick={() => handleConfirmReassign('Soporte Técnico')}
-                >
-                  Soporte Técnico
-                </button>
-                <button
-                  className="assignee-option"
-                  onClick={() => handleConfirmReassign('Ventas')}
-                >
-                  Ventas
-                </button>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="modal-cancel-button"
-                onClick={() => setShowReassignModal(false)}
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Modal de Diagnóstico */}
       {showDiagnosisModal && (
