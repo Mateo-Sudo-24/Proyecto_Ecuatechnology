@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, Eye, Pencil, Download, FileSpreadsheet, FileText, ArrowLeft } from 'lucide-react';
+import { Search, Eye, Pencil, Download, FileSpreadsheet, FileText, ArrowLeft, RefreshCw } from 'lucide-react';
 import TicketModal from './TicketModal';
 import TicketDetails from './TicketDetails';
+import useFetchAdminTickets from '../../hooks/useFetchAdminTickets';
 import '../../styles/admin.css';
 
 const AdminTickets = () => {
+  // Usar el hook para obtener tickets del backend
+  const { tickets: ticketsFromBackend, loading, error, fetchTickets } = useFetchAdminTickets();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('Todos los estados');
   const [dateFilter, setDateFilter] = useState('');
   const [showDownloadOptions, setShowDownloadOptions] = useState(null);
-  const [isNewTicketModalOpen, setIsNewTicketModalOpen] = useState(false);
-  const [editingTicket, setEditingTicket] = useState(null);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
   useEffect(() => {
@@ -26,44 +28,47 @@ const AdminTickets = () => {
     };
   }, [showDownloadOptions]);
 
-  const tickets = [
-    {
-      id: 1,
-      number: "#1",
-      title: "Error en sistema de facturación",
-      description: "El sistema no permite generar facturas desde el módulo de ventas",
-      client: "Juan Pérez - Tech Solutions S.A.",
-      status: "abierto",
-      priority: "alta",
-      assignedTo: "Soporte Técnico",
-      category: "Software",
-      date: "2024-03-13"
-    },
-    {
-      id: 2,
-      number: "#2",
-      title: "Cotización contrato de mantenimiento",
-      description: "Solicitud de propuesta para contrato anual de mantenimiento",
-      client: "María González - Innovate Corp",
-      status: "en progreso",
-      priority: "media",
-      assignedTo: "Ventas",
-      category: "Contratos Empresariales",
-      date: "2024-03-10"
-    },
-    {
-      id: 3,
-      number: "#3",
-      title: "Solicitud de repuestos para impresora",
-      description: "Necesitamos cartuchos de tinta para la impresora HP modelo...",
-      client: "Carlos Rodríguez - Digital Plus",
-      status: "cerrado",
-      priority: "baja",
-      assignedTo: "Ventas",
-      category: "Repuestos y Accesorios",
-      date: "2024-03-05"
-    }
-  ];
+  // Función para mapear datos del backend al formato de la interfaz
+  const mapTicketForDisplay = (backendTicket) => {
+    // Función para convertir el estado del backend al formato de clase CSS
+    const formatStatusForCSS = (estado) => {
+      switch(estado.toLowerCase()) {
+        case 'ingresado':
+          return 'ingresado';
+        case 'en diagnóstico':
+        case 'en-diagnostico':
+          return 'en-diagnostico';
+        case 'esperando aprobación':
+        case 'esperando-aprobacion':
+          return 'esperando-aprobacion';
+        case 'en reparación':
+        case 'en-reparacion':
+          return 'en-reparacion';
+        case 'completado':
+          return 'completado';
+        case 'cerrado':
+          return 'cerrado';
+        default:
+          return 'ingresado';
+      }
+    };
+
+    return {
+      id: backendTicket.id,
+      number: `#${backendTicket.id}`,
+      title: backendTicket.descripcion,
+      description: "Descripción del ticket desde el backend",
+      client: `${backendTicket.cliente.nombre} - ${backendTicket.cliente.email}`,
+      status: backendTicket.estado.toLowerCase(),
+      statusClass: formatStatusForCSS(backendTicket.estado),
+      date: new Date(backendTicket.createdAt).toISOString().split('T')[0]
+    };
+  };
+
+  // Usar datos del backend o datos mock si hay error
+  const tickets = ticketsFromBackend.length > 0
+    ? ticketsFromBackend.map(mapTicketForDisplay)
+    : [];
 
   const filteredTickets = tickets.filter(ticket => {
     const matchesSearch = 
@@ -77,64 +82,57 @@ const AdminTickets = () => {
     return matchesSearch && matchesStatus && matchesDate;
   });
 
-  const handleDownload = (format, ticket) => {
+  const handleDownload = async (format, ticket) => {
     setShowDownloadOptions(null);
-    console.log(`Descargando ticket #${ticket.number} en formato ${format}`);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert('No hay token de autenticación válido');
+        return;
+      }
+
+      if (format === 'pdf') {
+        // Descargar el ticket como HTML (que se puede guardar como PDF)
+        const response = await fetch(`http://localhost:3000/api/admin/tickets/${ticket.id}/download`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Error al descargar el ticket');
+        }
+
+        const htmlContent = await response.text();
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ticket_${ticket.number}.html`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+
+        console.log(`Ticket #${ticket.number} descargado exitosamente`);
+      } else if (format === 'excel') {
+        // Para Excel, por ahora solo mostramos un mensaje
+        // En una implementación completa, crearíamos un endpoint que genere Excel
+        alert('La descarga en formato Excel estará disponible próximamente');
+      }
+    } catch (error) {
+      console.error('Error al descargar:', error);
+      alert('Error al descargar el ticket: ' + error.message);
+    }
   };
 
-  const handleNewTicket = () => {
-    setIsNewTicketModalOpen(true);
-  };
-
-  const handleEditTicket = (ticket) => {
-    setEditingTicket(ticket);
-  };
-
-  const handleSubmitNewTicket = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const newTicket = {
-      id: tickets.length + 1,
-      number: `#${tickets.length + 1}`,
-      title: formData.get('title'),
-      description: formData.get('description'),
-      client: formData.get('client'),
-      status: 'abierto',
-      priority: formData.get('priority'),
-      assignedTo: formData.get('assignedTo'),
-      category: formData.get('category'),
-      date: new Date().toISOString().split('T')[0]
-    };
-    
-    console.log('Nuevo ticket:', newTicket);
-    setIsNewTicketModalOpen(false);
-  };
-
-  const handleSubmitEditTicket = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const updatedTicket = {
-      ...editingTicket,
-      title: formData.get('title'),
-      description: formData.get('description'),
-      client: formData.get('client'),
-      status: formData.get('status'),
-      priority: formData.get('priority'),
-      assignedTo: formData.get('assignedTo'),
-      category: formData.get('category')
-    };
-    
-    console.log('Ticket actualizado:', updatedTicket);
-    setEditingTicket(null);
-  };
 
   if (selectedTicket) {
     return (
       <div className="admin-tickets-section">
         <div className="tickets-header">
-          <button className="back-button" onClick={() => setSelectedTicket(null)}>
-            <ArrowLeft size={20} />
-            Volver a Tickets
+          <button className="back-link" onClick={() => setSelectedTicket(null)}>
+            ← Volver a Tickets
           </button>
           <h1>Detalle del Ticket</h1>
         </div>
@@ -148,6 +146,22 @@ const AdminTickets = () => {
       <div className="tickets-header">
         <h1>Tickets de Soporte</h1>
       </div>
+
+      {/* Mostrar estados de carga y error */}
+      {loading && (
+        <div className="loading-message">
+          <p>Cargando tickets...</p>
+        </div>
+      )}
+
+      {error && (
+        <div className="error-message">
+          <p>Error: {error}</p>
+          <button onClick={fetchTickets} className="retry-button">
+            Reintentar
+          </button>
+        </div>
+      )}
 
       <div className="tickets-controls">
         <div className="search-filter-group">
@@ -179,9 +193,13 @@ const AdminTickets = () => {
           />
         </div>
         <div className="tickets-actions">
-          <button className="new-ticket-button" onClick={handleNewTicket}>
-            <Plus size={20} />
-            Nuevo Ticket
+          <button
+            onClick={fetchTickets}
+            className="refresh-button"
+            title="Actualizar Tickets"
+          >
+            <RefreshCw size={16} />
+            Actualizar
           </button>
         </div>
       </div>
@@ -193,8 +211,6 @@ const AdminTickets = () => {
               <th>Ticket</th>
               <th>Cliente</th>
               <th>Estado</th>
-              <th>Prioridad</th>
-              <th>Asignado</th>
               <th>Fecha</th>
               <th>Acciones</th>
             </tr>
@@ -211,35 +227,22 @@ const AdminTickets = () => {
                 </td>
                 <td>{ticket.client}</td>
                 <td>
-                  <span className={`status-badge ${ticket.status.replace(' ', '-')}`}>
+                  <span className={`status-badge ${ticket.statusClass}`}>
                     {ticket.status}
                   </span>
                 </td>
-                <td>
-                  <span className={`priority-badge ${ticket.priority}`}>
-                    {ticket.priority}
-                  </span>
-                </td>
-                <td>{ticket.assignedTo}</td>
                 <td>{ticket.date}</td>
                 <td>
                   <div className="ticket-actions">
-                    <button 
-                      className="action-button view" 
+                    <button
+                      className="action-button view"
                       title="Ver detalles"
                       onClick={() => setSelectedTicket(ticket)}
                     >
                       <Eye size={20} />
                     </button>
-                    <button 
-                      className="action-button edit" 
-                      title="Editar ticket"
-                      onClick={() => handleEditTicket(ticket)}
-                    >
-                      <Pencil size={20} />
-                    </button>
                     <div className="download-container">
-                      <button 
+                      <button
                         className="action-button download"
                         title="Descargar ticket"
                         onClick={() => setShowDownloadOptions(ticket.id)}
@@ -267,20 +270,6 @@ const AdminTickets = () => {
         </table>
       </div>
 
-      <TicketModal
-        isOpen={isNewTicketModalOpen}
-        onClose={() => setIsNewTicketModalOpen(false)}
-        title="Nuevo Ticket"
-        onSubmit={handleSubmitNewTicket}
-      />
-
-      <TicketModal
-        isOpen={editingTicket !== null}
-        onClose={() => setEditingTicket(null)}
-        title={`Editar Ticket ${editingTicket?.number}`}
-        ticket={editingTicket}
-        onSubmit={handleSubmitEditTicket}
-      />
     </div>
   );
 };

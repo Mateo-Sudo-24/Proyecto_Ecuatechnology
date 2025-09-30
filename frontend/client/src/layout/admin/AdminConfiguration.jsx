@@ -9,7 +9,7 @@ const AdminConfiguration = () => {
 
   const [companyInfo, setCompanyInfo] = useState({
     name: 'Ecuatechnology S.A.',
-    phone: '+593 99 123 4567',
+    phone: '099 123 4567',
     email: 'admin@ecuatechnology.com',
     address: 'Quito, Ecuador'
   });

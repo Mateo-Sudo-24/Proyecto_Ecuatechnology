@@ -484,22 +484,54 @@
   line-height: 1 !important;
 }
 
-.status-badge.abierto {
-  background-color: #FEE2E2 !important;
-  color: #991B1B !important;
-  border-color: #FECACA !important;
+/* Estados de Tickets con Diseño Semántico Mejorado */
+
+/* Estado Inicial - Azul (Nuevo) */
+.status-badge.ingresado {
+  background-color: #E3F2FD !important;
+  color: #1976D2 !important;
+  border-color: #BBDEFB !important;
 }
 
-.status-badge.en-progreso {
-  background-color: #FEF3C7 !important;
-  color: #92400E !important;
-  border-color: #FDE68A !important;
+/* Estado de Análisis - Amarillo (En Proceso) */
+.status-badge.en-diagnostico {
+  background-color: #FFF3E0 !important;
+  color: #F57C00 !important;
+  border-color: #FFE0B2 !important;
+}
+
+/* Estado de Espera - Púrpura (Espera Cliente) */
+.status-badge.esperando-aprobacion {
+  background-color: #E8EAF6 !important;
+  color: #5E35B1 !important;
+  border-color: #C5CAE9 !important;
+}
+
+/* Estado de Trabajo - Naranja (Trabajo Activo) */
+.status-badge.en-reparacion {
+  background-color: #FFF8E1 !important;
+  color: #EF6C00 !important;
+  border-color: #FFECB3 !important;
+}
+
+/* Estado Exitoso - Verde (Completado) */
+.status-badge.completado {
+  background-color: #E8F5E8 !important;
+  color: #2E7D32 !important;
+  border-color: #C8E6C9 !important;
+}
+
+/* Estado Final - Rojo (Cerrado) */
+.status-badge.cerrado {
+  background-color: #DC2626 !important;
+  color: white !important;
+  border-color: #DC2626 !important;
 }
 
 .status-badge.cerrado {
-  background-color: #D1FAE5 !important;
-  color: #065F46 !important;
-  border-color: #A7F3D0 !important;
+  background-color: #DC2626 !important;
+  color: white !important;
+  border-color: #DC2626 !important;
 }
 
 /* Badges de prioridad */
@@ -1410,6 +1442,50 @@
     font-size: 0.75rem !important;
   }
 
+  /* Diseño responsivo para TicketDetails */
+  .ticket-main-info {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .operations-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .quick-actions-section {
+    order: -1 !important;
+  }
+
+  .ticket-details-container {
+    padding: 1rem !important;
+  }
+
+  .operations-card,
+  .details-card {
+    padding: 1rem !important;
+  }
+
+  .operation-button,
+  .quick-action-button {
+    padding: 0.625rem 0.875rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .ticket-main-info {
+    grid-template-columns: 1fr !important;
+  }
+
+  .info-content {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .details-row {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
   .admin-services-count {
     font-size: 0.7rem !important;
     padding: 0.2rem 0.4rem !important;
@@ -1627,7 +1703,7 @@
   align-items: center !important;
   gap: 0.5rem !important;
   padding: 0.75rem 1rem !important;
-  background-color: var(--secondary) !important;
+  background-color: var(--primary) !important;
   color: var(--background) !important;
   border: none !important;
   border-radius: 0.5rem !important;
@@ -1638,7 +1714,9 @@
 }
 
 .refresh-button:hover {
-  background-color: #2c3e8f !important;
+  background-color: #b8941f !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .date-input:focus {
@@ -2247,11 +2325,255 @@
   font-size: 0.875rem !important;
 }
 
-/* Estilos específicos para TicketDetails */
+/* Estilos específicos para TicketDetails - Nuevo Diseño Mejorado */
 .ticket-details-container {
   padding: 2rem !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
 }
 
+/* Información del ticket mejorada */
+.ticket-id {
+  color: var(--primary) !important;
+  font-weight: 600 !important;
+  font-family: monospace !important;
+}
+
+/* Estilos para los nuevos modales de operaciones */
+.modal-submit-button {
+  background-color: var(--primary) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.modal-submit-button:hover:not(:disabled) {
+  background-color: #b8941f !important;
+}
+
+.modal-submit-button:disabled {
+  background-color: #D1D5DB !important;
+  cursor: not-allowed !important;
+}
+
+.form-textarea {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  color: var(--neutral) !important;
+  background-color: white !important;
+  resize: vertical !important;
+  font-family: inherit !important;
+  min-height: 100px !important;
+}
+
+.form-textarea:focus {
+  outline: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1) !important;
+}
+
+.form-input {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  color: var(--neutral) !important;
+  background-color: white !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.form-input:focus {
+  outline: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1) !important;
+}
+
+.form-input::placeholder {
+  color: #9CA3AF !important;
+}
+
+/* Información Principal del Ticket */
+.ticket-main-info {
+  display: grid !important;
+  grid-template-columns: 2fr 1fr !important;
+  gap: 2rem !important;
+  margin-bottom: 2rem !important;
+  align-items: start !important;
+}
+
+/* Sección de Acciones Rápidas */
+.quick-actions-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.5rem !important;
+}
+
+/* Sección de Operaciones */
+.ticket-operations-section {
+  margin-bottom: 2rem !important;
+}
+
+.operations-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 2rem !important;
+}
+
+.operations-card {
+  background: white !important;
+  border-radius: 0.75rem !important;
+  border: 1px solid #e5e7eb !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.operations-card h3 {
+  color: #111827 !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  margin: 0 0 1rem 0 !important;
+}
+
+.operations-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+}
+
+.operation-button {
+  width: 100% !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  text-align: left !important;
+  border: 1px solid #e5e7eb !important;
+  background: white !important;
+  color: #374151 !important;
+}
+
+.operation-button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.operation-button.diagnosis {
+  color: #7c3aed !important;
+  border-color: #7c3aed !important;
+  background-color: #f3e8ff !important;
+}
+
+.operation-button.diagnosis:hover {
+  background-color: #7c3aed !important;
+  color: white !important;
+}
+
+.operation-button.proforma {
+  color: #059669 !important;
+  border-color: #059669 !important;
+  background-color: #d1fae5 !important;
+}
+
+.operation-button.proforma:hover {
+  background-color: #059669 !important;
+  color: white !important;
+}
+
+.operation-button.download {
+  color: #dc2626 !important;
+  border-color: #dc2626 !important;
+  background-color: #fee2e2 !important;
+}
+
+.operation-button.download:hover {
+  background-color: #dc2626 !important;
+  color: white !important;
+}
+
+/* Sección de Detalles */
+.ticket-details-section {
+  margin-bottom: 2rem !important;
+}
+
+/* Botones de Acciones Rápidas con Estilos Mejorados */
+.quick-action-button {
+  width: 100% !important;
+  padding: 0.875rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  text-align: left !important;
+  border: 1px solid #e5e7eb !important;
+  background: white !important;
+  color: #374151 !important;
+  min-height: 44px !important;
+}
+
+.quick-action-button:hover:not(:disabled) {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.quick-action-button.primary {
+  color: #2563eb !important;
+  border-color: #2563eb !important;
+  background-color: #eff6ff !important;
+}
+
+.quick-action-button.primary:hover:not(:disabled) {
+  background-color: #2563eb !important;
+  color: white !important;
+}
+
+.quick-action-button.danger {
+  color: #dc2626 !important;
+  border-color: #dc2626 !important;
+  background-color: #fee2e2 !important;
+}
+
+.quick-action-button.danger:hover:not(:disabled) {
+  background-color: #dc2626 !important;
+  color: white !important;
+}
+
+.quick-action-button.secondary {
+  color: #6b7280 !important;
+  border-color: #6b7280 !important;
+  background-color: #f9fafb !important;
+}
+
+.quick-action-button.secondary:hover:not(:disabled) {
+  background-color: #6b7280 !important;
+  color: white !important;
+}
+
+.quick-action-button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Layout antiguo (mantenido para compatibilidad) */
 .details-layout {
   display: grid !important;
   grid-template-columns: 2fr 1fr !important;
@@ -2440,8 +2762,8 @@
 }
 
 .status-badge.cerrado {
-  background-color: #DCFCE7 !important;
-  color: #166534 !important;
+  background-color: #DC2626 !important;
+  color: white !important;
 }
 
 .status-badge.abierto {

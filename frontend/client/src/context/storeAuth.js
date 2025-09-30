@@ -15,15 +15,15 @@ const useAuthStore = create((set) => ({
   },
 
   // Inicializar store desde localStorage
-  initializeUser: () => {
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-    const email = localStorage.getItem("email");
+   initializeUser: () => {
+     const token = localStorage.getItem("token");
+     const role = localStorage.getItem("role");
+     const email = localStorage.getItem("email");
 
-    if (token && role && email) {
-      set({ token, role, email });
-    }
-  },
+     if (token && role && email) {
+       set({ token, role, email });
+     }
+   },
 
   // Cerrar sesión
   logout: () => {
