@@ -66,14 +66,14 @@ function Home() {
           <img
             src="/images/tecnico.jpg"
             alt="Técnico trabajando"
-            className="rounded-lg shadow-2xl w-[700px] h-[450px] object-cover"
+            className="rounded-lg shadow-2xl w-[600px] h-[380px] object-cover"
           />
           <div
-            className="absolute -bottom-6 -left-6 p-6 rounded-lg shadow-lg"
+            className="absolute -bottom-3 -left-3 p-3 rounded-lg shadow-lg"
             style={{ backgroundColor: "var(--accent)", color: "var(--background)" }}
           >
-            <div className="text-2xl font-bold drop-shadow-lg">Garantía</div>
-            <div className="text-sm font-body">En todos nuestros servicios</div>
+            <div className="text-lg font-bold drop-shadow-lg">Garantía</div>
+            <div className="text-xs font-body">En todos nuestros servicios</div>
           </div>
         </div>
       </div>
@@ -182,7 +182,7 @@ function Home() {
       </div>
 
       {/* Sección sobre nosotros */}
-      <div className="container mx-auto px-4" id="nosotros">
+      <div className="container mx-auto px-4 mt-32" id="nosotros">
         <div className="grid lg:grid-cols-2 gap-16 items-center" style={{ color: "var(--neutral)" }}>
           <div>
             <h2 className="text-3xl lg:text-5xl font-bold text-neutral mb-8">Sobre Ecuatecnology</h2>
@@ -234,7 +234,7 @@ function Home() {
             <img
               src="/images/oficinas.jpg"
               alt="Oficinas modernas de Ecuatecnology"
-              className="rounded-lg shadow-lg w-[700px] h-[400px] object-cover mx-auto"
+              className="rounded-lg shadow-lg w-[600px] h-[350px] object-cover mx-auto"
             />
             <div className="grid grid-cols-2 gap-6">
               <div
