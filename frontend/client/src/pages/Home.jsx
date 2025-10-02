@@ -94,7 +94,7 @@ function Home() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" >
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20" >
           
           {[
             {
@@ -182,7 +182,7 @@ function Home() {
       </div>
 
       {/* Sección sobre nosotros */}
-      <div className="container mx-auto px-4 mt-48" id="nosotros">
+      <div className="container mx-auto px-4 mt-64" id="nosotros">
         <div className="grid lg:grid-cols-2 gap-16 items-center" style={{ color: "var(--neutral)" }}>
           <div>
             <h2 className="text-3xl lg:text-5xl font-bold text-neutral mb-8">Sobre Ecuatecnology</h2>
@@ -234,7 +234,7 @@ function Home() {
             <img
               src="/images/oficinas.jpg"
               alt="Oficinas modernas de Ecuatecnology"
-              className="rounded-lg shadow-lg w-[500px] h-[300px] object-cover mx-auto"
+              className="rounded-lg shadow-lg w-[450px] h-[280px] object-cover mx-auto"
             />
             <div className="grid grid-cols-2 gap-6">
               <div
