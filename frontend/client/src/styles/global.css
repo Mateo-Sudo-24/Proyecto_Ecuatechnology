@@ -162,10 +162,21 @@ a:hover {
 .text-secondary { color: var(--secondary); }
 .text-accent { color: var(--accent); }
 .text-neutral { color: var(--neutral); }
+.text-white { color: white; }
 .text-success { color: var(--success); }
 .text-warning { color: var(--warning); }
 .text-error { color: var(--error); }
 .text-info { color: var(--info); }
+
+.hover\:text-primary:hover { color: var(--primary); }
+.hover\:text-secondary:hover { color: var(--secondary); }
+.hover\:text-accent:hover { color: var(--accent); }
+.hover\:text-neutral:hover { color: var(--neutral); }
+.hover\:text-white:hover { color: white; }
+.hover\:text-success:hover { color: var(--success); }
+.hover\:text-warning:hover { color: var(--warning); }
+.hover\:text-error:hover { color: var(--error); }
+.hover\:text-info:hover { color: var(--info); }
 
 .bg-primary { background-color: var(--primary); }
 .bg-secondary { background-color: var(--secondary); }
