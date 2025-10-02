@@ -261,13 +261,6 @@ const AdminConfiguration = () => {
           </div>
         </div>
 
-        {/* Botón de Guardar */}
-        <div className="save-section">
-          <button className="save-button" onClick={handleSaveConfiguration}>
-            <Save size={20} />
-            Guardar Configuración
-          </button>
-        </div>
       </div>
 
       {/* Modal para cambiar contraseña */}

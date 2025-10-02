@@ -12,9 +12,9 @@ const Header = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <header className=" z-50 font-sans sticky top-0">
+    <header className="z-50 font-sans">
       {/* Barra superior */}
-      <section className="bg-neutral text-white px-8 py-2 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+      <section className="bg-neutral text-white px-8 py-2 flex justify-between items-center">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-2">
             <Phone size={16} />
@@ -32,7 +32,7 @@ const Header = () => {
       </section>
 
       {/* Menú principal */}
-      <section className="fixed top-10 left-0 right-0 z-40 bg-background px-6 py-4 flex justify-between items-center shadow-md">
+      <section className="bg-background px-6 py-4 flex justify-between items-center shadow-md">
         {/* Logo */}
         <div className="flex items-center">
           <img src="/images/logo.jpg" alt="Logo" className="h-12 w-auto object-contain" />

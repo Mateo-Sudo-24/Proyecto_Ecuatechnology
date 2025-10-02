@@ -1,0 +1,114 @@
+/* admin-variables.css - Variables específicas para componentes de administración */
+
+/* Variables de diseño específicas para admin */
+:root {
+  /* Dimensiones específicas del layout admin */
+  --admin-sidebar-width: 280px;
+  --admin-header-height: 80px;
+  --admin-border-radius: 0.75rem;
+  --admin-border-radius-sm: 0.5rem;
+  --admin-border-radius-xs: 0.375rem;
+
+  /* Espaciados específicos para admin */
+  --admin-spacing-xs: 0.25rem;
+  --admin-spacing-sm: 0.5rem;
+  --admin-spacing-md: 0.75rem;
+  --admin-spacing-lg: 1rem;
+  --admin-spacing-xl: 1.5rem;
+  --admin-spacing-2xl: 2rem;
+  --admin-spacing-3xl: 3rem;
+
+  /* Colores específicos para estados de tickets */
+  --admin-ticket-status-new: #E3F2FD;
+  --admin-ticket-status-new-text: #1976D2;
+  --admin-ticket-status-diagnosis: #FFF3E0;
+  --admin-ticket-status-diagnosis-text: #F57C00;
+  --admin-ticket-status-waiting: #E8EAF6;
+  --admin-ticket-status-waiting-text: #5E35B1;
+  --admin-ticket-status-repair: #FFF8E1;
+  --admin-ticket-status-repair-text: #EF6C00;
+  --admin-ticket-status-completed: #E8F5E8;
+  --admin-ticket-status-completed-text: #2E7D32;
+  --admin-ticket-status-closed: #DC2626;
+  --admin-ticket-status-closed-text: #FFFFFF;
+
+  /* Colores específicos para prioridades */
+  --admin-priority-high: #FEE2E2;
+  --admin-priority-high-text: #991B1B;
+  --admin-priority-medium: #FEF3C7;
+  --admin-priority-medium-text: #92400E;
+  --admin-priority-low: #D1FAE5;
+  --admin-priority-low-text: #065F46;
+
+  /* Colores específicos para acciones */
+  --admin-action-view: #2563eb;
+  --admin-action-view-bg: #eff6ff;
+  --admin-action-edit: #d97706;
+  --admin-action-edit-bg: #fef3c7;
+  --admin-action-delete: #dc2626;
+  --admin-action-delete-bg: #fee2e2;
+  --admin-action-download: #059669;
+  --admin-action-download-bg: #d1fae5;
+
+  /* Colores específicos para badges de estado */
+  --admin-badge-create: #D1FAE5;
+  --admin-badge-create-text: #065F46;
+  --admin-badge-edit: #DBEAFE;
+  --admin-badge-edit-text: #1E40AF;
+  --admin-badge-delete: #FEE2E2;
+  --admin-badge-delete-text: #991B1B;
+  --admin-badge-update: #FEF3C7;
+  --admin-badge-update-text: #92400E;
+
+  /* Colores específicos para formularios admin */
+  --admin-form-bg: var(--background);
+  --admin-form-border: #e9ecef;
+  --admin-form-shadow: rgba(0, 0, 0, 0.1);
+  --admin-input-bg: #FFF5E6;
+  --admin-input-border: #e9ecef;
+  --admin-input-focus-border: var(--primary);
+  --admin-input-focus-shadow: rgba(212, 175, 55, 0.1);
+
+  /* Colores específicos para tablas admin */
+  --admin-table-header-bg: #f8f9fa;
+  --admin-table-border: #e9ecef;
+  --admin-table-hover-bg: #f8f9fa;
+  --admin-table-striped-bg: #f8f9fa;
+
+  /* Colores específicos para navegación admin */
+  --admin-nav-bg: #f8f9fa;
+  --admin-nav-border: #e9ecef;
+  --admin-nav-item-hover: #e9ecef;
+  --admin-nav-item-active: var(--primary);
+  --admin-nav-item-active-text: var(--background);
+
+  /* Sombras específicas para admin */
+  --admin-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --admin-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --admin-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* Transiciones específicas para admin */
+  --admin-transition-fast: 0.2s ease;
+  --admin-transition-normal: 0.3s ease;
+  --admin-transition-slow: 0.5s ease;
+
+  /* Z-index específicos para admin */
+  --admin-z-dropdown: 1000;
+  --admin-z-modal: 1000;
+  --admin-z-tooltip: 10;
+}
+
+/* Variables para colores semánticos específicos de admin */
+.admin-color-success { color: #28a745; }
+.admin-color-warning { color: #ffc107; }
+.admin-color-danger { color: var(--accent); }
+.admin-color-info { color: #17a2b8; }
+.admin-color-secondary { color: #6c757d; }
+
+/* Variables para fondos semánticos específicos de admin */
+.admin-bg-success { background-color: #d4edda; }
+.admin-bg-warning { background-color: #fff3cd; }
+.admin-bg-danger { background-color: #f8d7da; }
+.admin-bg-info { background-color: #d1ecf1; }
+.admin-bg-light { background-color: #f8f9fa; }
+.admin-bg-dark { background-color: #343a40; }

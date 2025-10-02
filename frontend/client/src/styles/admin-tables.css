@@ -1,0 +1,514 @@
+/* admin-tables.css - Tablas específicas para administración */
+
+/* Contenedor de tablas admin */
+.admin-table-container {
+  background-color: var(--admin-form-bg);
+  border: 1px solid var(--admin-form-border);
+  border-radius: var(--admin-border-radius);
+  overflow: hidden;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.admin-table th {
+  background-color: var(--admin-table-header-bg);
+  padding: var(--admin-spacing-md);
+  text-align: left;
+  font-weight: 600;
+  color: var(--neutral);
+  border-bottom: 2px solid var(--admin-table-border);
+}
+
+.admin-table td {
+  padding: var(--admin-spacing-md);
+  border-bottom: 1px solid var(--admin-table-border);
+  color: var(--neutral);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr {
+  transition: var(--admin-transition-fast);
+}
+
+.admin-table tbody tr:hover {
+  background-color: var(--admin-table-hover-bg);
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Tabla específica para tickets */
+.tickets-table-container {
+  background-color: var(--admin-form-bg);
+  border: 1px solid #E5E7EB;
+  border-radius: var(--admin-border-radius);
+  overflow: hidden;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.tickets-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.tickets-table th {
+  background-color: #F8F9FA;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--neutral);
+  border-bottom: 2px solid #E5E7EB;
+  font-size: 0.875rem;
+}
+
+.tickets-table td {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #E5E7EB;
+  color: var(--neutral);
+  vertical-align: middle;
+}
+
+/* Tabla específica para clientes */
+.admin-clients-table-container {
+  background-color: var(--admin-form-bg);
+  border: 1px solid var(--admin-form-border);
+  border-radius: var(--admin-border-radius);
+  overflow: hidden;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.admin-clients-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.admin-clients-table thead {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid var(--admin-form-border);
+}
+
+.admin-clients-table th {
+  padding: var(--admin-spacing-md);
+  text-align: left;
+  font-weight: 600;
+  color: var(--neutral);
+  font-size: 0.875rem;
+}
+
+.admin-clients-table tbody tr {
+  border-bottom: 1px solid var(--admin-form-border);
+  transition: var(--admin-transition-fast);
+}
+
+.admin-clients-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.admin-clients-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin-clients-table td {
+  padding: var(--admin-spacing-md);
+  vertical-align: middle;
+}
+
+/* Estilos específicos de las columnas para clientes */
+.admin-client-name {
+  font-weight: 600;
+  color: var(--neutral);
+}
+
+.admin-client-company {
+  color: var(--neutral);
+}
+
+.admin-client-email {
+  color: var(--secondary);
+  font-family: monospace;
+}
+
+.admin-client-phone {
+  color: var(--neutral);
+}
+
+.admin-client-services {
+  text-align: center;
+}
+
+.admin-services-count {
+  display: inline-block;
+  background-color: #d4af37;
+  color: var(--background);
+  padding: var(--admin-spacing-xs) var(--admin-spacing-sm);
+  border-radius: var(--admin-border-radius-xs);
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.admin-client-actions {
+  display: flex;
+  gap: var(--admin-spacing-sm);
+  justify-content: center;
+}
+
+/* Tabla específica para historial de cambios */
+.history-table-container {
+  background: white;
+  border-radius: var(--admin-border-radius);
+  border: 1px solid #E5E7EB;
+  overflow: hidden;
+  box-shadow: var(--admin-shadow-sm);
+  width: 100%;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.history-table th {
+  background-color: #F8F9FA;
+  padding: var(--admin-spacing-md);
+  text-align: left;
+  font-weight: 600;
+  color: var(--neutral);
+  border-bottom: 2px solid #E5E7EB;
+  font-size: 0.875rem;
+}
+
+.history-table td {
+  padding: var(--admin-spacing-md);
+  border-bottom: 1px solid #E5E7EB;
+  color: var(--neutral);
+  vertical-align: middle;
+}
+
+.history-table tbody tr {
+  transition: var(--admin-transition-fast);
+}
+
+.history-table tbody tr:hover {
+  background-color: #F8F9FA;
+}
+
+.history-table tr:last-child td {
+  border-bottom: none;
+}
+
+.change-id {
+  color: var(--primary);
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.change-user {
+  font-family: monospace;
+  color: var(--secondary);
+}
+
+.change-date {
+  font-family: monospace;
+  color: #6B7280;
+}
+
+.change-details {
+  color: var(--neutral);
+}
+
+.module-badge {
+  display: inline-block;
+  padding: var(--admin-spacing-xs) var(--admin-spacing-lg);
+  background-color: #E5E7EB;
+  color: #374151;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.action-badge {
+  display: inline-block;
+  padding: var(--admin-spacing-xs) var(--admin-spacing-lg);
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.action-badge.create {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.action-badge.edit {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+}
+
+.action-badge.delete {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+.action-badge.update {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+/* Filtros para tablas */
+.filters-section {
+  background: white;
+  border-radius: var(--admin-border-radius);
+  border: 1px solid #E5E7EB;
+  padding: var(--admin-spacing-xl);
+  margin-bottom: var(--admin-spacing-2xl);
+  box-shadow: var(--admin-shadow-sm);
+  width: 100%;
+}
+
+.filters-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--neutral);
+  margin: 0 0 var(--admin-spacing-md) 0;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  gap: var(--admin-spacing-md);
+  align-items: center;
+}
+
+.filter-select {
+  padding: var(--admin-spacing-lg) 2rem var(--admin-spacing-lg) var(--admin-spacing-lg);
+  border: 1px solid #E5E7EB;
+  border-radius: var(--admin-border-radius-sm);
+  font-size: 0.875rem;
+  color: var(--neutral);
+  background-color: white;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
+}
+
+.date-input {
+  padding: var(--admin-spacing-lg) var(--admin-spacing-lg) var(--admin-spacing-lg) 2.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: var(--admin-border-radius-sm);
+  font-size: 0.875rem;
+  color: var(--neutral);
+  background-color: var(--background);
+  width: 100%;
+  cursor: pointer;
+  transition: var(--admin-transition-fast);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M8 2v4m8-4v4M3 10h18M3 6h18v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6z'/%3e%3cpath d='M8 14l2 2 4-4'/%3e%3c/svg%3e");
+  background-position: 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  position: relative;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.refresh-button {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-spacing-sm);
+  padding: var(--admin-spacing-lg) var(--admin-spacing-md);
+  background-color: var(--primary);
+  color: var(--background);
+  border: none;
+  border-radius: var(--admin-border-radius-sm);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: var(--admin-transition-fast);
+}
+
+.refresh-button:hover {
+  background-color: #b8941f;
+  transform: translateY(-1px);
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.date-input::placeholder {
+  color: #9CA3AF;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+}
+
+.date-range-group {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-spacing-sm);
+}
+
+.date-separator {
+  font-size: 0.875rem;
+  color: #6B7280;
+  white-space: nowrap;
+}
+
+/* Responsive para tablas */
+@media (max-width: 1024px) {
+  .filters-grid {
+    grid-template-columns: 1fr;
+    gap: var(--admin-spacing-md);
+  }
+
+  .date-range-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--admin-spacing-sm);
+  }
+
+  .date-separator {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-clients-table-container {
+    overflow-x: auto;
+  }
+
+  .admin-clients-table {
+    min-width: 600px;
+  }
+
+  .admin-clients-table th,
+  .admin-clients-table td {
+    padding: var(--admin-spacing-sm);
+    font-size: 0.8rem;
+  }
+
+  .admin-client-actions {
+    flex-direction: column;
+    gap: var(--admin-spacing-xs);
+  }
+
+  .admin-action-button {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .admin-table-container {
+    overflow-x: auto;
+  }
+
+  .admin-table {
+    min-width: 600px;
+  }
+
+  .history-table-container {
+    overflow-x: auto;
+  }
+
+  .history-table {
+    min-width: 800px;
+  }
+
+  .history-table th,
+  .history-table td {
+    padding: var(--admin-spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .tickets-table {
+    min-width: 700px;
+  }
+
+  .tickets-table th,
+  .tickets-table td {
+    padding: var(--admin-spacing-sm);
+    font-size: 0.8rem;
+  }
+
+  .ticket-info {
+    gap: var(--admin-spacing-sm);
+  }
+
+  .ticket-number {
+    font-size: 0.8rem;
+  }
+
+  .ticket-title {
+    font-size: 0.8rem;
+  }
+
+  .ticket-description {
+    font-size: 0.75rem;
+  }
+
+  .admin-clients-table {
+    min-width: 500px;
+  }
+
+  .admin-clients-table th,
+  .admin-clients-table td {
+    padding: 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .admin-action-button {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .history-table {
+    min-width: 700px;
+  }
+
+  .history-table th,
+  .history-table td {
+    padding: var(--admin-spacing-sm);
+    font-size: 0.8rem;
+  }
+
+  .module-badge,
+  .action-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+}

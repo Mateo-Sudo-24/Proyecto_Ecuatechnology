@@ -3,24 +3,6 @@
 
 @import "tailwindcss";
 
-@theme {
-  --primary: #D4AF37;
-  --secondary: #3B5998;
-  --accent: #DC3545;
-  --neutral: #333333;
-  --background: #FFFFFF;
-  --peach-light: #FFF5E6;
-  --color-primary: #D4AF37;
-  --color-secondary: #3B5998;
-  --color-accent: #DC3545;
-  --color-neutral: #333333;
-  --color-background: #FFFFFF;
-  --color-peach-light: #FFF5E6;
-
-  --font-family-heading: "Work Sans", sans-serif;
-  --font-family-body: "Open Sans", sans-serif;
-}
-
 :root {
   font-family: 'Open Sans',system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -39,6 +21,16 @@
   --accent: #DC3545;
   --neutral: #333333;
   --background: #FFFFFF;
+  --peach-light: #FFF5E6;
+  --color-primary: #D4AF37;
+  --color-secondary: #3B5998;
+  --color-accent: #DC3545;
+  --color-neutral: #333333;
+  --color-background: #FFFFFF;
+  --color-peach-light: #FFF5E6;
+
+  --font-family-heading: "Work Sans", sans-serif;
+  --font-family-body: "Open Sans", sans-serif;
 }
 
 body {

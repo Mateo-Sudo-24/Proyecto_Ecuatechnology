@@ -366,7 +366,7 @@ const TicketDetails = ({ ticket, onBack }) => {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="modal-cancel-button"
+                  className="cancel-button"
                   onClick={() => setShowDiagnosisModal(false)}
                   disabled={loading.diagnosis}
                 >
@@ -422,7 +422,7 @@ const TicketDetails = ({ ticket, onBack }) => {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="modal-cancel-button"
+                  className="cancel-button"
                   onClick={() => setShowProformaModal(false)}
                   disabled={loading.proforma}
                 >
