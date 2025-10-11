@@ -1,6 +1,6 @@
 // prisma/schema.prisma (Versión Final para la Web)
 datasource db {
-  provider = "mysql"
+  provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
 
@@ -43,7 +43,7 @@ model Ticket {
   proformaDetalles String?   // Detalles de partes/servicios
   precioTotal      Decimal?  @db.Decimal(10, 2) // Precio de la proforma
   proformaEstado   String?   @default("Pendiente") // Pendiente, Aprobado, Rechazado
-  
+
   clienteId        Int
   cliente          Cliente   @relation(fields: [clienteId], references: [id])
   createdAt        DateTime  @default(now())

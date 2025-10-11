@@ -8,8 +8,8 @@ const AdminConfiguration = () => {
   const { updatePassword, loading: passwordLoading, error: passwordError } = useUpdatePassword();
 
   const [companyInfo, setCompanyInfo] = useState({
-    name: 'Ecuatechnology S.A.',
-    phone: '+593 99 123 4567',
+    name: 'Ecuatecnology S.A.',
+    phone: '099 123 4567',
     email: 'admin@ecuatechnology.com',
     address: 'Quito, Ecuador'
   });
@@ -261,13 +261,6 @@ const AdminConfiguration = () => {
           </div>
         </div>
 
-        {/* Botón de Guardar */}
-        <div className="save-section">
-          <button className="save-button" onClick={handleSaveConfiguration}>
-            <Save size={20} />
-            Guardar Configuración
-          </button>
-        </div>
       </div>
 
       {/* Modal para cambiar contraseña */}

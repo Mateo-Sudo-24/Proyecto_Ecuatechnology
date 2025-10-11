@@ -1,0 +1,505 @@
+/* admin-responsive.css - Estilos responsivos específicos para administración */
+
+/* Responsive Design para Layouts Admin */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 250px;
+  }
+
+  .admin-main {
+    padding: var(--admin-spacing-xl);
+  }
+
+  .admin-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tickets-controls {
+    flex-direction: column;
+    gap: var(--admin-spacing-md);
+  }
+
+  .search-filter-group {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .tickets-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .new-ticket-button {
+    width: auto;
+    min-width: 200px;
+  }
+
+  .admin-stats-container {
+    gap: var(--admin-spacing-xl);
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: var(--admin-spacing-md);
+  }
+
+  .notification-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--admin-spacing-md);
+  }
+
+  .security-actions {
+    gap: var(--admin-spacing-lg);
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+    gap: var(--admin-spacing-md);
+  }
+
+  .date-range-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--admin-spacing-sm);
+  }
+
+  .date-separator {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    padding: var(--admin-spacing-md) 0;
+  }
+
+  .admin-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0 var(--admin-spacing-md);
+    gap: var(--admin-spacing-sm);
+  }
+
+  .admin-nav-item {
+    white-space: nowrap;
+    min-width: max-content;
+    border-radius: var(--admin-border-radius-xs);
+    margin-right: 0;
+    padding: var(--admin-spacing-sm) var(--admin-spacing-lg);
+  }
+
+  .admin-nav-item.active {
+    border-radius: var(--admin-border-radius-xs);
+    margin-right: 0;
+  }
+
+  .admin-sidebar-footer {
+    display: none;
+  }
+
+  .admin-main {
+    padding: var(--admin-spacing-md);
+  }
+
+  .admin-content-header {
+    flex-direction: column;
+    gap: var(--admin-spacing-md);
+    align-items: flex-start;
+  }
+
+  .admin-content-title {
+    font-size: 1.5rem;
+  }
+
+  .admin-manage-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-actions {
+    flex-direction: column;
+  }
+
+  .admin-save-button,
+  .admin-cancel-button {
+    width: 100%;
+  }
+
+  .admin-clients-controls {
+    flex-direction: column;
+    gap: var(--admin-spacing-md);
+    margin-bottom: var(--admin-spacing-xl);
+  }
+
+  .admin-search-container {
+    max-width: none;
+  }
+
+  .admin-new-client-button {
+    justify-content: center;
+  }
+
+  .admin-clients-table-container {
+    overflow-x: auto;
+  }
+
+  .admin-clients-table {
+    min-width: 600px;
+  }
+
+  .admin-clients-table th,
+  .admin-clients-table td {
+    padding: var(--admin-spacing-sm);
+    font-size: 0.8rem;
+  }
+
+  .admin-client-actions {
+    flex-direction: column;
+    gap: var(--admin-spacing-xs);
+  }
+
+  .admin-action-button {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .admin-content-header {
+    flex-direction: column;
+    gap: var(--admin-spacing-md);
+    align-items: flex-start;
+    margin-bottom: var(--admin-spacing-xl);
+  }
+
+  .admin-content-title {
+    font-size: 1.5rem;
+  }
+
+  .admin-stats-container {
+    grid-template-columns: 1fr;
+    gap: var(--admin-spacing-md);
+  }
+
+  .admin-stat-card {
+    padding: var(--admin-spacing-md);
+  }
+
+  .admin-stat-value {
+    font-size: 2rem;
+  }
+
+  .admin-stat-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .configuration-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .configuration-card {
+    padding: var(--admin-spacing-xl);
+  }
+
+  .configuration-card h2 {
+    font-size: 1.125rem;
+  }
+
+  .save-section {
+    justify-content: center;
+  }
+
+  .save-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-management-header {
+    flex-direction: column;
+    gap: var(--admin-spacing-md);
+    align-items: stretch;
+  }
+
+  .admin-management-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .admin-table-container {
+    overflow-x: auto;
+  }
+
+  .admin-table {
+    min-width: 600px;
+  }
+
+  .admin-modal-content {
+    width: 95%;
+    margin: var(--admin-spacing-md);
+  }
+
+  .admin-modal-actions {
+    flex-direction: column;
+  }
+
+  .admin-cancel-button,
+  .admin-save-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .change-history-header {
+    flex-direction: column;
+    gap: var(--admin-spacing-md);
+    align-items: stretch;
+  }
+
+  .change-history-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .download-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .filters-section {
+    padding: var(--admin-spacing-md);
+  }
+
+  .history-table-container {
+    overflow-x: auto;
+  }
+
+  .history-table {
+    min-width: 800px;
+  }
+
+  .history-table th,
+  .history-table td {
+    padding: var(--admin-spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-header {
+    padding: var(--admin-spacing-lg) var(--admin-spacing-md);
+  }
+
+  .admin-logo-title {
+    font-size: 1.1rem;
+  }
+
+  .admin-logo-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .admin-user-info {
+    font-size: 0.8rem;
+  }
+
+  .admin-nav-item {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .admin-main {
+    padding: var(--admin-spacing-lg);
+  }
+
+  .admin-content-title {
+    font-size: 1.25rem;
+  }
+
+  .admin-form-section {
+    padding: var(--admin-spacing-md);
+  }
+
+  .admin-form-title {
+    font-size: 1.1rem;
+  }
+
+  .admin-form-input {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .tickets-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .back-button {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .tickets-table {
+    min-width: 700px;
+  }
+
+  .tickets-table th,
+  .tickets-table td {
+    padding: var(--admin-spacing-sm);
+    font-size: 0.8rem;
+  }
+
+  .ticket-info {
+    gap: var(--admin-spacing-sm);
+  }
+
+  .ticket-number {
+    font-size: 0.8rem;
+  }
+
+  .ticket-title {
+    font-size: 0.8rem;
+  }
+
+  .ticket-description {
+    font-size: 0.75rem;
+  }
+
+  .status-badge,
+  .priority-badge {
+    padding: var(--admin-spacing-xs) var(--admin-spacing-sm);
+    font-size: 0.7rem;
+  }
+
+  .admin-clients-table {
+    min-width: 500px;
+  }
+
+  .admin-clients-table th,
+  .admin-clients-table td {
+    padding: 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  /* Diseño responsivo para TicketDetails */
+  .ticket-main-info {
+    grid-template-columns: 1fr;
+    gap: var(--admin-spacing-xl);
+  }
+
+  .operations-grid {
+    grid-template-columns: 1fr;
+    gap: var(--admin-spacing-xl);
+  }
+
+  .quick-actions-section {
+    order: -1;
+  }
+
+  .ticket-details-container {
+    padding: var(--admin-spacing-md);
+  }
+
+  .operations-card,
+  .details-card {
+    padding: var(--admin-spacing-md);
+  }
+
+  .operation-button,
+  .quick-action-button {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8rem;
+  }
+
+  .ticket-main-info {
+    grid-template-columns: 1fr;
+  }
+
+  .info-content {
+    grid-template-columns: 1fr;
+    gap: var(--admin-spacing-md);
+  }
+
+  .details-row {
+    grid-template-columns: 1fr;
+    gap: var(--admin-spacing-md);
+  }
+
+  .admin-services-count {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .admin-action-button {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .admin-stat-card {
+    padding: var(--admin-spacing-lg);
+  }
+
+  .admin-stat-value {
+    font-size: 1.75rem;
+  }
+
+  .admin-stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .admin-stat-title {
+    font-size: 0.875rem;
+  }
+
+  .admin-stat-change {
+    font-size: 0.75rem;
+  }
+
+  .configuration-card {
+    padding: var(--admin-spacing-md);
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: var(--admin-spacing-lg) var(--admin-spacing-sm);
+  }
+
+  .admin-actions {
+    flex-direction: column;
+    gap: var(--admin-spacing-xs);
+  }
+
+  .admin-action-button {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .change-history-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .filters-section {
+    padding: var(--admin-spacing-lg);
+  }
+
+  .history-table {
+    min-width: 700px;
+  }
+
+  .history-table th,
+  .history-table td {
+    padding: var(--admin-spacing-sm);
+    font-size: 0.8rem;
+  }
+
+  .module-badge,
+  .action-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+}

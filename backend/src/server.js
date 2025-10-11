@@ -28,7 +28,7 @@ app.use(express.json());
 
 // --- Rutas de la API ---
 app.get('/api', (req, res) => {
-  res.json({ message: "Bienvenido a la API de Ecuatechnology para el Portal Web." });
+  res.json({ message: "Bienvenido a la API de Ecuatecnology para el Portal Web." });
 });
 
 // Usar los routers para las rutas específicas

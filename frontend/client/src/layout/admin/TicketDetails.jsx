@@ -1,121 +1,231 @@
 import React, { useState } from 'react';
-import { Pencil, Play, XSquare, UserPlus } from 'lucide-react';
+import { Play, XSquare, Plus, FileText, Download, Search, Clock, CheckCircle } from 'lucide-react';
+import useTicketOperations from '../../hooks/useTicketOperations';
 import '../../styles/admin.css';
 
 const TicketDetails = ({ ticket, onBack }) => {
   const [currentTicket, setCurrentTicket] = useState(ticket);
-  const [showReassignModal, setShowReassignModal] = useState(false);
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      author: "Juan Pérez",
-      timestamp: "2024-03-15 10:30",
-      content: "El error aparece cuando intento generar una factura con más de 10 productos"
-    },
-    {
-      id: 2,
-      author: "Soporte Técnico",
-      timestamp: "2024-03-15 11:15",
-      content: "Hemos identificado el problema. Trabajando en la solución."
-    }
-  ]);
-  const [newComment, setNewComment] = useState("");
+  const [showDiagnosisModal, setShowDiagnosisModal] = useState(false);
+  const [showProformaModal, setShowProformaModal] = useState(false);
+  const [diagnosisText, setDiagnosisText] = useState('');
+  const [proformaData, setProformaData] = useState({
+    detalles: '',
+    precio: ''
+  });
 
-  // Función para marcar ticket en progreso
-  const handleMarkInProgress = () => {
-    setCurrentTicket(prev => ({
-      ...prev,
-      status: 'en progreso'
-    }));
-    console.log('Ticket marcado en progreso:', currentTicket?.id);
-    // Aquí implementarías la llamada al API
+  // Usar el hook para operaciones de tickets
+  const { updateDiagnosis, createProforma, updateStatus, loading, error } = useTicketOperations();
+
+  // Función para obtener la clase CSS correcta para cada estado
+  const getStatusClass = (estado) => {
+    switch(estado.toLowerCase()) {
+      case 'ingresado':
+        return 'ingresado';
+      case 'en diagnóstico':
+      case 'en-diagnostico':
+        return 'en-diagnostico';
+      case 'esperando aprobación':
+      case 'esperando-aprobacion':
+        return 'esperando-aprobacion';
+      case 'en reparación':
+      case 'en-reparacion':
+        return 'en-reparacion';
+      case 'completado':
+        return 'completado';
+      case 'cerrado':
+        return 'cerrado';
+      default:
+        return 'ingresado';
+    }
+  };
+
+  // Función para marcar ticket en diagnóstico
+  const handleMarkDiagnosis = async () => {
+    try {
+      await updateStatus(currentTicket.id, 'En Diagnóstico');
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'En Diagnóstico'
+      }));
+      alert('Ticket marcado en diagnóstico exitosamente');
+    } catch (err) {
+      alert('Error al marcar ticket en diagnóstico: ' + err.message);
+    }
+  };
+
+  // Función para marcar ticket esperando aprobación
+  const handleMarkWaitingApproval = async () => {
+    try {
+      await updateStatus(currentTicket.id, 'Esperando Aprobación');
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'Esperando Aprobación'
+      }));
+      alert('Ticket marcado esperando aprobación exitosamente');
+    } catch (err) {
+      alert('Error al marcar ticket esperando aprobación: ' + err.message);
+    }
+  };
+
+  // Función para marcar ticket en reparación
+  const handleMarkInProgress = async () => {
+    try {
+      await updateStatus(currentTicket.id, 'En Reparación');
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'En Reparación'
+      }));
+      alert('Ticket marcado en reparación exitosamente');
+    } catch (err) {
+      alert('Error al marcar ticket en reparación: ' + err.message);
+    }
+  };
+
+  // Función para marcar ticket completado
+  const handleMarkCompleted = async () => {
+    try {
+      await updateStatus(currentTicket.id, 'Completado');
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'Completado'
+      }));
+      alert('Ticket marcado como completado exitosamente');
+    } catch (err) {
+      alert('Error al marcar ticket como completado: ' + err.message);
+    }
   };
 
   // Función para cerrar ticket
-  const handleCloseTicket = () => {
-    setCurrentTicket(prev => ({
-      ...prev,
-      status: 'cerrado'
-    }));
-    console.log('Ticket cerrado:', currentTicket?.id);
-    // Aquí implementarías la llamada al API
+  const handleCloseTicket = async () => {
+    try {
+      await updateStatus(currentTicket.id, 'Cerrado');
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'Cerrado'
+      }));
+      alert('Ticket cerrado exitosamente');
+    } catch (err) {
+      alert('Error al cerrar ticket: ' + err.message);
+    }
   };
 
-  // Función para reasignar ticket
-  const handleReassignTicket = () => {
-    setShowReassignModal(true);
+
+  // Función para mostrar modal de diagnóstico
+  const handleShowDiagnosisModal = () => {
+    setDiagnosisText('');
+    setShowDiagnosisModal(true);
   };
 
-  // Función para confirmar reasignación
-  const handleConfirmReassign = (newAssignee) => {
-    setCurrentTicket(prev => ({
-      ...prev,
-      assignedTo: newAssignee
-    }));
-    setShowReassignModal(false);
-    console.log('Ticket reasignado a:', newAssignee);
-    // Aquí implementarías la llamada al API
-  };
-
-  // Función para agregar comentario
-  const handleAddComment = (e) => {
+  // Función para agregar diagnóstico
+  const handleAddDiagnosis = async (e) => {
     e.preventDefault();
-    if (newComment.trim()) {
-      const comment = {
-        id: comments.length + 1,
-        author: "Admin Usuario",
-        timestamp: new Date().toLocaleString('es-ES', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit'
-        }),
-        content: newComment.trim()
-      };
-      setComments(prev => [...prev, comment]);
-      setNewComment("");
-      
-      // Guardar en localStorage
-      localStorage.setItem(`ticket_${currentTicket?.id}_comments`, JSON.stringify([...comments, comment]));
-      
-      console.log('Comentario agregado:', comment);
+    try {
+      await updateDiagnosis(currentTicket.id, diagnosisText);
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'En Diagnóstico'
+      }));
+      setShowDiagnosisModal(false);
+      alert('Diagnóstico agregado exitosamente');
+    } catch (err) {
+      alert('Error al agregar diagnóstico: ' + err.message);
+    }
+  };
+
+  // Función para mostrar modal de proforma
+  const handleShowProformaModal = () => {
+    setProformaData({ detalles: '', precio: '' });
+    setShowProformaModal(true);
+  };
+
+  // Función para crear proforma
+  const handleCreateProforma = async (e) => {
+    e.preventDefault();
+    try {
+      await createProforma(currentTicket.id, proformaData.detalles, proformaData.precio);
+      setCurrentTicket(prev => ({
+        ...prev,
+        estado: 'Esperando Aprobación'
+      }));
+      setShowProformaModal(false);
+      alert('Proforma creada exitosamente');
+    } catch (err) {
+      alert('Error al crear proforma: ' + err.message);
+    }
+  };
+
+  // Función para descargar factura XML
+  const handleDownloadXML = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/api/admin/tickets/${currentTicket.id}/invoice/xml`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) throw new Error('Error al obtener XML');
+
+      const xmlText = await response.text();
+      const blob = new Blob([xmlText], { type: 'application/xml' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `factura_${currentTicket.id}.xml`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Error al descargar XML: ' + err.message);
+    }
+  };
+
+  // Función para descargar factura PDF
+  const handleDownloadPDF = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/api/admin/tickets/${currentTicket.id}/invoice/pdf`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) throw new Error('Error al obtener PDF');
+
+      const data = await response.json();
+      window.open(data.pdfUrl, '_blank');
+    } catch (err) {
+      alert('Error al descargar PDF: ' + err.message);
     }
   };
   return (
     <div className="ticket-details-container">
-      <div className="details-layout">
+      {/* Información Principal del Ticket */}
+      <div className="ticket-main-info">
         <div className="info-section">
           <div className="info-header">
             <h2>Información del Ticket</h2>
-            <button className="edit-button">
-              <Pencil size={16} />
-              Editar
-            </button>
           </div>
           <div className="info-content">
             <div className="info-left">
               <div className="info-field">
                 <label>Título</label>
-                <p>{ticket?.title || "Error en sistema de facturación"}</p>
+                <p>{ticket?.descripcion || "Sin título"}</p>
               </div>
               <div className="info-field">
-                <label>Descripción</label>
-                <p>{ticket?.description || "El sistema no permite generar facturas desde el módulo de ventas"}</p>
+                <label>Estado</label>
+                <span className={`status-badge ${getStatusClass(currentTicket?.estado || 'Ingresado')}`}>
+                  {currentTicket?.estado || 'Ingresado'}
+                </span>
               </div>
             </div>
             <div className="info-right">
               <div className="status-field">
-                <label>Estado</label>
-                <span className={`status-badge ${currentTicket?.status?.replace(' ', '-') || 'cerrado'}`}>
-                  {currentTicket?.status || 'cerrado'}
-                </span>
+                <label>ID del Ticket</label>
+                <p className="ticket-id">#{ticket?.id || 'N/A'}</p>
               </div>
               <div className="status-field">
-                <label>Prioridad</label>
-                <span className={`priority-badge ${currentTicket?.priority || 'alta'}`}>
-                  {currentTicket?.priority || 'alta'}
-                </span>
+                <label>Fecha de Creación</label>
+                <p>{ticket ? new Date(ticket.createdAt).toLocaleDateString() : 'N/A'}</p>
               </div>
             </div>
           </div>
@@ -123,128 +233,210 @@ const TicketDetails = ({ ticket, onBack }) => {
             <div className="details-row">
               <div className="details-field">
                 <label>Cliente</label>
-                <p>Juan Pérez - Tech Solutions S.A.</p>
+                <p>{ticket?.cliente?.nombre || 'N/A'} - {ticket?.cliente?.email || 'N/A'}</p>
               </div>
               <div className="details-field">
-                <label>Asignado a</label>
-                <p>{currentTicket?.assignedTo || 'Soporte Técnico'}</p>
-              </div>
-              <div className="details-field">
-                <label>Categoría</label>
-                <p>Sistema</p>
+                <label>ID del Cliente</label>
+                <p>{ticket?.clienteId || 'N/A'}</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Sección de Comentarios */}
-        <div className="comments-section">
-          <div className="comments-header">
-            <h3>Historial de Comentarios</h3>
-          </div>
-          <div className="comments-list">
-            {comments.map((comment) => (
-              <div key={comment.id} className="comment-item">
-                <div className="comment-content">
-                  <div className="comment-header">
-                    <span className="comment-author">{comment.author}</span>
-                    <span className="comment-timestamp">{comment.timestamp}</span>
-                  </div>
-                  <p className="comment-text">{comment.content}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="add-comment-section">
-            <h3>Agregar Comentario</h3>
-            <form onSubmit={handleAddComment}>
-              <textarea
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Escribir comentario..."
-                className="comment-textarea"
-                rows="4"
-                required
-              />
-              <button type="submit" className="add-comment-button">
-                Agregar Comentario
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <div className="sidebar-section">
-          <div className="details-card">
-            <h3>Detalles</h3>
-            <div className="details-list">
-              <div className="detail-item">
-                <label>Fecha creación</label>
-                <p>2024-03-15</p>
-              </div>
-              <div className="detail-item">
-                <label>Última actualización</label>
-                <p>2024-03-15</p>
-              </div>
-              <div className="detail-item">
-                <label>Comentarios</label>
-                <p>2</p>
-              </div>
-            </div>
-          </div>
-
+        {/* Acciones Rápidas - Debajo de la información principal */}
+        <div className="quick-actions-section">
           <div className="actions-card">
             <h3>Acciones Rápidas</h3>
             <div className="actions-list">
-              <button className="quick-action-button" onClick={() => handleMarkInProgress()}>
-                Marcar en Progreso
+              <button
+                className="quick-action-button diagnosis"
+                onClick={() => handleMarkDiagnosis()}
+                disabled={loading.status}
+              >
+                <Search size={16} />
+                {loading.status ? 'Procesando...' : 'Marcar en Diagnóstico'}
               </button>
-              <button className="quick-action-button" onClick={() => handleCloseTicket()}>
-                Cerrar Ticket
+              <button
+                className="quick-action-button waiting"
+                onClick={() => handleMarkWaitingApproval()}
+                disabled={loading.status}
+              >
+                <Clock size={16} />
+                {loading.status ? 'Procesando...' : 'Esperando Aprobación'}
               </button>
-              <button className="quick-action-button" onClick={() => handleReassignTicket()}>
-                Reasignar Ticket
+              <button
+                className="quick-action-button primary"
+                onClick={() => handleMarkInProgress()}
+                disabled={loading.status}
+              >
+                <Play size={16} />
+                {loading.status ? 'Procesando...' : 'Marcar en Reparación'}
+              </button>
+              <button
+                className="quick-action-button success"
+                onClick={() => handleMarkCompleted()}
+                disabled={loading.status}
+              >
+                <CheckCircle size={16} />
+                {loading.status ? 'Procesando...' : 'Marcar Completado'}
+              </button>
+              <button
+                className="quick-action-button danger"
+                onClick={() => handleCloseTicket()}
+                disabled={loading.status}
+              >
+                <XSquare size={16} />
+                {loading.status ? 'Procesando...' : 'Cerrar Ticket'}
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Modal de Reasignación */}
-      {showReassignModal && (
+      {/* Sección de Operaciones - Debajo de las acciones rápidas */}
+      <div className="ticket-operations-section">
+        <div className="operations-grid">
+          <div className="operations-card">
+            <h3>Operaciones del Ticket</h3>
+            <div className="operations-list">
+              <button
+                className="operation-button diagnosis"
+                onClick={handleShowDiagnosisModal}
+                disabled={loading.diagnosis}
+              >
+                <Plus size={16} />
+                {loading.diagnosis ? 'Procesando...' : 'Agregar Diagnóstico'}
+              </button>
+              <button
+                className="operation-button proforma"
+                onClick={handleShowProformaModal}
+                disabled={loading.proforma}
+              >
+                <FileText size={16} />
+                {loading.proforma ? 'Procesando...' : 'Crear Proforma'}
+              </button>
+            </div>
+          </div>
+
+          <div className="operations-card">
+            <h3>Facturación</h3>
+            <div className="operations-list">
+              <button
+                className="operation-button download"
+                onClick={handleDownloadXML}
+              >
+                <Download size={16} />
+                Descargar XML
+              </button>
+              <button
+                className="operation-button download"
+                onClick={handleDownloadPDF}
+              >
+                <Download size={16} />
+                Descargar PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      {/* Modal de Diagnóstico */}
+      {showDiagnosisModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h2>Reasignar Ticket</h2>
+              <h2>Agregar Diagnóstico</h2>
             </div>
-            <div className="modal-body">
-              <p className="modal-description">
-                Selecciona el área a la que deseas reasignar este ticket:
-              </p>
-              <div className="assignee-options">
-                <button 
-                  className="assignee-option"
-                  onClick={() => handleConfirmReassign('Soporte Técnico')}
+            <form onSubmit={handleAddDiagnosis}>
+              <div className="modal-body">
+                <div className="form-group">
+                  <label>Diagnóstico del Problema</label>
+                  <textarea
+                    value={diagnosisText}
+                    onChange={(e) => setDiagnosisText(e.target.value)}
+                    placeholder="Describe el diagnóstico del problema..."
+                    className="form-textarea"
+                    rows="4"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => setShowDiagnosisModal(false)}
+                  disabled={loading.diagnosis}
                 >
-                  Soporte Técnico
+                  Cancelar
                 </button>
-                <button 
-                  className="assignee-option"
-                  onClick={() => handleConfirmReassign('Ventas')}
+                <button
+                  type="submit"
+                  className="modal-submit-button"
+                  disabled={loading.diagnosis}
                 >
-                  Ventas
+                  {loading.diagnosis ? 'Agregando...' : 'Agregar Diagnóstico'}
                 </button>
               </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Proforma */}
+      {showProformaModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Crear Proforma</h2>
             </div>
-            <div className="modal-footer">
-              <button 
-                type="button" 
-                className="modal-cancel-button" 
-                onClick={() => setShowReassignModal(false)}
-              >
-                Cancelar
-              </button>
-            </div>
+            <form onSubmit={handleCreateProforma}>
+              <div className="modal-body">
+                <div className="form-group">
+                  <label>Detalles de la Proforma</label>
+                  <textarea
+                    value={proformaData.detalles}
+                    onChange={(e) => setProformaData({...proformaData, detalles: e.target.value})}
+                    placeholder="Describe los servicios/partes incluidos..."
+                    className="form-textarea"
+                    rows="3"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Precio Total ($)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={proformaData.precio}
+                    onChange={(e) => setProformaData({...proformaData, precio: e.target.value})}
+                    placeholder="0.00"
+                    className="form-input"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => setShowProformaModal(false)}
+                  disabled={loading.proforma}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="modal-submit-button"
+                  disabled={loading.proforma}
+                >
+                  {loading.proforma ? 'Creando...' : 'Crear Proforma'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

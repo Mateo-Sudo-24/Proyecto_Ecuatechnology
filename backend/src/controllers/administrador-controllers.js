@@ -173,7 +173,7 @@ export const updateTicketDiagnosis = async (req, res) => {
     try {
         const { ticketId } = req.params;
         const { diagnostico } = req.body;
-        
+
         const ticket = await prisma.ticket.update({
             where: { id: Number(ticketId) },
             data: {
@@ -265,7 +265,7 @@ export const getInvoiceXML = (req, res) => {
 
 export const getInvoicePDF = (req, res) => {
     const { ticketId } = req.params;
-    
+
     // En un caso real, generarías un PDF y lo enviarías.
     // Aquí, simplemente devolvemos un JSON con un enlace a un PDF de muestra.
     res.json({
@@ -274,4 +274,126 @@ export const getInvoicePDF = (req, res) => {
         // URL de un PDF genérico para pruebas
         pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
     });
+};
+
+// --- DESCARGA DE TICKETS ---
+
+export const downloadTicketPDF = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+
+        // Obtener datos del ticket con información del cliente
+        const ticket = await prisma.ticket.findUnique({
+            where: { id: Number(ticketId) },
+            include: {
+                cliente: {
+                    select: {
+                        nombre: true,
+                        email: true
+                    }
+                }
+            }
+        });
+
+        if (!ticket) {
+            return res.status(404).json({ error: "Ticket no encontrado" });
+        }
+
+        // Crear contenido HTML para el PDF del ticket
+        const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Ticket #${ticket.id}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
+                .ticket-info { margin-bottom: 30px; }
+                .info-row { display: flex; margin-bottom: 10px; }
+                .label { font-weight: bold; width: 150px; }
+                .value { flex: 1; }
+                .status { padding: 5px 10px; border-radius: 4px; color: white; display: inline-block; }
+                .ingresado { background-color: #2196F3; }
+                .en-diagnostico { background-color: #FF9800; }
+                .esperando-aprobacion { background-color: #9C27B0; }
+                .en-reparacion { background-color: #FF5722; }
+                .completado { background-color: #4CAF50; }
+                .cerrado { background-color: #F44336; }
+                .section { margin-bottom: 20px; }
+                .section-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>ECUATECNOLOGY S.A.</h1>
+                <h2>Reporte de Ticket de Soporte</h2>
+            </div>
+
+            <div class="ticket-info">
+                <div class="info-row">
+                    <span class="label">Número de Ticket:</span>
+                    <span class="value">#${ticket.id}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Fecha de Creación:</span>
+                    <span class="value">${new Date(ticket.createdAt).toLocaleDateString('es-ES')}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Estado:</span>
+                    <span class="value">
+                        <span class="status ${ticket.estado.toLowerCase().replace(' ', '-')}">${ticket.estado}</span>
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Cliente:</span>
+                    <span class="value">${ticket.cliente.nombre} (${ticket.cliente.email})</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Descripción del Problema</div>
+                <p>${ticket.descripcion || 'Sin descripción'}</p>
+            </div>
+
+            ${ticket.diagnostico ? `
+            <div class="section">
+                <div class="section-title">Diagnóstico</div>
+                <p>${ticket.diagnostico}</p>
+            </div>
+            ` : ''}
+
+            ${ticket.proformaDetalles ? `
+            <div class="section">
+                <div class="section-title">Detalles de Proforma</div>
+                <p>${ticket.proformaDetalles}</p>
+                ${ticket.precioTotal ? `<p><strong>Precio Total: $${ticket.precioTotal.toFixed(2)}</strong></p>` : ''}
+            </div>
+            ` : ''}
+
+            <div class="section">
+                <div class="section-title">Información Adicional</div>
+                <div class="info-row">
+                    <span class="label">Estado de Proforma:</span>
+                    <span class="value">${ticket.proformaEstado || 'No aplica'}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Última Actualización:</span>
+                    <span class="value">${ticket.updatedAt ? new Date(ticket.updatedAt).toLocaleDateString('es-ES') : 'N/A'}</span>
+                </div>
+            </div>
+        </body>
+        </html>`;
+
+        // Configurar headers para descarga de PDF
+        res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Content-Disposition', `attachment; filename="ticket_${ticket.id}.html"`);
+
+        // Enviar el contenido HTML (en un caso real usarías una librería como puppeteer para convertir a PDF)
+        res.send(htmlContent);
+
+    } catch (error) {
+        console.error('Error generando PDF del ticket:', error);
+        res.status(500).json({ error: "Error al generar el PDF del ticket", details: error.message });
+    }
 };

@@ -23,7 +23,7 @@ function Home() {
       className="py-10 mt-[6.1rem] mx-auto px-[8.75rem] font-sans w-full"
     >
       {/* Sección principal */}
-      <div className="grid lg:grid-cols-2 gap-12 items-center" style={{ color: "var(--neutral)" }}>
+      <div className="grid lg:grid-cols-2 gap-16 items-center" style={{ color: "var(--neutral)" }}>
         <div>
           <h1 className="text-4xl lg:text-6xl font-heading font-bold text-neutral mb-6 mt-15">
             Soluciones Tecnológicas
@@ -66,14 +66,14 @@ function Home() {
           <img
             src="/images/tecnico.jpg"
             alt="Técnico trabajando"
-            className="rounded-lg shadow-2xl w-[700px] h-[450px] object-cover"
+            className="rounded-lg shadow-2xl w-[500px] h-[320px] object-cover"
           />
           <div
-            className="absolute -bottom-6 -left-6 p-6 rounded-lg shadow-lg"
+            className="absolute -bottom-2 -left-2 p-2 rounded-lg shadow-lg"
             style={{ backgroundColor: "var(--accent)", color: "var(--background)" }}
           >
-            <div className="text-2xl font-bold drop-shadow-lg">Garantía</div>
-            <div className="text-sm font-body">En todos nuestros servicios</div>
+            <div className="text-base font-bold drop-shadow-lg">Garantía</div>
+            <div className="text-xs font-body">En todos nuestros servicios</div>
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ function Home() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" >
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20" >
           
           {[
             {
@@ -182,7 +182,7 @@ function Home() {
       </div>
 
       {/* Sección sobre nosotros */}
-      <div className="container mx-auto px-4" id="nosotros">
+      <div className="container mx-auto px-4 mt-64" id="nosotros">
         <div className="grid lg:grid-cols-2 gap-16 items-center" style={{ color: "var(--neutral)" }}>
           <div>
             <h2 className="text-3xl lg:text-5xl font-bold text-neutral mb-8">Sobre Ecuatecnology</h2>
@@ -234,7 +234,7 @@ function Home() {
             <img
               src="/images/oficinas.jpg"
               alt="Oficinas modernas de Ecuatecnology"
-              className="rounded-lg shadow-lg w-[700px] h-[400px] object-cover mx-auto"
+              className="rounded-lg shadow-lg w-[450px] h-[280px] object-cover mx-auto"
             />
             <div className="grid grid-cols-2 gap-6">
               <div

@@ -16,7 +16,7 @@ export const registerCliente = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const token = Math.random().toString(36).substring(2);
 
-    // await sendMailToRegister(email, token);
+     await sendMailToRegister(email, token);
 
     const cliente = await prisma.cliente.create({
       data: { nombre, email, telefono, password: hashedPassword, token },
@@ -63,7 +63,7 @@ export const loginCliente = async (req, res) => {
       data: { otp, otpExpires },
     });
 
-    // await sendMailOTP(cliente.email, otp);
+    await sendMailOTP(cliente.email, otp);
 
     res.json({ message: "Se ha enviado un código de verificación a tu correo." });
   } catch (error) {

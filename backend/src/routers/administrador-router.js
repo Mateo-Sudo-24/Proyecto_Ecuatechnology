@@ -20,6 +20,8 @@ import {
   // Facturación
   getInvoiceXML,
   getInvoicePDF,
+  // Descarga de Tickets
+  downloadTicketPDF,
 } from "../controllers/administrador-controllers.js";
 
 // --- Importación de Middlewares de Autenticación y Roles ---
@@ -72,41 +74,6 @@ router.post("/login", validateLogin, loginAdmin);
  */
 router.post("/verify-otp", verifyOTP);
 
-
-// ========================================================
-// --- RUTAS PROTEGIDAS PARA GESTIÓN DE OTROS ADMINS (CRUD) ---
-// ========================================================
-// Todas las rutas aquí requieren un token de admin válido.
-
-/**
- * @route   GET /api/admin/
- * @desc    Obtener la lista de todos los administradores.
- * @access  Privado (Solo Admins)
- */
-router.get("/", authenticateJWT, requireAdminRole, getAdmins);
-
-/**
- * @route   GET /api/admin/:id
- * @desc    Obtener un administrador por su ID.
- * @access  Privado (Solo Admins)
- */
-router.get("/:id", authenticateJWT, requireAdminRole, validateAdminId, getAdminById);
-
-/**
- * @route   PUT /api/admin/:id
- * @desc    Actualizar la información de un administrador.
- * @access  Privado (Solo Admins)
- */
-router.put("/:id", authenticateJWT, requireAdminRole, validateAdminId, validateAdminUpdate, updateAdmin);
-
-/**
- * @route   DELETE /api/admin/:id
- * @desc    Eliminar una cuenta de administrador.
- * @access  Privado (Solo Admins)
- */
-router.delete("/:id", authenticateJWT, requireAdminRole, validateAdminId, deleteAdmin);
-
-
 // ==========================================================
 // --- RUTAS PROTEGIDAS PARA GESTIÓN DE TICKETS Y FLUJO ---
 // ==========================================================
@@ -152,5 +119,49 @@ router.get("/tickets/:ticketId/invoice/xml", authenticateJWT, requireAdminRole, 
  * @access  Privado (Solo Admins)
  */
 router.get("/tickets/:ticketId/invoice/pdf", authenticateJWT, requireAdminRole, getInvoicePDF);
+
+/**
+ * @route   GET /api/admin/tickets/:ticketId/download
+ * @desc    Descargar el ticket en formato PDF/HTML.
+ * @access  Privado (Solo Admins)
+ */
+router.get("/tickets/:ticketId/download", authenticateJWT, requireAdminRole, downloadTicketPDF);
+
+
+// ========================================================
+// --- RUTAS PROTEGIDAS PARA GESTIÓN DE OTROS ADMINS (CRUD) ---
+// ========================================================
+// Todas las rutas aquí requieren un token de admin válido.
+
+/**
+ * @route   GET /api/admin/
+ * @desc    Obtener la lista de todos los administradores.
+ * @access  Privado (Solo Admins)
+ */
+router.get("/", authenticateJWT, requireAdminRole, getAdmins);
+
+/**
+ * @route   GET /api/admin/:id
+ * @desc    Obtener un administrador por su ID.
+ * @access  Privado (Solo Admins)
+ */
+router.get("/:id", authenticateJWT, requireAdminRole, validateAdminId, getAdminById);
+
+/**
+ * @route   PUT /api/admin/:id
+ * @desc    Actualizar la información de un administrador.
+ * @access  Privado (Solo Admins)
+ */
+router.put("/:id", authenticateJWT, requireAdminRole, validateAdminId, validateAdminUpdate, updateAdmin);
+
+/**
+ * @route   DELETE /api/admin/:id
+ * @desc    Eliminar una cuenta de administrador.
+ * @access  Privado (Solo Admins)
+ */
+router.delete("/:id", authenticateJWT, requireAdminRole, validateAdminId, deleteAdmin);
+
+
+
 
 export default router;

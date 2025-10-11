@@ -6,27 +6,27 @@ const useFetchAdminTickets = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Obtén el token de admin desde localStorage o tu store
-  const token = localStorage.getItem("adminToken"); // ajusta según tu app
+  // Obtén el token de admin desde localStorage (misma clave que usa storeAuth)
+   const token = localStorage.getItem("token"); // usa la misma clave que storeAuth
 
-  const fetchTickets = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/admin/tickets", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!res.ok) {
+   const fetchTickets = useCallback(async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("http://localhost:3000/api/admin/tickets", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+ 
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || "Error al obtener tickets de admin");
+        }
+ 
         const data = await res.json();
-        throw new Error(data.error || "Error al obtener tickets de admin");
-      }
-
-      const data = await res.json();
-      setTickets(data);
+        setTickets(data);
     } catch (err) {
       setError(err.message);
     } finally {
