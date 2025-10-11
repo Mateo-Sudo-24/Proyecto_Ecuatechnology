@@ -1,5 +1,6 @@
 // src/context/storeAuth.jsx
 import { create } from "zustand";
+import { useProfileStore } from "./storeProfile.js"; // Importamos el store de perfil
 
 const useAuthStore = create((set) => ({
   token: null,
@@ -27,10 +28,16 @@ const useAuthStore = create((set) => ({
 
   // Cerrar sesión
   logout: () => {
+    // 1️⃣ Limpiar storeAuth
     set({ token: null, role: null, email: null });
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("email");
+    localStorage.removeItem("profile"); // Si guardamos perfil en localStorage
+
+    // 2️⃣ Limpiar automáticamente el storeProfile
+    const clearProfile = useProfileStore.getState().clearUser;
+    if (clearProfile) clearProfile();
   },
 }));
 

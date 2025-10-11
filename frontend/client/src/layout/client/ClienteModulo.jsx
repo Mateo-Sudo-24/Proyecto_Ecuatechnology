@@ -1,9 +1,15 @@
 // src/components/client/DashboardCliente.jsx
 
-
 import { useState } from "react";
-import { NavLink, useLocation, Link, Routes, Route, useNavigate } from "react-router-dom";
-import useAuthStore  from "../../context/storeAuth"; 
+import {
+  NavLink,
+  useLocation,
+  Link,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
+import useAuthStore from "../../context/storeAuth";
 
 import {
   Wrench,
@@ -41,17 +47,17 @@ function Cliente_Page() {
   const usuario = useProfileStore((state) => state.user) || {};
 
   const handleLogout = () => {
-    // 1. Borrar token de almacenamiento
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    // Limpiar localStorage
+    ["token", "role", "email"].forEach((key) => localStorage.removeItem(key));
 
-    // 2. Resetear estado global
-    logout?.();
+    // Limpiar stores globales
+    logout?.(); // storeAuth
+    useProfileStore.getState().clearUser?.(); // storeProfile
 
-    // 3. Redirigir al login
+    // Redirigir al login
     navigate("/login");
   };
-
+  
   return (
     <div className="min-h-screen w-full flex flex-col bg-background overflow-x-hidden">
       {/* Encabezado */}
@@ -95,7 +101,7 @@ function Cliente_Page() {
           >
             <X size={24} />
           </button>
-          
+
           <nav className="flex-1 flex flex-col gap-1 mt-8 md:mt-0">
             {navigation.map((item) => {
               const Icon = item.icon;
@@ -119,7 +125,7 @@ function Cliente_Page() {
               );
             })}
           </nav>
-          
+
           <div className="border-t border-gray-200 pt-6 mt-auto">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-full bg-primary" />
@@ -132,7 +138,7 @@ function Cliente_Page() {
                 </p>
               </div>
             </div>
-            
+
             <div className="border-t border-gray-200 pt-6 mt-4">
               <button
                 onClick={handleLogout}

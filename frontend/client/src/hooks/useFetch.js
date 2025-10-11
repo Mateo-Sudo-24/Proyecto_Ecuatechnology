@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useCallback } from "react";
 
-const API_URL = import.meta.env.VITE_URL_BACK.endsWith("/")
-  ? import.meta.env.VITE_URL_BACK
-  : import.meta.env.VITE_URL_BACK + "/";
+const API_URL = import.meta.env.VITE_API_DESK.endsWith("/")
+  ? import.meta.env.VITE_API_DESK
+  : import.meta.env.VITE_API_DESK + "/";
 
 function useFetch() {
   const fetchDataBackend = useCallback(

@@ -1,148 +1,251 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Plus, Eye, Pencil, Download, FileSpreadsheet, FileText, ArrowLeft } from 'lucide-react';
-import TicketModal from './TicketModal';
-import TicketDetails from './TicketDetails';
-import '../../styles/admin.css';
+import React, { useState, useEffect } from "react";
+import {
+  Search,
+  Plus,
+  Eye,
+  Pencil,
+  Download,
+  FileSpreadsheet,
+  FileText,
+  ArrowLeft,
+} from "lucide-react";
+import TicketModal from "./TicketModal";
+import TicketDetails from "./TicketDetails";
+import useFetch from "../../hooks/useFetch";
+import "../../styles/admin.css";
 
 const AdminTickets = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('Todos los estados');
-  const [dateFilter, setDateFilter] = useState('');
+  const { fetchDataBackend } = useFetch();
+  const [tickets, setTickets] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("Todos los estados");
+  const [dateFilter, setDateFilter] = useState("");
   const [showDownloadOptions, setShowDownloadOptions] = useState(null);
   const [isNewTicketModalOpen, setIsNewTicketModalOpen] = useState(false);
   const [editingTicket, setEditingTicket] = useState(null);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
+  // -------------------------------
+  // Normalizar tickets del backend
+  // -------------------------------
+  const normalizeTickets = (data) =>
+    data.map((t) => ({
+      id: t.id,
+      number: `T-${t.id}`,
+      title: t.descripcion || "Sin título",
+      description: t.descripcion || "Sin descripción",
+      client: t.cliente?.nombre || "Sin nombre",
+      clientEmail: t.cliente?.email || "",
+      status: t.estado || "Ingresado",
+      priority: t.prioridad || "Media",
+      assignedTo: t.asignado || "No asignado",
+      category: t.categoria || "General",
+      date: t.createdAt
+        ? new Date(t.createdAt).toISOString().split("T")[0]
+        : "",
+      diagnostico: t.diagnostico || "",
+    }));
+
+  // -------------------------------
+  // Cargar tickets reales
+  // -------------------------------
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (showDownloadOptions && !event.target.closest('.download-container')) {
-        setShowDownloadOptions(null);
+    const loadTickets = async () => {
+      try {
+        const data = await fetchDataBackend("admin/tickets");
+        setTickets(normalizeTickets(data));
+      } catch (error) {
+        console.error("Error al cargar tickets:", error.message);
       }
     };
+    loadTickets();
+  }, [fetchDataBackend]);
 
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [showDownloadOptions]);
-
-  const tickets = [
-    {
-      id: 1,
-      number: "#1",
-      title: "Error en sistema de facturación",
-      description: "El sistema no permite generar facturas desde el módulo de ventas",
-      client: "Juan Pérez - Tech Solutions S.A.",
-      status: "abierto",
-      priority: "alta",
-      assignedTo: "Soporte Técnico",
-      category: "Software",
-      date: "2024-03-13"
-    },
-    {
-      id: 2,
-      number: "#2",
-      title: "Cotización contrato de mantenimiento",
-      description: "Solicitud de propuesta para contrato anual de mantenimiento",
-      client: "María González - Innovate Corp",
-      status: "en progreso",
-      priority: "media",
-      assignedTo: "Ventas",
-      category: "Contratos Empresariales",
-      date: "2024-03-10"
-    },
-    {
-      id: 3,
-      number: "#3",
-      title: "Solicitud de repuestos para impresora",
-      description: "Necesitamos cartuchos de tinta para la impresora HP modelo...",
-      client: "Carlos Rodríguez - Digital Plus",
-      status: "cerrado",
-      priority: "baja",
-      assignedTo: "Ventas",
-      category: "Repuestos y Accesorios",
-      date: "2024-03-05"
-    }
-  ];
-
-  const filteredTickets = tickets.filter(ticket => {
-    const matchesSearch = 
+  // -------------------------------
+  // Filtrado de tickets
+  // -------------------------------
+  const filteredTickets = tickets.filter((ticket) => {
+    const matchesSearch =
       ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ticket.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ticket.description.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = statusFilter === 'Todos los estados' || ticket.status === statusFilter.toLowerCase();
+    const matchesStatus =
+      statusFilter === "Todos los estados" ||
+      ticket.status.toLowerCase() === statusFilter.toLowerCase();
     const matchesDate = !dateFilter || ticket.date === dateFilter;
-    
     return matchesSearch && matchesStatus && matchesDate;
   });
 
-  const handleDownload = (format, ticket) => {
+  // -------------------------------
+  // Descargas PDF/XML
+  // -------------------------------
+  const handleDownload = (type, ticket) => {
+    if (type === "pdf") {
+      window.open(
+        `${import.meta.env.VITE_URL_BACK}/admin/tickets/${ticket.id}/invoice/pdf`,
+        "_blank"
+      );
+    } else if (type === "xml") {
+      window.open(
+        `${import.meta.env.VITE_URL_BACK}/admin/tickets/${ticket.id}/invoice/xml`,
+        "_blank"
+      );
+    }
     setShowDownloadOptions(null);
-    console.log(`Descargando ticket #${ticket.number} en formato ${format}`);
   };
 
-  const handleNewTicket = () => {
-    setIsNewTicketModalOpen(true);
-  };
-
-  const handleEditTicket = (ticket) => {
-    setEditingTicket(ticket);
-  };
-
-  const handleSubmitNewTicket = (e) => {
+  // -------------------------------
+  // Crear/Editar tickets
+  // -------------------------------
+  const handleSubmitNewTicket = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const newTicket = {
-      id: tickets.length + 1,
-      number: `#${tickets.length + 1}`,
-      title: formData.get('title'),
-      description: formData.get('description'),
-      client: formData.get('client'),
-      status: 'abierto',
-      priority: formData.get('priority'),
-      assignedTo: formData.get('assignedTo'),
-      category: formData.get('category'),
-      date: new Date().toISOString().split('T')[0]
+      descripcion: formData.get("title"),
+      clienteId: formData.get("clientId"),
+      estado: "Ingresado",
+      prioridad: formData.get("priority"),
+      asignado: formData.get("assignedTo"),
+      categoria: formData.get("category"),
     };
-    
-    console.log('Nuevo ticket:', newTicket);
-    setIsNewTicketModalOpen(false);
+    try {
+      const created = await fetchDataBackend("admin/tickets", newTicket, "POST");
+      setTickets((prev) => [...prev, ...normalizeTickets([created])]);
+      setIsNewTicketModalOpen(false);
+    } catch (error) {
+      console.error("Error al crear ticket:", error.message);
+    }
   };
 
-  const handleSubmitEditTicket = (e) => {
+  const handleSubmitEditTicket = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const updatedTicket = {
-      ...editingTicket,
-      title: formData.get('title'),
-      description: formData.get('description'),
-      client: formData.get('client'),
-      status: formData.get('status'),
-      priority: formData.get('priority'),
-      assignedTo: formData.get('assignedTo'),
-      category: formData.get('category')
+      descripcion: formData.get("title"),
+      estado: formData.get("status"),
+      prioridad: formData.get("priority"),
+      asignado: formData.get("assignedTo"),
+      categoria: formData.get("category"),
     };
-    
-    console.log('Ticket actualizado:', updatedTicket);
-    setEditingTicket(null);
+    try {
+      const edited = await fetchDataBackend(
+        `admin/tickets/${editingTicket.id}`,
+        updatedTicket,
+        "PUT"
+      );
+      setTickets((prev) =>
+        prev.map((t) =>
+          t.id === edited.id ? normalizeTickets([edited])[0] : t
+        )
+      );
+      setEditingTicket(null);
+    } catch (error) {
+      console.error("Error al actualizar ticket:", error.message);
+    }
   };
 
+  // -------------------------------
+  // Diagnóstico
+  // -------------------------------
+  const handleAddDiagnosis = async (ticketId) => {
+    const diagnosis = prompt("Ingrese el diagnóstico:");
+    if (!diagnosis) return;
+    try {
+      const updated = await fetchDataBackend(
+        `admin/tickets/${ticketId}/diagnose`,
+        { diagnostico: diagnosis },
+        "POST"
+      );
+      setTickets((prev) =>
+        prev.map((t) =>
+          t.id === ticketId
+            ? normalizeTickets([updated.ticket])[0]
+            : t
+        )
+      );
+    } catch (error) {
+      console.error("Error al agregar diagnóstico:", error.message);
+    }
+  };
+
+  // -------------------------------
+  // Actualizar estado
+  // -------------------------------
+  const handleUpdateStatus = async (ticketId) => {
+    const newStatus = prompt(
+      "Ingrese el nuevo estado (ej: En Reparación, Completado, Listo para Entrega):"
+    );
+    if (!newStatus) return;
+    try {
+      const updated = await fetchDataBackend(
+        `admin/tickets/${ticketId}/status`,
+        { nuevoEstado: newStatus },
+        "POST"
+      );
+      setTickets((prev) =>
+        prev.map((t) =>
+          t.id === ticketId
+            ? normalizeTickets([updated.ticket])[0]
+            : t
+        )
+      );
+    } catch (error) {
+      console.error("Error al actualizar estado:", error.message);
+    }
+  };
+
+  // -------------------------------
+  // Crear proforma
+  // -------------------------------
+  const handleCreateProforma = async (ticketId) => {
+    const total = prompt("Ingrese el total de la proforma:");
+    if (!total) return;
+    const detalles =
+      prompt("Ingrese detalles de la proforma (opcional):") || "Sin detalles";
+    try {
+      const updated = await fetchDataBackend(
+        `admin/tickets/${ticketId}/proforma`,
+        { proformaDetalles: detalles, precioTotal: total },
+        "POST"
+      );
+      setTickets((prev) =>
+        prev.map((t) =>
+          t.id === ticketId
+            ? normalizeTickets([updated.ticket])[0]
+            : t
+        )
+      );
+    } catch (error) {
+      console.error("Error al crear proforma:", error.message);
+    }
+  };
+
+  // -------------------------------
+  // Vista detalle
+  // -------------------------------
   if (selectedTicket) {
     return (
       <div className="admin-tickets-section">
         <div className="tickets-header">
-          <button className="back-button" onClick={() => setSelectedTicket(null)}>
-            <ArrowLeft size={20} />
-            Volver a Tickets
+          <button
+            className="back-button"
+            onClick={() => setSelectedTicket(null)}
+          >
+            <ArrowLeft size={20} /> Volver a Tickets
           </button>
           <h1>Detalle del Ticket</h1>
         </div>
-        <TicketDetails ticket={selectedTicket} onBack={() => setSelectedTicket(null)} />
+        <TicketDetails
+          ticket={selectedTicket}
+          onBack={() => setSelectedTicket(null)}
+        />
       </div>
     );
   }
 
+  // -------------------------------
+  // Render principal
+  // -------------------------------
   return (
     <div className="admin-tickets-section">
       <div className="tickets-header">
@@ -167,9 +270,12 @@ const AdminTickets = () => {
             className="status-filter"
           >
             <option>Todos los estados</option>
-            <option>Abierto</option>
-            <option>En progreso</option>
-            <option>Cerrado</option>
+            <option>Ingresado</option>
+            <option>En Diagnóstico</option>
+            <option>Esperando Aprobación</option>
+            <option>En Reparación</option>
+            <option>Completado</option>
+            <option>Listo para Entrega</option>
           </select>
           <input
             type="date"
@@ -178,10 +284,13 @@ const AdminTickets = () => {
             className="date-filter"
           />
         </div>
+
         <div className="tickets-actions">
-          <button className="new-ticket-button" onClick={handleNewTicket}>
-            <Plus size={20} />
-            Nuevo Ticket
+          <button
+            className="new-ticket-button"
+            onClick={() => setIsNewTicketModalOpen(true)}
+          >
+            <Plus size={20} /> Nuevo Ticket
           </button>
         </div>
       </div>
@@ -197,6 +306,7 @@ const AdminTickets = () => {
               <th>Asignado</th>
               <th>Fecha</th>
               <th>Acciones</th>
+              <th>Extras</th>
             </tr>
           </thead>
           <tbody>
@@ -206,12 +316,14 @@ const AdminTickets = () => {
                   <span className="ticket-number">{ticket.number}</span>
                   <div className="ticket-details">
                     <span className="ticket-title">{ticket.title}</span>
-                    <span className="ticket-description">{ticket.description}</span>
+                    <span className="ticket-description">
+                      {ticket.description}
+                    </span>
                   </div>
                 </td>
                 <td>{ticket.client}</td>
                 <td>
-                  <span className={`status-badge ${ticket.status.replace(' ', '-')}`}>
+                  <span className={`status-badge ${ticket.status.replace(" ", "-")}`}>
                     {ticket.status}
                   </span>
                 </td>
@@ -224,42 +336,60 @@ const AdminTickets = () => {
                 <td>{ticket.date}</td>
                 <td>
                   <div className="ticket-actions">
-                    <button 
-                      className="action-button view" 
+                    <button
+                      className="action-button view"
                       title="Ver detalles"
                       onClick={() => setSelectedTicket(ticket)}
                     >
                       <Eye size={20} />
                     </button>
-                    <button 
-                      className="action-button edit" 
+                    <button
+                      className="action-button edit"
                       title="Editar ticket"
-                      onClick={() => handleEditTicket(ticket)}
+                      onClick={() => setEditingTicket(ticket)}
                     >
                       <Pencil size={20} />
                     </button>
                     <div className="download-container">
-                      <button 
+                      <button
                         className="action-button download"
-                        title="Descargar ticket"
+                        title="Descargar factura"
                         onClick={() => setShowDownloadOptions(ticket.id)}
                       >
                         <Download size={20} />
                       </button>
                       {showDownloadOptions === ticket.id && (
                         <div className="download-options ticket-download-options">
-                          <button onClick={() => handleDownload('pdf', ticket)}>
-                            <FileText size={16} />
-                            PDF
+                          <button onClick={() => handleDownload("pdf", ticket)}>
+                            <FileText size={16} /> PDF
                           </button>
-                          <button onClick={() => handleDownload('excel', ticket)}>
-                            <FileSpreadsheet size={16} />
-                            Excel
+                          <button onClick={() => handleDownload("xml", ticket)}>
+                            <FileSpreadsheet size={16} /> XML
                           </button>
                         </div>
                       )}
                     </div>
                   </div>
+                </td>
+                <td>
+                  <button
+                    className="action-button diagnose"
+                    onClick={() => handleAddDiagnosis(ticket.id)}
+                  >
+                    Diagnóstico
+                  </button>
+                  <button
+                    className="action-button proforma"
+                    onClick={() => handleCreateProforma(ticket.id)}
+                  >
+                    Proforma
+                  </button>
+                  <button
+                    className="action-button status"
+                    onClick={() => handleUpdateStatus(ticket.id)}
+                  >
+                    Cambiar Estado
+                  </button>
                 </td>
               </tr>
             ))}
@@ -267,13 +397,13 @@ const AdminTickets = () => {
         </table>
       </div>
 
+      {/* Modales */}
       <TicketModal
         isOpen={isNewTicketModalOpen}
         onClose={() => setIsNewTicketModalOpen(false)}
         title="Nuevo Ticket"
         onSubmit={handleSubmitNewTicket}
       />
-
       <TicketModal
         isOpen={editingTicket !== null}
         onClose={() => setEditingTicket(null)}
