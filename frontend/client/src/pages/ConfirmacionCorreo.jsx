@@ -14,7 +14,8 @@ const ConfirmacionCorreo = () => {
     const confirmarCorreo = async () => {
       const toastId = toast.loading("Procesando, por favor espera...");
       try {
-        const res = await fetchDataBackend(`/cliente/confirm/${token}`, null, "GET", false);
+        const res = await fetchDataBackend(`/clientes/confirm/${token}`, null, "GET", "web");
+
 
         // ✅ Mostramos toast verde de éxito
         toast.update(toastId, {

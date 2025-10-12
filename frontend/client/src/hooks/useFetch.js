@@ -1,14 +1,20 @@
 import axios from "axios";
 import { useCallback } from "react";
 
-const API_URL = import.meta.env.VITE_API_DESK.endsWith("/")
+const WEB_URL = import.meta.env.VITE_URL_BACK.endsWith("/")
+  ? import.meta.env.VITE_URL_BACK
+  : import.meta.env.VITE_URL_BACK + "/";
+
+const DESK_URL = import.meta.env.VITE_API_DESK.endsWith("/")
   ? import.meta.env.VITE_API_DESK
   : import.meta.env.VITE_API_DESK + "/";
 
 function useFetch() {
   const fetchDataBackend = useCallback(
-    async (endpoint, data = null, method = "GET") => {
-      const url = endpoint.startsWith("/") ? `${API_URL}${endpoint.slice(1)}` : `${API_URL}${endpoint}`;
+    async (endpoint, data = null, method = "GET", backend = "web") => {
+      const BASE_URL = backend === "desk" ? DESK_URL : WEB_URL;
+      const url = endpoint.startsWith("/") ? `${BASE_URL}${endpoint.slice(1)}` : `${BASE_URL}${endpoint}`;
+
       try {
         const token = localStorage.getItem("token");
         const isFormData = data instanceof FormData;
