@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Ticket, Plus } from "lucide-react";
 import ModalCrearTicket from "../../components/Tickets/ModalCrearTicket";
 import useFetch from "../../hooks/useFetch";
 
-const Ticket = () => {
+const TicketPage = () => {
   const { fetchDataBackend } = useFetch();
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,13 +50,17 @@ const Ticket = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-gradient-to-r from-blue-100/40 via-white/20 to-purple-100/40 backdrop-blur-md">
+    <div className="p-6 min-h-screen">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-800 drop-shadow-md">🎟️ Tickets</h1>
+        <h1 className="text-3xl font-extrabold text-gray-800 drop-shadow-md">
+          <Ticket className="inline-block mr-2" size={32} />
+          Tickets
+        </h1>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-5 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow-md transition-transform transform hover:scale-105"
+          className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors flex items-center gap-2"
         >
+          <Plus size={20} />
           Crear Ticket
         </button>
       </div>
@@ -70,25 +75,34 @@ const Ticket = () => {
         {tickets.map((ticket) => (
           <div
             key={ticket.id ?? Math.random()}
-            className="rounded-2xl shadow-lg p-5 bg-white/50 backdrop-blur-lg border border-white/30 transition-transform hover:scale-105"
+            className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 p-6"
           >
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="font-semibold text-xl text-gray-800">
-                {ticket.titulo || `Ticket #${ticket.id}`}
-              </h2>
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex-1">
+                <h2 className="font-semibold text-lg text-gray-800 mb-1">
+                  {ticket.titulo || `Ticket #${ticket.id}`}
+                </h2>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {ticket.descripcion || "Sin descripción"}
+                </p>
+              </div>
               <span
-                className={`px-3 py-1 rounded-full text-sm font-medium shadow-sm ${getStatusColor(
+                className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
                   ticket.estado
                 )}`}
               >
                 {ticket.estado || "Pendiente"}
               </span>
             </div>
-            <p className="mb-2 text-gray-700">{ticket.descripcion || "Sin descripción"}</p>
-            {ticket.tipo && <p className="text-sm text-gray-600"> Tipo: {ticket.tipo}</p>}
-            {ticket.diagnostico && <p className="text-sm text-gray-600">Diagnóstico: {ticket.diagnostico}</p>}
-            {ticket.precio && <p className="text-sm text-gray-600">Precio: ${ticket.precio}</p>}
-            {ticket.proforma && <p className="text-sm text-gray-600">Proforma: {ticket.proforma}</p>}
+
+            {(ticket.tipo || ticket.diagnostico || ticket.precio || ticket.proforma) && (
+              <div className="space-y-1 text-sm text-gray-500 border-t border-gray-100 pt-3">
+                {ticket.tipo && <p><span className="font-medium">Tipo:</span> {ticket.tipo}</p>}
+                {ticket.diagnostico && <p><span className="font-medium">Diagnóstico:</span> {ticket.diagnostico}</p>}
+                {ticket.precio && <p><span className="font-medium">Precio:</span> ${ticket.precio}</p>}
+                {ticket.proforma && <p><span className="font-medium">Proforma:</span> {ticket.proforma}</p>}
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -102,4 +116,4 @@ const Ticket = () => {
   );
 };
 
-export default Ticket;
+export default TicketPage;

@@ -35,13 +35,13 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-black/70 to-black/50 backdrop-blur-sm flex justify-center items-center z-50 animate-in fade-in duration-200">
-      <div className="bg-gradient-to-br from-white to-gray-50 p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 transform animate-in zoom-in duration-300 border border-gray-100">
+    <div className="modal-overlay">
+      <div className="modal-content max-w-lg">
         {/* Header con icono */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-2xl shadow-lg">
+          <div className="bg-primary p-3 rounded-lg">
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6 text-background"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -55,60 +55,47 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
             </svg>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">Nuevo Ticket</h2>
+            <h2 className="text-2xl font-bold text-neutral">Nuevo Ticket</h2>
             <p className="text-sm text-gray-500">
               Completa la información requerida
             </p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Título */}
-          <div className="relative">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Título
-            </label>
+          <div className="form-group">
+            <label className="form-label">Título</label>
             <input
               type="text"
               placeholder="Ej: Error en el sistema de pagos"
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              className="border-2 border-gray-200 p-3 w-full rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none text-sm bg-white shadow-sm"
+              className="form-input"
               required
             />
           </div>
 
           {/* Descripción */}
-          <div className="relative">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Descripción
-            </label>
+          <div className="form-group">
+            <label className="form-label">Descripción</label>
             <textarea
               placeholder="Describe el problema detalladamente..."
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
-              className="border-2 border-gray-200 p-3 w-full rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none text-sm resize-none bg-white shadow-sm"
+              className="form-textarea"
               rows={4}
               required
             />
           </div>
 
           {/* Prioridad */}
-          <div className="relative">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Prioridad
-            </label>
+          <div className="form-group">
+            <label className="form-label">Prioridad</label>
             <select
               value={prioridad}
               onChange={(e) => setPrioridad(e.target.value)}
-              className="border-2 border-gray-200 p-3 w-full rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none text-sm cursor-pointer bg-white shadow-sm appearance-none"
-              style={{
-                backgroundImage:
-                  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E\")",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "right 0.75rem center",
-                backgroundSize: "1.25rem",
-              }}
+              className="form-select"
             >
               <option value="baja">Baja</option>
               <option value="media">Media</option>
@@ -127,42 +114,20 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
           )}
 
           {/* Botones */}
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-6">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-all hover:border-gray-400 hover:shadow-md active:scale-95"
+              className="flex-1 px-4 py-2 text-neutral hover:text-primary transition-colors"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 disabled:active:scale-100"
+              className="flex-1 px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
             >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      fill="none"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Creando...
-                </span>
-              ) : (
-                "✓ Crear Ticket"
-              )}
+              {loading ? "Creando..." : "Crear Ticket"}
             </button>
           </div>
         </form>

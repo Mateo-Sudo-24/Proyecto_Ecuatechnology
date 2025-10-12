@@ -42,7 +42,7 @@ const Profile = () => {
             className="w-24 h-24 rounded-full object-cover"
           />
           <div className="flex flex-col gap-2">
-            <button className="px-4 py-2 rounded bg-gray-200 hover:bg-blue-500 hover:text-white transition">
+            <button className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors">
               Cambiar Foto
             </button>
             <p className="text-sm text-gray-500">JPG, PNG o GIF, Máximo 2MB</p>
@@ -57,7 +57,7 @@ const Profile = () => {
               type="text"
               value={profile.name}
               onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-              className="w-full p-2 rounded border border-gray-300 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="form-input"
             />
           </div>
           <div>
@@ -66,7 +66,7 @@ const Profile = () => {
               type="email"
               value={profile.email}
               onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-              className="w-full p-2 rounded border border-gray-300 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="form-input"
             />
           </div>
           <div>
@@ -75,7 +75,7 @@ const Profile = () => {
               type="tel"
               value={profile.phone}
               onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-              className="w-full p-2 rounded border border-gray-300 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="form-input"
             />
           </div>
           <div>
@@ -84,7 +84,7 @@ const Profile = () => {
               type="text"
               value={profile.address}
               onChange={(e) => setProfile({ ...profile, address: e.target.value })}
-              className="w-full p-2 rounded border border-gray-300 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="form-input"
             />
           </div>
         </div>
@@ -92,7 +92,7 @@ const Profile = () => {
         <p className="mt-4 text-gray-600">{profile.additionalInfo}</p>
         <button
           onClick={handleSaveChanges}
-          className="mt-4 px-6 py-2 rounded bg-yellow-400 text-white hover:bg-yellow-500 transition"
+          className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors"
         >
           Guardar Cambios
         </button>
@@ -110,7 +110,7 @@ const Profile = () => {
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full p-2 rounded border border-gray-300 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="form-input"
             />
           </div>
           <div>
@@ -119,7 +119,7 @@ const Profile = () => {
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full p-2 rounded border border-gray-300 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="form-input"
             />
           </div>
           <div>
@@ -128,7 +128,7 @@ const Profile = () => {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full p-2 rounded border border-gray-300 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="form-input"
             />
           </div>
         </div>
@@ -142,7 +142,7 @@ const Profile = () => {
 
         <button
           onClick={handleChangePassword}
-          className="mt-4 px-6 py-2 rounded bg-yellow-400 text-white hover:bg-yellow-500 transition"
+          className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors"
         >
           Cambiar Contraseña
         </button>

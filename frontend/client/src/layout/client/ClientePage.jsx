@@ -108,19 +108,19 @@ const ClientePage = () => {
   const progressWidth = `${Math.min(totalTickets * 10, 100)}%`;
 
   return (
-    <div className="max-w-7xl mx-auto p-6 font-sans">
+    <div className="max-w-7xl mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6 text-gray-900">Inicio</h2>
 
       {/* Indicador de tickets creados */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Tickets Creados</CardTitle>
-          <Ticket className="h-5 w-5 text-blue-500" />
-        </CardHeader>
-        <CardContent>
+      <div className="card">
+        <div className="card-header">
+          <h3 className="card-title">Tickets Creados</h3>
+          <Ticket className="h-5 w-5 text-primary" />
+        </div>
+        <div className="card-body">
           <div className="w-full bg-gray-200 h-4 rounded-full">
             <div
-              className="bg-blue-400 h-4 rounded-full transition-all"
+              className="bg-primary h-4 rounded-full transition-all"
               style={{ width: progressWidth }}
             />
           </div>
@@ -128,8 +128,8 @@ const ClientePage = () => {
             {totalTickets} ticket{totalTickets !== 1 ? "s" : ""} cread
             {totalTickets !== 1 ? "os" : "o"}
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Lista de proformas pendientes */}
       <div className="mt-6">
@@ -148,37 +148,41 @@ const ClientePage = () => {
             .map((ticket) => (
               <div
                 key={ticket.id}
-                className="border p-4 rounded shadow flex justify-between items-center bg-white"
+                className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 p-6"
               >
-                <div>
-                  <p className="font-semibold">
-                    {ticket.titulo || `Ticket #${ticket.id}`}
-                  </p>
-                  <p className="text-sm text-gray-500">{ticket.descripcion}</p>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() =>
-                      handleProformaAction(ticket.id, "aprobar")
-                    }
-                    className="px-3 py-1 bg-green-500 text-white rounded text-sm"
-                  >
-                    Aprobar
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleProformaAction(ticket.id, "rechazar")
-                    }
-                    className="px-3 py-1 bg-red-500 text-white rounded text-sm"
-                  >
-                    Rechazar
-                  </button>
-                  <button
-                    onClick={() => handleDownloadInvoice(ticket.id)}
-                    className="px-3 py-1 bg-blue-500 text-white rounded text-sm flex items-center gap-1"
-                  >
-                    <FileDown className="h-4 w-4" /> Factura
-                  </button>
+                <div className="card-body">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold">
+                        {ticket.titulo || `Ticket #${ticket.id}`}
+                      </p>
+                      <p className="text-sm text-gray-500">{ticket.descripcion}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() =>
+                          handleProformaAction(ticket.id, "aprobar")
+                        }
+                        className="btn btn-sm"
+                      >
+                        Aprobar
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleProformaAction(ticket.id, "rechazar")
+                        }
+                        className="btn btn-outline"
+                      >
+                        Rechazar
+                      </button>
+                      <button
+                        onClick={() => handleDownloadInvoice(ticket.id)}
+                        className="btn btn-secondary btn-sm"
+                      >
+                        <FileDown className="h-4 w-4" /> Factura
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}

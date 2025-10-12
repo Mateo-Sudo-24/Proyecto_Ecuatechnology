@@ -18,14 +18,14 @@ import {
   Menu,
   X,
   Home,
-  Shield,
+  Users,
   LogOut,
 } from "lucide-react";
 
 import ClientePage from "./ClientePage";
 import MantenimientosPage from "./MantenimientosPage";
 import Perfil from "./Profile";
-import Tickets from "./Ticket";
+import TicketPage from "./Ticket";
 import { useProfileStore } from "../../context/storeProfile";
 
 const cn = (...classes) => classes.filter(Boolean).join(" ");
@@ -61,23 +61,20 @@ function Cliente_Page() {
   return (
     <div className="min-h-screen w-full flex flex-col bg-background overflow-x-hidden">
       {/* Encabezado */}
-      <header className="bg-neutral text-background p-4 md:p-5 flex justify-between items-center shadow-md z-50 w-full">
-        <div className="flex items-center gap-2">
-          <Shield size={24} className="text-background" />
-          <div className="flex flex-col">
-            <span className="text-xl font-bold text-background font-heading">
-              Ecuatecnology
-            </span>
-            <span className="text-sm text-primary font-medium font-body">
-              Panel de Cliente
-            </span>
+      <header className="admin-header">
+        <div className="admin-header-left">
+          <Users size={24} className="text-background mr-4" />
+          <div className="admin-logo">
+            <div className="admin-logo-text">
+              <span className="admin-logo-title">Ecuatecnology</span>
+              <span className="admin-logo-subtitle">Panel de Cliente</span>
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-2 text-background">
-          <span className="text-sm font-medium hidden md:block font-body">
+        <div className="admin-header-right">
+          <span className="admin-user-info">
             {usuario?.nombre || "Usuario Desconocido"}
           </span>
-          <User size={20} />
           <button
             className="md:hidden text-background"
             onClick={() => setIsOpen(!isOpen)}
@@ -87,12 +84,12 @@ function Cliente_Page() {
         </div>
       </header>
 
-      <div className="flex flex-1 min-h-[calc(100vh-80px)] w-full">
+      <div className="admin-layout">
         {/* Barra Lateral */}
         <aside
           className={cn(
-            "fixed inset-y-0 left-0 z-40 w-64 bg-gray-100 border-r border-gray-200 flex flex-col p-6 transition-transform duration-300 ease-in-out md:static md:translate-x-0",
-            isOpen ? "translate-x-0" : "-translate-x-full"
+            "admin-sidebar",
+            isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
           )}
         >
           <button
@@ -102,7 +99,7 @@ function Cliente_Page() {
             <X size={24} />
           </button>
 
-          <nav className="flex-1 flex flex-col gap-1 mt-8 md:mt-0">
+          <nav className="admin-nav">
             {navigation.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -112,10 +109,8 @@ function Cliente_Page() {
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "flex items-center gap-3 py-3 px-4 rounded-lg cursor-pointer transition-colors duration-200 font-medium text-sm font-body",
-                    isActive
-                      ? "bg-primary text-background font-semibold"
-                      : "text-neutral hover:bg-gray-200 hover:text-primary"
+                    "admin-nav-item",
+                    isActive ? "active" : ""
                   )}
                   onClick={() => setIsOpen(false)}
                 >
@@ -126,28 +121,28 @@ function Cliente_Page() {
             })}
           </nav>
 
-          <div className="border-t border-gray-200 pt-6 mt-auto">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-primary" />
+          <div className="admin-sidebar-footer">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
+                <User size={20} className="text-background" />
+              </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-neutral font-body">
+                <p className="text-sm font-medium text-neutral">
                   {usuario?.nombre || "Nombre Cliente"}
                 </p>
-                <p className="text-xs text-neutral opacity-60 font-body">
+                <p className="text-xs text-neutral opacity-60">
                   {usuario?.email || "cliente@empresa.com"}
                 </p>
               </div>
             </div>
 
-            <div className="border-t border-gray-200 pt-6 mt-4">
-              <button
-                onClick={handleLogout}
-                className="bg-transparent border border-gray-300 flex items-center gap-2 py-3 px-4 rounded-lg cursor-pointer transition-colors duration-200 font-medium text-sm text-accent hover:bg-red-100 hover:text-red-600 w-full text-left font-body"
-              >
-                <LogOut size={20} />
-                <span>Cerrar sesión</span>
-              </button>
-            </div>
+            <button
+              onClick={handleLogout}
+              className="admin-logout-button"
+            >
+              <LogOut size={20} />
+              <span>Cerrar sesión</span>
+            </button>
           </div>
         </aside>
 
@@ -160,11 +155,11 @@ function Cliente_Page() {
         )}
 
         {/* Contenido Principal */}
-        <main className="flex-1 p-4 md:p-8 bg-background overflow-y-auto">
+        <main className="admin-main">
           <Routes>
             <Route path="/" element={<ClientePage />} />
             <Route path="mantenimientos" element={<MantenimientosPage />} />
-            <Route path="tickets" element={<Tickets />} />
+            <Route path="tickets" element={<TicketPage />} />
             <Route path="perfil" element={<Perfil />} />
           </Routes>
         </main>

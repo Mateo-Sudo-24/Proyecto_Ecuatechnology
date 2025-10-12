@@ -113,179 +113,160 @@ export default function MantenimientosPage() {
   });
 
   return (
-    <div className="max-w-[89.2rem] font-sans">
-      <header className="p-6 flex justify-between items-center text-neutral">
+    <div className="max-w-7xl mx-auto p-6">
+      <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-3xl font-bold">Mantenimientos</h2>
-          <p className="text-sm text-[var(--neutral)]/60">Gestiona y visualiza todos tus servicios de mantenimiento</p>
+          <h2 className="text-3xl font-bold text-gray-900">Mantenimientos</h2>
+          <p className="text-sm text-gray-600">Gestiona y visualiza todos tus servicios de mantenimiento</p>
         </div>
-        {/*<div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
-          <Input
-            placeholder="Buscar..."
-            className="pl-10 w-[200px]"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>*/}
-      </header>
+      </div>
 
-      <main className="p-6">
-        {/* Filtros y Búsqueda */}
-        <div className="rounded-lg border bg-white text-gray-900 shadow-sm mb-6">
-          <div className="flex flex-col space-y-1.5 p-6">
-            <h3 className="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2">
-              <Filter className="h-5 w-5" />
-              Filtros y Búsqueda
-            </h3>
-          </div>
-          <div className="  p-6 pt-0">
-            <div className=" flex gap-4 md:flex-row md:items-center">
-              <div className="relative ">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 " />
-                <Input
-                  placeholder="Buscar por título, descripción o ubicación..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-[40rem]"
-                />
-                
-              </div>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectItem value="all">Todos los estados</SelectItem>
-                <SelectItem value="completed">Completado</SelectItem>
-                <SelectItem value="in-progress">En Progreso</SelectItem>
-                <SelectItem value="scheduled">Programado</SelectItem>
-                <SelectItem value="pending">Pendiente</SelectItem>
-              </Select>
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectItem value="all">Todas las categorías</SelectItem>
-                <SelectItem value="HVAC">HVAC</SelectItem>
-                <SelectItem value="Eléctrico">Eléctrico</SelectItem>
-                <SelectItem value="Mecánico">Mecánico</SelectItem>
-                <SelectItem value="Plomería">Plomería</SelectItem>
-              </Select>
+      {/* Filtros y Búsqueda */}
+      <div className="card mb-6">
+        <div className="card-header">
+          <h3 className="card-title">
+            <Filter className="h-5 w-5 mr-2" />
+            Filtros y Búsqueda
+          </h3>
+        </div>
+        <div className="card-body">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+              <Input
+                placeholder="Buscar por título, descripción o ubicación..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
             </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectItem value="all">Todos los estados</SelectItem>
+              <SelectItem value="completed">Completado</SelectItem>
+              <SelectItem value="in-progress">En Progreso</SelectItem>
+              <SelectItem value="scheduled">Programado</SelectItem>
+              <SelectItem value="pending">Pendiente</SelectItem>
+            </Select>
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectItem value="all">Todas las categorías</SelectItem>
+              <SelectItem value="HVAC">HVAC</SelectItem>
+              <SelectItem value="Eléctrico">Eléctrico</SelectItem>
+              <SelectItem value="Mecánico">Mecánico</SelectItem>
+              <SelectItem value="Plomería">Plomería</SelectItem>
+            </Select>
           </div>
         </div>
+      </div>
 
-        {/* Lista de Servicios */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredServices.map((service) => {
-            const StatusIcon = statusConfig[service.status]?.icon;
-            return (
-              <div key={service.id} className="rounded-lg border bg-white text-gray-900 shadow-sm hover:shadow-lg transition-shadow">
-                <div className="flex flex-col space-y-1.5 p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold leading-none tracking-tight">{service.title}</h3>
-                      <p className="text-sm text-gray-500 mt-1">{service.description}</p>
-                    </div>
-                    <Wrench className="h-5 w-5 text-[var(--primary)]" />
+      {/* Lista de Servicios */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+        {filteredServices.map((service) => {
+          const StatusIcon = statusConfig[service.status]?.icon;
+          return (
+            <div key={service.id} className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 p-6">
+              <div className="card-header">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold">{service.title}</h3>
+                    <p className="text-sm text-gray-500 mt-1">{service.description}</p>
                   </div>
+                  <Wrench className="h-5 w-5 text-primary" />
                 </div>
+              </div>
 
-                <div className="p-6 pt-0 space-y-4">
-                  <div className="flex items-center gap-2">
-                    {StatusIcon && (
-                      <Badge className={cn(statusConfig[service.status].color)}>
-                        <StatusIcon className="mr-1 h-3 w-3" />
-                        {statusConfig[service.status].label}
-                      </Badge>
-                    )}
-                    <Badge className={cn(priorityConfig[service.priority].color)}>
-                      {priorityConfig[service.priority].label}
+              <div className="card-body">
+                <div className="flex items-center gap-2 mb-4">
+                  {StatusIcon && (
+                    <Badge className={cn(statusConfig[service.status].color)}>
+                      <StatusIcon className="mr-1 h-3 w-3" />
+                      {statusConfig[service.status].label}
                     </Badge>
+                  )}
+                  <Badge className={cn(priorityConfig[service.priority].color)}>
+                    {priorityConfig[service.priority].label}
+                  </Badge>
+                </div>
+
+                <div className="space-y-2 text-sm mb-4">
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <Calendar className="h-4 w-4" />
+                    <span>Próximo: {new Date(service.nextDate).toLocaleDateString("es-ES")}</span>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <Calendar className="h-4 w-4" />
-                      <span>Próximo: {new Date(service.nextDate).toLocaleDateString("es-ES")}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <MapPin className="h-4 w-4" />
-                      <span>{service.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <Wrench className="h-4 w-4" />
-                      <span>Técnico: {service.technician}</span>
-                    </div>
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <MapPin className="h-4 w-4" />
+                    <span>{service.location}</span>
                   </div>
-                  <div className="pt-2 border-t">
-                    <Badge variant="secondary">{service.category}</Badge>
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <Wrench className="h-4 w-4" />
+                    <span>Técnico: {service.technician}</span>
                   </div>
-                  <div className="flex gap-2 pt-2">
-                    <Button className="flex-1">
-                      <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      Descargar Factura
+                </div>
+
+                <div className="pt-2 border-t">
+                  <Badge variant="secondary">{service.category}</Badge>
+                </div>
+
+                <div className="flex gap-2 pt-4">
+                  <Button className="flex-1">
+                    <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Descargar Factura
+                  </Button>
+                  {service.status === "scheduled" && (
+                    <Button className="btn-outline">
+                      Reprogramar
                     </Button>
-                    {service.status === "scheduled" && (
-                      <Button className="flex-1 text-neutral bg-transparent hover:bg-blue-500 hover:text-white" style={{  border: '1px solid var(--neutral) ' }}>
-                        Reprogramar
-                      </Button>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Mensaje sin resultados */}
+      {filteredServices.length === 0 && (
+        <div className="card text-center py-12">
+          <Wrench className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold mb-2">No se encontraron servicios</h3>
+          <p className="text-gray-500">Intenta ajustar los filtros o términos de búsqueda</p>
         </div>
+      )}
 
-        {/* Mensaje sin resultados */}
-        {filteredServices.length === 0 && (
-          <div className="rounded-lg border bg-white text-gray-900 shadow-sm text-center py-12">
-            <div className="p-6 pt-0">
-              <Wrench className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No se encontraron servicios</h3>
-              <p className="text-gray-500">Intenta ajustar los filtros o términos de búsqueda</p>
-            </div>
-          </div>
-        )}
-
-        {/* Resumen de Estadísticas */}
-        <div className="mt-8 grid gap-4 md:grid-cols-4">
-          <div className="rounded-lg border bg-white text-gray-900 shadow-sm">
-            <div className="p-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-[var(--primary)]">{filteredServices.length}</div>
-                <div className="text-sm text-gray-500">Servicios Mostrados</div>
-              </div>
-            </div>
-          </div>
-          <div className="rounded-lg border bg-white text-gray-900 shadow-sm">
-            <div className="p-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
-                  {maintenanceServices.filter((s) => s.status === "completed").length}
-                </div>
-                <div className="text-sm text-gray-500">Completados</div>
-              </div>
-            </div>
-          </div>
-          <div className="rounded-lg border bg-white text-gray-900 shadow-sm">
-            <div className="p-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">
-                  {maintenanceServices.filter((s) => s.status === "in-progress").length}
-                </div>
-                <div className="text-sm text-gray-500">En Progreso</div>
-              </div>
-            </div>
-          </div>
-          <div className="rounded-lg border bg-white text-gray-900 shadow-sm">
-            <div className="p-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-yellow-600">
-                  {maintenanceServices.filter((s) => s.status === "scheduled").length}
-                </div>
-                <div className="text-sm text-gray-500">Programados</div>
-              </div>
-            </div>
+      {/* Resumen de Estadísticas */}
+      <div className="grid gap-4 md:grid-cols-4">
+        <div className="card text-center">
+          <div className="card-body">
+            <div className="text-2xl font-bold text-primary">{filteredServices.length}</div>
+            <div className="text-sm text-gray-500">Servicios Mostrados</div>
           </div>
         </div>
-      </main>
+        <div className="card text-center">
+          <div className="card-body">
+            <div className="text-2xl font-bold text-green-600">
+              {maintenanceServices.filter((s) => s.status === "completed").length}
+            </div>
+            <div className="text-sm text-gray-500">Completados</div>
+          </div>
+        </div>
+        <div className="card text-center">
+          <div className="card-body">
+            <div className="text-2xl font-bold text-blue-600">
+              {maintenanceServices.filter((s) => s.status === "in-progress").length}
+            </div>
+            <div className="text-sm text-gray-500">En Progreso</div>
+          </div>
+        </div>
+        <div className="card text-center">
+          <div className="card-body">
+            <div className="text-2xl font-bold text-yellow-600">
+              {maintenanceServices.filter((s) => s.status === "scheduled").length}
+            </div>
+            <div className="text-sm text-gray-500">Programados</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
