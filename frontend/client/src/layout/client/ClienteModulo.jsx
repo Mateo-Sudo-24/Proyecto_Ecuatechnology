@@ -1,6 +1,6 @@
 // src/components/client/DashboardCliente.jsx
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   NavLink,
   useLocation,
@@ -12,7 +12,6 @@ import {
 import useAuthStore from "../../context/storeAuth";
 
 import {
-  Wrench,
   Ticket,
   User,
   Menu,
@@ -20,19 +19,20 @@ import {
   Home,
   Users,
   LogOut,
+  BarChart3,
 } from "lucide-react";
 
 import ClientePage from "./ClientePage";
-import MantenimientosPage from "./MantenimientosPage";
 import Perfil from "./Profile";
 import TicketPage from "./Ticket";
+import ClienteStatistics from "./ClienteStatistics";
 import { useProfileStore } from "../../context/storeProfile";
 
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 
 const navigation = [
   { name: "Inicio", href: "/cliente", icon: Home },
-  { name: "Mantenimientos", href: "/cliente/mantenimientos", icon: Wrench },
+  { name: "Estadísticas", href: "/cliente/estadisticas", icon: BarChart3 },
   { name: "Tickets", href: "/cliente/tickets", icon: Ticket },
   { name: "Perfil", href: "/cliente/perfil", icon: User },
 ];
@@ -44,7 +44,31 @@ function Cliente_Page() {
 
   // Sacar las funciones de auth global
   const logout = useAuthStore((state) => state.logout);
+  const initializeUser = useAuthStore((state) => state.initializeUser);
+  const isLoading = useAuthStore((state) => state.isLoading);
   const usuario = useProfileStore((state) => state.user) || {};
+
+
+  // Inicializar perfil desde localStorage
+  const initializeProfileFromStorage = useProfileStore((state) => state.initializeFromStorage);
+
+
+  // Inicializar usuario y cargar perfil automáticamente
+  useEffect(() => {
+    const initUser = async () => {
+      try {
+        // Primero intentar cargar desde localStorage
+        initializeProfileFromStorage();
+
+        // Luego cargar desde el backend
+        await initializeUser();
+      } catch (error) {
+        console.error("Error al inicializar usuario:", error);
+        // Continuar de todos modos para no dejar la pantalla en blanco
+      }
+    };
+    initUser();
+  }, [initializeUser, initializeProfileFromStorage]);
 
   const handleLogout = () => {
     // Limpiar localStorage
@@ -58,6 +82,7 @@ function Cliente_Page() {
     navigate("/login");
   };
   
+
   return (
     <div className="min-h-screen w-full flex flex-col bg-background overflow-x-hidden">
       {/* Encabezado */}
@@ -158,7 +183,7 @@ function Cliente_Page() {
         <main className="admin-main">
           <Routes>
             <Route path="/" element={<ClientePage />} />
-            <Route path="mantenimientos" element={<MantenimientosPage />} />
+            <Route path="estadisticas" element={<ClienteStatistics />} />
             <Route path="tickets" element={<TicketPage />} />
             <Route path="perfil" element={<Perfil />} />
           </Routes>

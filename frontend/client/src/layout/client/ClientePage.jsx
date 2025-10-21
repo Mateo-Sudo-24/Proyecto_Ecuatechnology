@@ -36,9 +36,17 @@ const ClientePage = () => {
     setError(null);
     try {
       const data = await fetchDataBackend("clientes/tickets");
-      setTickets(data);
+      console.log("Tickets cargados:", data);
+      setTickets(data || []);
+
+      // Debug: mostrar información de tickets con proformas
+      const proformaTickets = data.filter(t => t.estado === "Esperando Aprobación");
+      console.log("Tickets con proformas pendientes:", proformaTickets);
+
     } catch (err) {
+      console.error("Error al cargar tickets:", err);
       setError(err.message);
+      setTickets([]);
     } finally {
       setLoading(false);
     }
@@ -136,15 +144,25 @@ const ClientePage = () => {
         <h3 className="text-xl font-semibold mb-2 text-gray-900">
           Proformas Pendientes
         </h3>
+
+
         {tickets.filter(
-          (t) => t.estado?.toLowerCase() === "esperando aprobación"
+          (t) => t.estado === "Esperando Aprobación"
         ).length === 0 && (
-          <p className="text-gray-500">No hay proformas pendientes.</p>
+          <div className="text-center py-4">
+            <p className="text-gray-500 mb-2">No hay proformas pendientes.</p>
+            {/* Debug: Mostrar algunos tickets para verificar estados */}
+            {tickets.length > 0 && (
+              <div className="text-xs text-gray-400 mt-2">
+                Tickets disponibles: {tickets.map(t => `ID:${t.id} Estado:${t.estado}`).join(', ')}
+              </div>
+            )}
+          </div>
         )}
 
         <div className="space-y-4">
           {tickets
-            .filter((t) => t.estado?.toLowerCase() === "esperando aprobación")
+            .filter((t) => t.estado === "Esperando Aprobación")
             .map((ticket) => (
               <div
                 key={ticket.id}

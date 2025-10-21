@@ -1,13 +1,10 @@
 // src/layout/admin/AdminModule.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  User, 
-  BarChart3, 
-  Users, 
-  Ticket, 
-  Clock, 
-  Settings, 
+import {
+  User,
+  Ticket,
+  Settings,
   LogOut,
   Shield,
   UserCheck
@@ -17,11 +14,8 @@ import '../../styles/admin.css';
 
 // Componentes internos
 import AdminManagement from './AdminManagement';
-import AdminStats from './AdminStats';
-import AdminClients from './AdminClients';
 import AdminTickets from './AdminTickets';
 import AdminConfiguration from './AdminConfiguration';
-import AdminChangeHistory from './AdminChangeHistory';
 
 const AdminModule = () => {
   const navigate = useNavigate();
@@ -43,10 +37,7 @@ const AdminModule = () => {
 
   const navigationItems = [
     { id: 'profile', label: 'Información del administrador', icon: UserCheck },
-    { id: 'stats', label: 'Estadísticas Generales', icon: BarChart3 },
-    { id: 'clients', label: 'Gestión de Clientes', icon: Users },
     { id: 'tickets', label: 'Tickets de Soporte', icon: Ticket },
-    { id: 'history', label: 'Historial de Cambios', icon: Clock },
     { id: 'settings', label: 'Configuración', icon: Settings }
   ];
 
@@ -54,14 +45,8 @@ const AdminModule = () => {
     switch (activeSection) {
       case 'profile':
         return <AdminManagement />;
-      case 'stats':
-        return <AdminStats />;
-      case 'clients':
-        return <AdminClients />;
       case 'tickets':
         return <AdminTickets />;
-      case 'history':
-        return <AdminChangeHistory />;
       case 'settings':
         return <AdminConfiguration />;
       default:

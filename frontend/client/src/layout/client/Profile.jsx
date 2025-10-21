@@ -1,28 +1,159 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import useFetch from '../../hooks/useFetch';
+import useAuthStore from '../../context/storeAuth';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Profile = () => {
+  const { fetchDataBackend } = useFetch();
+  const token = useAuthStore((state) => state.token);
+
   const [profile, setProfile] = useState({
-    name: 'Juan Carlos Pérez',
-    email: 'juan.perez@empresa.com',
-    phone: '+34 612 345 678',
-    address: 'Calle Mayor 123, 28001 Quito, Ecuador',
-    additionalInfo: 'Cliente desde 2020. Responsable de mantenimiento de las oficinas centrales.'
+    nombre: '',
+    email: '',
+    telefono: '',
+    confirmEmail: false,
+    createdAt: ''
   });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSaveChanges = () => {
-    console.log('Profile saved:', profile);
-  };
+  // Estados para controlar visibilidad de contraseñas
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleChangePassword = () => {
-    if (newPassword === confirmPassword) {
-      console.log('Password changed to:', newPassword);
-    } else {
-      console.log('Passwords do not match');
+  // Cargar perfil del cliente
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError('');
+        const data = await fetchDataBackend('clientes/profile', null, 'GET', true);
+
+        if (data && data.profile) {
+          setProfile(data.profile);
+        } else {
+          // Si no hay datos del backend, usar datos por defecto
+          setProfile({
+            nombre: 'Juan Carlos Pérez',
+            email: 'juan.perez@empresa.com',
+            telefono: '+34 612 345 678',
+            confirmEmail: true,
+            createdAt: new Date().toISOString()
+          });
+        }
+      } catch (err) {
+        console.error('Error al cargar el perfil:', err);
+        setError('Error al cargar el perfil: ' + (err.message || 'Error desconocido'));
+
+        // Usar datos por defecto si hay error
+        setProfile({
+          nombre: 'Juan Carlos Pérez',
+          email: 'juan.perez@empresa.com',
+          telefono: '+34 612 345 678',
+          confirmEmail: true,
+          createdAt: new Date().toISOString()
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, [token, fetchDataBackend]);
+
+  const handleSaveChanges = async () => {
+    try {
+      setSaving(true);
+      setError('');
+      setMessage('');
+
+      const response = await fetchDataBackend('clientes/profile', {
+        nombre: profile.nombre,
+        telefono: profile.telefono
+      }, 'PUT', true);
+
+      if (response && response.profile) {
+        setProfile(response.profile);
+        setMessage('Perfil actualizado con éxito');
+        setTimeout(() => setMessage(''), 3000);
+      }
+    } catch (err) {
+      console.error('Error al actualizar perfil:', err);
+      setError('Error al actualizar el perfil: ' + (err.message || 'Error desconocido'));
+      setTimeout(() => setError(''), 5000);
+    } finally {
+      setSaving(false);
     }
   };
+
+  const handleChangePassword = async () => {
+    // Solo proceder si hay datos en los campos
+    if (!currentPassword.trim() || !newPassword.trim() || !confirmPassword.trim()) {
+      setError('Por favor completa todos los campos');
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
+
+    // Validaciones básicas
+    if (newPassword !== confirmPassword) {
+      setError('Las contraseñas no coinciden');
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setError('La nueva contraseña debe tener al menos 6 caracteres');
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
+
+    try {
+      setSaving(true);
+      setError('');
+      setMessage('');
+
+      const response = await fetchDataBackend('clientes/change-password', {
+        currentPassword,
+        newPassword
+      }, 'POST', true);
+
+      if (response) {
+        setMessage('✅ Contraseña cambiada con éxito');
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        setTimeout(() => setMessage(''), 3000);
+      }
+    } catch (err) {
+      console.error('Error al cambiar contraseña:', err);
+      setError('❌ Error al cambiar la contraseña: ' + (err.message || 'Error desconocido'));
+      setTimeout(() => setError(''), 5000);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="p-6 bg-gray-50 text-gray-800 w-full font-sans">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando perfil...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 bg-gray-50 text-gray-800 w-full font-sans">
@@ -55,41 +186,52 @@ const Profile = () => {
             <label className="block text-sm font-medium mb-1">Nombre Completo</label>
             <input
               type="text"
-              value={profile.name}
-              onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+              value={profile.nombre || ''}
+              onChange={(e) => setProfile({ ...profile, nombre: e.target.value })}
               className="form-input"
+              disabled={saving}
             />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Correo Electrónico</label>
             <input
               type="email"
-              value={profile.email}
-              onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-              className="form-input"
+              value={profile.email || ''}
+              className="form-input bg-gray-100"
+              disabled={true}
             />
+            <p className="text-xs text-gray-500 mt-1">El correo electrónico no se puede cambiar</p>
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Teléfono</label>
             <input
               type="tel"
-              value={profile.phone}
-              onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+              value={profile.telefono || ''}
+              onChange={(e) => setProfile({ ...profile, telefono: e.target.value })}
               className="form-input"
+              disabled={saving}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Dirección</label>
+            <label className="block text-sm font-medium mb-1">Fecha de Registro</label>
             <input
               type="text"
-              value={profile.address}
-              onChange={(e) => setProfile({ ...profile, address: e.target.value })}
-              className="form-input"
+              value={profile.createdAt ? new Date(profile.createdAt).toLocaleDateString('es-ES') : ''}
+              className="form-input bg-gray-100"
+              disabled={true}
             />
           </div>
         </div>
 
-        <p className="mt-4 text-gray-600">{profile.additionalInfo}</p>
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">
+            Estado de verificación: {profile.confirmEmail ? (
+              <span className="text-green-600 font-medium">Verificado</span>
+            ) : (
+              <span className="text-yellow-600 font-medium">Pendiente de verificación</span>
+            )}
+          </p>
+        </div>
         <button
           onClick={handleSaveChanges}
           className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors"
@@ -103,33 +245,78 @@ const Profile = () => {
         <h3 className="text-lg font-semibold mb-2">Cambiar Contraseña</h3>
         <p className="text-gray-600 mb-4">Actualiza tu contraseña para mantener tu cuenta segura</p>
 
+        {message && (
+          <div className={`mb-4 p-3 rounded-lg ${message.includes('✅') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+            {message}
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium mb-1">Contraseña Actual</label>
-            <input
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className="form-input"
-            />
+            <div className="relative">
+              <input
+                type={showCurrentPassword ? "text" : "password"}
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className="form-input pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              >
+                {showCurrentPassword ? (
+                  <EyeOff className="h-4 w-4 text-gray-400" />
+                ) : (
+                  <Eye className="h-4 w-4 text-gray-400" />
+                )}
+              </button>
+            </div>
           </div>
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium mb-1">Nueva Contraseña</label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="form-input"
-            />
+            <div className="relative">
+              <input
+                type={showNewPassword ? "text" : "password"}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="form-input pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              >
+                {showNewPassword ? (
+                  <EyeOff className="h-4 w-4 text-gray-400" />
+                ) : (
+                  <Eye className="h-4 w-4 text-gray-400" />
+                )}
+              </button>
+            </div>
           </div>
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium mb-1">Confirmar Nueva Contraseña</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="form-input"
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="form-input pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              >
+                {showConfirmPassword ? (
+                  <EyeOff className="h-4 w-4 text-gray-400" />
+                ) : (
+                  <Eye className="h-4 w-4 text-gray-400" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
