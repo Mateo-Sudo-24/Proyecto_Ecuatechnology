@@ -123,12 +123,12 @@ const ClientePage = () => {
       <div className="card">
         <div className="card-header">
           <h3 className="card-title">Tickets Creados</h3>
-          <Ticket className="h-5 w-5 text-primary" />
+          <Ticket className="h-5 w-5 text-[#B8860B]" />
         </div>
         <div className="card-body">
           <div className="w-full bg-gray-200 h-4 rounded-full">
             <div
-              className="bg-primary h-4 rounded-full transition-all"
+              className="bg-[#B8860B] h-4 rounded-full transition-all"
               style={{ width: progressWidth }}
             />
           </div>
@@ -181,7 +181,7 @@ const ClientePage = () => {
                         onClick={() =>
                           handleProformaAction(ticket.id, "aprobar")
                         }
-                        className="btn btn-sm"
+                        className="bg-[#B8860B] text-white px-4 py-2 rounded hover:bg-[#8B6914] transition-all"
                       >
                         Aprobar
                       </button>
@@ -189,13 +189,13 @@ const ClientePage = () => {
                         onClick={() =>
                           handleProformaAction(ticket.id, "rechazar")
                         }
-                        className="btn btn-outline"
+                        className="bg-[#B8860B] text-white px-4 py-2 rounded hover:bg-[#8B6914] transition-all"
                       >
                         Rechazar
                       </button>
                       <button
                         onClick={() => handleDownloadInvoice(ticket.id)}
-                        className="btn btn-secondary btn-sm"
+                        className="bg-[#B8860B] text-white px-4 py-2 rounded hover:bg-[#8B6914] transition-all flex items-center gap-2"
                       >
                         <FileDown className="h-4 w-4" /> Factura
                       </button>

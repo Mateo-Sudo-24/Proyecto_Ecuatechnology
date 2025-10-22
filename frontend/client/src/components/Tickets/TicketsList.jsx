@@ -31,18 +31,18 @@ export default function TicketsList() {
       {tickets.map((ticket) => (
         <div
           key={ticket.id}
-          className="p-4 border border-gray-300 rounded-lg shadow-sm flex justify-between items-center"
+          className="p-4 border border-neutral-200 rounded-lg shadow-sm flex justify-between items-center bg-background hover:shadow-md transition-shadow"
         >
           <div>
-            <p className="font-medium text-sm">{ticket.descripcion}</p>
-            <p className="text-xs text-neutral opacity-70">
+            <p className="font-semibold text-sm text-neutral">{ticket.descripcion}</p>
+            <p className="text-xs text-neutral-600">
               Estado: {ticket.estado} | Proforma: {ticket.proformaEstado || "-"}
             </p>
           </div>
           <div className="flex gap-2">
             <Link
               to={`/clientes/tickets/${ticket.id}/invoice`}
-              className="text-primary text-sm font-medium hover:underline"
+              className="text-primary text-sm font-semibold hover:text-primary-dark transition-colors"
             >
               Ver Factura
             </Link>

@@ -58,7 +58,7 @@ const TicketPage = () => {
         </h1>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-[#B8860B] text-white rounded-lg hover:bg-[#8B6914] transition-colors flex items-center gap-2"
         >
           <Plus size={20} />
           Crear Ticket

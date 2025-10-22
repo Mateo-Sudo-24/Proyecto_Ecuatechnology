@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Save, Key, Download, Database, Check, Eye, EyeOff, X } from 'lucide-react';
-import '../../styles/admin.css';
+import { Key, Download, Database, Check, Eye, EyeOff, X } from 'lucide-react';
 import useUpdatePassword from '../../hooks/useUpdatePassword';
 
 const AdminConfiguration = () => {
@@ -148,51 +147,51 @@ const AdminConfiguration = () => {
   };
 
   return (
-    <div className="admin-content-section">
-      <div className="admin-configuration-section">
-      <div className="configuration-header">
-        <h1>Configuración</h1>
-      </div>
+    <div className="w-full max-w-none m-0">
+      <div className="p-8 w-full">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-neutral m-0">Configuración</h1>
+        </div>
 
-      <div className="configuration-content">
+        <div className="flex flex-col gap-8 max-w-[1200px] m-0">
         {/* Información de la Empresa */}
-        <div className="configuration-card">
-          <h2>Información de la Empresa</h2>
-          <div className="form-grid">
-            <div className="form-group">
-              <label>Nombre de la Empresa</label>
+        <div className="bg-background border border-neutral-200 rounded-lg p-8 shadow-sm max-w-[1000px] m-0">
+          <h2 className="text-xl font-semibold text-neutral mb-6">Información de la Empresa</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-gray-600">Nombre de la Empresa</label>
               <input
                 type="text"
                 value={companyInfo.name}
                 onChange={(e) => handleCompanyInfoChange('name', e.target.value)}
-                className="form-input"
+                className="p-4 border border-gray-300 rounded-md text-sm text-neutral bg-white transition-all focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25"
               />
             </div>
-            <div className="form-group">
-              <label>Teléfono de Contacto</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-gray-600">Teléfono de Contacto</label>
               <input
                 type="tel"
                 value={companyInfo.phone}
                 onChange={(e) => handleCompanyInfoChange('phone', e.target.value)}
-                className="form-input"
+                className="p-4 border border-gray-300 rounded-md text-sm text-neutral bg-white transition-all focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25"
               />
             </div>
-            <div className="form-group">
-              <label>Email de Contacto</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-gray-600">Email de Contacto</label>
               <input
                 type="email"
                 value={companyInfo.email}
                 onChange={(e) => handleCompanyInfoChange('email', e.target.value)}
-                className="form-input"
+                className="p-4 border border-gray-300 rounded-md text-sm text-neutral bg-white transition-all focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25"
               />
             </div>
-            <div className="form-group">
-              <label>Dirección</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-gray-600">Dirección</label>
               <input
                 type="text"
                 value={companyInfo.address}
                 onChange={(e) => handleCompanyInfoChange('address', e.target.value)}
-                className="form-input"
+                className="p-4 border border-gray-300 rounded-lg text-sm text-neutral bg-white transition-all focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25"
               />
             </div>
           </div>
@@ -200,61 +199,76 @@ const AdminConfiguration = () => {
 
 
         {/* Notificaciones y Automatización */}
-        <div className="configuration-card">
-          <h2>Notificaciones y Automatización</h2>
-          <div className="notification-options">
-            <div className="notification-item">
-              <div className="notification-info">
-                <h3>Notificaciones por Email</h3>
-                <p>Recibir notificaciones de tickets y cambios importantes</p>
+        <div className="bg-background border border-neutral-200 rounded-lg p-8 shadow-sm max-w-[1000px] m-0">
+          <h2 className="text-xl font-semibold text-neutral mb-6">Notificaciones y Automatización</h2>
+          <div className="flex flex-col gap-6">
+            <div className="flex justify-between items-center p-4 bg-neutral-50 rounded-md border border-neutral-200">
+              <div>
+                <h3 className="text-lg font-semibold text-neutral mb-1">Notificaciones por Email</h3>
+                <p className="text-sm text-gray-600">Recibir notificaciones de tickets y cambios importantes</p>
               </div>
-              <button 
-                className={`custom-checkbox ${notifications.emailNotifications ? 'checked' : ''}`}
+              <button
+                className={`w-6 h-6 border-2 rounded border-neutral-300 bg-background cursor-pointer transition-all flex items-center justify-center ${
+                  notifications.emailNotifications ? 'bg-[#B8860B] border-[#B8860B]' : ''
+                }`}
                 onClick={() => handleNotificationChange('emailNotifications')}
               >
-                {notifications.emailNotifications && <Check size={16} />}
+                {notifications.emailNotifications && <Check size={16} className="text-background" />}
               </button>
             </div>
-            <div className="notification-item">
-              <div className="notification-info">
-                <h3>Backup Automático</h3>
-                <p>Realizar respaldo automático diario de los datos</p>
+            <div className="flex justify-between items-center p-4 bg-neutral-50 rounded-md border border-neutral-200">
+              <div>
+                <h3 className="text-lg font-semibold text-neutral mb-1">Backup Automático</h3>
+                <p className="text-sm text-gray-600">Realizar respaldo automático diario de los datos</p>
               </div>
-              <button 
-                className={`custom-checkbox ${notifications.automaticBackup ? 'checked' : ''}`}
+              <button
+                className={`w-6 h-6 border-2 rounded border-neutral-300 bg-background cursor-pointer transition-all flex items-center justify-center ${
+                  notifications.automaticBackup ? 'bg-[#B8860B] border-[#B8860B]' : ''
+                }`}
                 onClick={() => handleNotificationChange('automaticBackup')}
               >
-                {notifications.automaticBackup && <Check size={16} />}
+                {notifications.automaticBackup && <Check size={16} className="text-background" />}
               </button>
             </div>
-            <div className="notification-item">
-              <div className="notification-info">
-                <h3>Mantenimiento Programado</h3>
-                <p>Activar ventana de mantenimiento los domingos a las 2:00 AM</p>
+            <div className="flex justify-between items-center p-4 bg-neutral-50 rounded-md border border-neutral-200">
+              <div>
+                <h3 className="text-lg font-semibold text-neutral mb-1">Mantenimiento Programado</h3>
+                <p className="text-sm text-gray-600">Activar ventana de mantenimiento los domingos a las 2:00 AM</p>
               </div>
-              <button 
-                className={`custom-checkbox ${notifications.scheduledMaintenance ? 'checked' : ''}`}
+              <button
+                className={`w-6 h-6 border-2 rounded border-neutral-300 bg-background cursor-pointer transition-all flex items-center justify-center ${
+                  notifications.scheduledMaintenance ? 'bg-[#B8860B] border-[#B8860B]' : ''
+                }`}
                 onClick={() => handleNotificationChange('scheduledMaintenance')}
               >
-                {notifications.scheduledMaintenance && <Check size={16} />}
+                {notifications.scheduledMaintenance && <Check size={16} className="text-background" />}
               </button>
             </div>
           </div>
         </div>
 
         {/* Seguridad y Datos */}
-        <div className="configuration-card">
-          <h2>Seguridad y Datos</h2>
-          <div className="security-actions">
-            <button className="security-button primary" onClick={handleChangePassword}>
+        <div className="bg-background border border-neutral-200 rounded-lg p-8 shadow-sm max-w-[1000px] m-0">
+          <h2 className="text-xl font-semibold text-neutral mb-6">Seguridad y Datos</h2>
+          <div className="flex flex-col gap-4">
+            <button
+              className="flex items-center gap-4 p-4 rounded-md text-sm font-medium cursor-pointer transition-all text-left bg-blue-600 text-white hover:bg-blue-700"
+              onClick={handleChangePassword}
+            >
               <Key size={20} />
               Cambiar Contraseña
             </button>
-            <button className="security-button secondary" onClick={handleExportData}>
+            <button
+              className="flex items-center gap-4 p-4 rounded-md text-sm font-medium cursor-pointer transition-all text-left bg-background text-neutral border border-neutral-200 hover:bg-neutral-50"
+              onClick={handleExportData}
+            >
               <Download size={20} />
               Exportar Datos
             </button>
-            <button className="security-button secondary" onClick={handleManualBackup}>
+            <button
+              className="flex items-center gap-4 p-4 rounded-md text-sm font-medium cursor-pointer transition-all text-left bg-background text-neutral border border-neutral-200 hover:bg-neutral-50"
+              onClick={handleManualBackup}
+            >
               <Database size={20} />
               Realizar Backup Manual
             </button>
@@ -265,11 +279,14 @@ const AdminConfiguration = () => {
 
       {/* Modal para cambiar contraseña */}
       {showPasswordModal && (
-        <div className="modal-overlay">
-          <div className="modal-content password-modal">
-            <div className="modal-header">
-              <h2>Cambiar Contraseña</h2>
-              <button className="modal-close" onClick={closePasswordModal}>
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+          <div className="bg-peach-light rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+            <div className="flex justify-between items-center mb-6 pb-4 border-b border-neutral-200">
+              <h2 className="text-xl font-semibold text-neutral m-0">Cambiar Contraseña</h2>
+              <button
+                className="bg-background border-none text-gray-500 hover:text-neutral p-2 rounded transition-all"
+                onClick={closePasswordModal}
+              >
                 <X size={24} />
               </button>
             </div>
@@ -295,7 +312,7 @@ const AdminConfiguration = () => {
                     value={passwordForm.newPassword}
                     onChange={(e) => handlePasswordFormChange('newPassword', e.target.value)}
                     placeholder="Ingresa tu nueva contraseña"
-                    className="form-input"
+                    className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
                     required
                     minLength={8}
                   />
@@ -318,7 +335,7 @@ const AdminConfiguration = () => {
                     value={passwordForm.confirmPassword}
                     onChange={(e) => handlePasswordFormChange('confirmPassword', e.target.value)}
                     placeholder="Confirma tu nueva contraseña"
-                    className="form-input"
+                    className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
                     required
                     minLength={8}
                   />

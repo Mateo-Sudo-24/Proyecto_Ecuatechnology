@@ -173,7 +173,7 @@ const Profile = () => {
             className="w-24 h-24 rounded-full object-cover"
           />
           <div className="flex flex-col gap-2">
-            <button className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors">
+            <button className="px-4 py-2 bg-[#B8860B] text-white rounded-lg hover:bg-[#8B6914] transition-colors">
               Cambiar Foto
             </button>
             <p className="text-sm text-gray-500">JPG, PNG o GIF, Máximo 2MB</p>
@@ -188,7 +188,7 @@ const Profile = () => {
               type="text"
               value={profile.nombre || ''}
               onChange={(e) => setProfile({ ...profile, nombre: e.target.value })}
-              className="form-input"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
               disabled={saving}
             />
           </div>
@@ -197,7 +197,7 @@ const Profile = () => {
             <input
               type="email"
               value={profile.email || ''}
-              className="form-input bg-gray-100"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-gray-100 text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
               disabled={true}
             />
             <p className="text-xs text-gray-500 mt-1">El correo electrónico no se puede cambiar</p>
@@ -208,7 +208,7 @@ const Profile = () => {
               type="tel"
               value={profile.telefono || ''}
               onChange={(e) => setProfile({ ...profile, telefono: e.target.value })}
-              className="form-input"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
               disabled={saving}
             />
           </div>
@@ -217,7 +217,7 @@ const Profile = () => {
             <input
               type="text"
               value={profile.createdAt ? new Date(profile.createdAt).toLocaleDateString('es-ES') : ''}
-              className="form-input bg-gray-100"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-gray-100 text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
               disabled={true}
             />
           </div>
@@ -234,7 +234,7 @@ const Profile = () => {
         </div>
         <button
           onClick={handleSaveChanges}
-          className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors"
+          className="px-4 py-2 bg-[#B8860B] text-white rounded-lg hover:bg-[#8B6914] transition-colors"
         >
           Guardar Cambios
         </button>
@@ -259,7 +259,7 @@ const Profile = () => {
                 type={showCurrentPassword ? "text" : "password"}
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="form-input pr-10"
+                className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all pr-10"
               />
               <button
                 type="button"
@@ -281,7 +281,7 @@ const Profile = () => {
                 type={showNewPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="form-input pr-10"
+                className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all pr-10"
               />
               <button
                 type="button"
@@ -303,7 +303,7 @@ const Profile = () => {
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="form-input pr-10"
+                className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all pr-10"
               />
               <button
                 type="button"
@@ -329,7 +329,7 @@ const Profile = () => {
 
         <button
           onClick={handleChangePassword}
-          className="px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors"
+          className="px-4 py-2 bg-[#B8860B] text-white rounded-lg hover:bg-[#8B6914] transition-colors"
         >
           Cambiar Contraseña
         </button>

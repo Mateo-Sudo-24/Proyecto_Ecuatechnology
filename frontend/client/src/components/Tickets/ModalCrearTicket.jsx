@@ -35,11 +35,17 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content max-w-lg">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+        <button
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl leading-none"
+          onClick={onClose}
+        >
+          ×
+        </button>
         {/* Header con icono */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="bg-primary p-3 rounded-lg">
+          <div className="bg-[#B8860B] p-3 rounded-lg">
             <svg
               className="w-6 h-6 text-background"
               fill="none"
@@ -55,8 +61,8 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
             </svg>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-neutral">Nuevo Ticket</h2>
-            <p className="text-sm text-gray-500">
+            <h2 className="text-2xl font-bold text-center text-[#B8860B] mb-2">Nuevo Ticket</h2>
+            <p className="text-center text-gray-600 mb-6">
               Completa la información requerida
             </p>
           </div>
@@ -65,25 +71,25 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Título */}
           <div className="form-group">
-            <label className="form-label">Título</label>
+            <label className="block text-sm font-medium mb-1">Título</label>
             <input
               type="text"
               placeholder="Ej: Error en el sistema de pagos"
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              className="form-input"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
               required
             />
           </div>
 
           {/* Descripción */}
           <div className="form-group">
-            <label className="form-label">Descripción</label>
+            <label className="block text-sm font-medium mb-1">Descripción</label>
             <textarea
               placeholder="Describe el problema detalladamente..."
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
-              className="form-textarea"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all resize-vertical min-h-[100px]"
               rows={4}
               required
             />
@@ -91,11 +97,11 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
 
           {/* Prioridad */}
           <div className="form-group">
-            <label className="form-label">Prioridad</label>
+            <label className="block text-sm font-medium mb-1">Prioridad</label>
             <select
               value={prioridad}
               onChange={(e) => setPrioridad(e.target.value)}
-              className="form-select"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
             >
               <option value="baja">Baja</option>
               <option value="media">Media</option>
@@ -118,14 +124,14 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-neutral hover:text-primary transition-colors"
+              className="flex-1 px-4 py-2 text-neutral hover:text-[#B8860B] transition-colors"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-primary text-background rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
+              className="flex-1 px-4 py-2 bg-[#B8860B] text-white rounded-lg hover:bg-[#8B6914] transition-colors disabled:opacity-50"
             >
               {loading ? "Creando..." : "Crear Ticket"}
             </button>

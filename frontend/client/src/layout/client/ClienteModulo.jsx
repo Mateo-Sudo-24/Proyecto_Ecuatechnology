@@ -86,22 +86,22 @@ function Cliente_Page() {
   return (
     <div className="min-h-screen w-full flex flex-col bg-background overflow-x-hidden">
       {/* Encabezado */}
-      <header className="admin-header">
-        <div className="admin-header-left">
-          <Users size={24} className="text-background mr-4" />
-          <div className="admin-logo">
-            <div className="admin-logo-text">
-              <span className="admin-logo-title">Ecuatecnology</span>
-              <span className="admin-logo-subtitle">Panel de Cliente</span>
+      <header className="bg-black text-white p-6 flex justify-between items-center shadow-sm">
+        <div className="flex items-center">
+          <div className="flex items-center gap-4">
+            <Users size={24} className="text-white" />
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-white">Ecuatecnology</span>
+              <span className="text-sm text-[#B8860B] font-medium">Panel de Cliente</span>
             </div>
           </div>
         </div>
-        <div className="admin-header-right">
-          <span className="admin-user-info">
+        <div className="flex items-center gap-4">
+          <span className="text-white text-sm font-medium">
             {usuario?.nombre || "Usuario Desconocido"}
           </span>
           <button
-            className="md:hidden text-background"
+            className="md:hidden text-white"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -109,14 +109,12 @@ function Cliente_Page() {
         </div>
       </header>
 
-      <div className="admin-layout">
+      <div className="flex flex-row flex-1 min-h-[calc(100vh-80px)] w-full">
         {/* Barra Lateral */}
-        <aside
-          className={cn(
-            "admin-sidebar",
-            isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-          )}
-        >
+        <aside className={cn(
+          "w-80 bg-white flex flex-col p-6 min-h-full flex-shrink-0 shadow-lg",
+          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        )}>
           <button
             className="absolute top-4 right-4 md:hidden text-neutral"
             onClick={() => setIsOpen(false)}
@@ -124,7 +122,7 @@ function Cliente_Page() {
             <X size={24} />
           </button>
 
-          <nav className="admin-nav">
+          <nav className="flex-1 flex flex-col gap-2 p-4">
             {navigation.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -134,28 +132,30 @@ function Cliente_Page() {
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "admin-nav-item",
-                    isActive ? "active" : ""
+                    "flex items-center gap-4 p-4 rounded-lg transition-all text-left w-full",
+                    isActive
+                      ? "bg-[#B8860B] text-black shadow-md"
+                      : "text-neutral hover:bg-gray-100 hover:text-[#B8860B]"
                   )}
                   onClick={() => setIsOpen(false)}
                 >
                   <Icon size={20} />
-                  <span>{item.name}</span>
+                  <span className="font-medium">{item.name}</span>
                 </Link>
               );
             })}
           </nav>
 
-          <div className="admin-sidebar-footer">
+          <div className="p-4 border-t border-gray-200 mt-auto">
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
-                <User size={20} className="text-background" />
+              <div className="h-10 w-10 rounded-full bg-[#B8860B] flex items-center justify-center">
+                <User size={20} className="text-black" />
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-neutral">
                   {usuario?.nombre || "Nombre Cliente"}
                 </p>
-                <p className="text-xs text-neutral opacity-60">
+                <p className="text-xs text-gray-500">
                   {usuario?.email || "cliente@empresa.com"}
                 </p>
               </div>
@@ -163,10 +163,10 @@ function Cliente_Page() {
 
             <button
               onClick={handleLogout}
-              className="admin-logout-button"
+              className="flex items-center gap-2 p-4 rounded-lg transition-all text-left w-full text-red-400 hover:bg-red-50"
             >
               <LogOut size={20} />
-              <span>Cerrar sesión</span>
+              <span className="font-medium">Cerrar sesión</span>
             </button>
           </div>
         </aside>
@@ -174,13 +174,13 @@ function Cliente_Page() {
         {/* Overlay para móvil */}
         {isOpen && (
           <div
-            className="fixed inset-0 z-30 bg-neutral opacity-50 md:hidden"
+            className="fixed inset-0 z-30 bg-black/50 md:hidden"
             onClick={() => setIsOpen(false)}
           />
         )}
 
         {/* Contenido Principal */}
-        <main className="admin-main">
+        <main className="flex-1 p-8 bg-background overflow-y-auto w-full min-h-full">
           <Routes>
             <Route path="/" element={<ClientePage />} />
             <Route path="estadisticas" element={<ClienteStatistics />} />

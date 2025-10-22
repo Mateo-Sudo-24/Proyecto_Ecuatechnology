@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Plus, Pencil, Trash, X } from 'lucide-react';
-import '../../styles/admin.css';
 import useAdmins from '../../hooks/useAdmins';
 import useDeleteAdmin from '../../hooks/useDeleteAdmin';
 
@@ -38,46 +37,44 @@ const AdminManagement = ({ onBack }) => {
 
 
   return (
-    <div className="admin-management">
+    <div className="p-8 max-w-6xl mx-auto">
       {/* Encabezado simplificado */}
-      <div className="admin-management-header">
-        <h1 className="admin-management-title">Información del Administrador</h1>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-neutral">Información del Administrador</h1>
       </div>
 
       {/* Lista de Administradores */}
-      <div className="admin-management-content">
-        <h2 className="admin-list-title">Lista de Administradores</h2>
+      <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
+        <h2 className="text-xl font-semibold text-neutral mb-6">Lista de Administradores</h2>
 
-        {adminsLoading && <p>Cargando administradores...</p>}
-        {adminsError && <p>Error: {adminsError}</p>}
+        {adminsLoading && <p className="text-gray-600">Cargando administradores...</p>}
+        {adminsError && <p className="text-red-600">Error: {adminsError}</p>}
 
-        <div className="admin-table-container">
-          <table className="admin-table">
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
             <thead>
-              <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Fecha de creación</th>
-                <th>Acciones</th>
+              <tr className="border-b border-neutral-200">
+                <th className="text-left py-3 px-4 font-medium text-gray-700">ID</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700">Email</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700">Fecha de creación</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {administradores.map((admin) => (
-                <tr key={admin.id}>
-                  <td>{admin.id}</td>
-                  <td>{admin.email}</td>
-                  <td>{new Date(admin.createdAt).toLocaleDateString()}</td>
-                  <td>
-                    <div className="ticket-actions">
-                      <button
-                        className="action-button delete"
-                        onClick={() => handleDeleteAdmin(admin.id)}
-                        title="Eliminar administrador"
-                        disabled={deleteLoading}
-                      >
-                        <Trash size={20} />
-                      </button>
-                    </div>
+                <tr key={admin.id} className="border-b border-neutral-100 hover:bg-gray-50">
+                  <td className="py-3 px-4 text-neutral">{admin.id}</td>
+                  <td className="py-3 px-4 text-neutral">{admin.email}</td>
+                  <td className="py-3 px-4 text-neutral">{new Date(admin.createdAt).toLocaleDateString()}</td>
+                  <td className="py-3 px-4">
+                    <button
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-all disabled:opacity-50"
+                      onClick={() => handleDeleteAdmin(admin.id)}
+                      title="Eliminar administrador"
+                      disabled={deleteLoading}
+                    >
+                      <Trash size={20} />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -88,22 +85,30 @@ const AdminManagement = ({ onBack }) => {
 
       {/* Modal de Confirmación de Eliminación */}
       {showDeleteModal && adminToDelete && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Confirmar Eliminación</h2>
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+          <div className="bg-background rounded-lg shadow-lg w-full max-w-md p-6">
+            <div className="flex justify-between items-center mb-6 pb-4 border-b border-neutral-200">
+              <h2 className="text-xl font-semibold text-neutral m-0">Confirmar Eliminación</h2>
             </div>
-            <div className="modal-form">
-              <p className="delete-message">
-                ¿Estás seguro de que deseas eliminar al administrador con email <strong>{adminToDelete.email}</strong>?
+            <div className="space-y-6">
+              <p className="text-neutral">
+                ¿Estás seguro de que deseas eliminar al administrador con email <strong className="text-primary">{adminToDelete.email}</strong>?
                 <br />
-                <span className="delete-warning">Esta acción no se puede deshacer.</span>
+                <span className="text-red-600 text-sm">Esta acción no se puede deshacer.</span>
               </p>
-              <div className="modal-actions">
-                <button type="button" className="admin-cancel-button" onClick={() => setShowDeleteModal(false)}>
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  className="px-6 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-all font-medium"
+                  onClick={() => setShowDeleteModal(false)}
+                >
                   Cancelar
                 </button>
-                <button type="button" className="admin-delete-confirm-button" onClick={confirmDelete}>
+                <button
+                  type="button"
+                  className="px-6 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-all font-medium"
+                  onClick={confirmDelete}
+                >
                   Eliminar
                 </button>
               </div>
