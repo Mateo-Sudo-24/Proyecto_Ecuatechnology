@@ -3,17 +3,17 @@ import { Facebook, Instagram, Linkedin, MapPin, Phone, Mail } from 'lucide-react
 
 const Footer = () => {
   return (
-    <footer style={{ 
-      backgroundColor: 'var(--neutral)', 
-      color: 'white', 
+    <footer style={{
+      backgroundColor: 'var(--neutral)',
+      color: 'white',
       padding: '2rem 8rem',
       marginTop: '0rem'
     }}>
-      <div style={{ 
-        maxWidth: '91rem', 
-        margin: '0 auto', 
-        display: 'grid', 
-        gridTemplateColumns: '1fr 1fr 1fr 1fr', 
+      <div style={{
+        maxWidth: '91rem',
+        margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr',
         gap: '3rem',
         padding: '0 1rem',
         '@media (max-width: 768px)': {
@@ -23,16 +23,16 @@ const Footer = () => {
       }}>
         {/* Columna 1: Ecuatecnology S.A. */}
         <div style={{ minWidth: '0' }}>
-          <h3 style={{ 
-            fontSize: '1.5rem', 
-            fontWeight: 700, 
-            marginBottom: '1rem' 
+          <h3 style={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            marginBottom: '1rem'
           }}>
             Ecuatecnology S.A.
           </h3>
-          <p style={{ 
-            fontSize: '1rem', 
-            marginBottom: '1rem' 
+          <p style={{
+            fontSize: '1rem',
+            marginBottom: '1rem'
           }}>
             Más de 15 años brindando soluciones tecnológicas confiables y profesionales para empresas y usuarios finales en Ecuador.
           </p>
@@ -54,17 +54,17 @@ const Footer = () => {
 
         {/* Columna 2: Servicios */}
         <div style={{ minWidth: '0' }}>
-          <h3 style={{ 
-            fontSize: '1.5rem', 
-            fontWeight: 700, 
-            marginBottom: '1rem' 
+          <h3 style={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            marginBottom: '1rem'
           }}>
             Servicios
           </h3>
-          <ul style={{ 
-            fontSize: '1rem', 
-            listStyle: 'none', 
-            padding: 0 
+          <ul style={{
+            fontSize: '1rem',
+            listStyle: 'none',
+            padding: 0
           }}>
             <li>Mantenimiento Preventivo</li>
             <li>Reparación de Hardware</li>
@@ -77,17 +77,17 @@ const Footer = () => {
 
         {/* Columna 3: Enlaces Rápidos */}
         <div style={{ minWidth: '0' }}>
-          <h3 style={{ 
-            fontSize: '1.5rem', 
-            fontWeight: 700, 
-            marginBottom: '1rem' 
+          <h3 style={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            marginBottom: '1rem'
           }}>
             Enlaces Rápidos
           </h3>
-          <ul style={{ 
-            fontSize: '1rem', 
-            listStyle: 'none', 
-            padding: 0 
+          <ul style={{
+            fontSize: '1rem',
+            listStyle: 'none',
+            padding: 0
           }}>
             <li><a href="#" style={{ color: 'white', textDecoration: 'none' }} className="hover:text-primary">Inicio</a></li>
             <li><a href="#" style={{ color: 'white', textDecoration: 'none' }} className="hover:text-primary">Servicios</a></li>
@@ -98,17 +98,17 @@ const Footer = () => {
 
         {/* Columna 4: Contacto */}
         <div style={{ minWidth: '0' }}>
-          <h3 style={{ 
-            fontSize: '1.5rem', 
-            fontWeight: 700, 
-            marginBottom: '1rem' 
+          <h3 style={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            marginBottom: '1rem'
           }}>
             Contacto
           </h3>
-          <ul style={{ 
-            fontSize: '1rem', 
-            listStyle: 'none', 
-            padding: 0 
+          <ul style={{
+            fontSize: '1rem',
+            listStyle: 'none',
+            padding: 0
           }}>
             <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <MapPin size={20} />
@@ -130,14 +130,14 @@ const Footer = () => {
         </div>
       </div>
 
-      <hr style={{ 
-        margin: '1.5rem 0', 
-        borderColor: '#4B4B4B' 
+      <hr style={{
+        margin: '1.5rem 0',
+        borderColor: '#4B4B4B'
       }} />
 
-      <p style={{ 
-        textAlign: 'center', 
-        fontSize: '1rem' 
+      <p style={{
+        textAlign: 'center',
+        fontSize: '1rem'
       }}>
         © 2025 Ecuatecnology S.A. Todos los derechos reservados.
       </p>

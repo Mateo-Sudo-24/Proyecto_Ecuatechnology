@@ -1,6 +1,6 @@
 // src/layout/client/ClientePage.jsx
 import React, { useEffect, useState, useCallback } from "react";
-import { Ticket, FileDown } from "lucide-react";
+import { Ticket, FileDown, Eye, X } from "lucide-react";
 import useFetch from "../../hooks/useFetch";
 
 const cn = (...classes) => classes.filter(Boolean).join(" ");
@@ -29,6 +29,8 @@ const ClientePage = () => {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showProformaModal, setShowProformaModal] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
   // Cargar tickets del cliente
   const loadTickets = useCallback(async () => {
@@ -72,8 +74,14 @@ const ClientePage = () => {
     }
   };
 
-  // Descargar factura PDF
-  const handleDownloadInvoice = async (ticketId) => {
+  // Ver proforma en modal
+  const handleViewProforma = (ticket) => {
+    setSelectedTicket(ticket);
+    setShowProformaModal(true);
+  };
+
+  // Descargar proforma PDF
+  const handleDownloadProforma = async (ticketId) => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_URL_BACK}/clientes/tickets/${ticketId}/invoice`,
@@ -85,23 +93,36 @@ const ClientePage = () => {
         }
       );
 
-      if (!response.ok) throw new Error("Error al descargar la factura");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al descargar la proforma");
+      }
 
-      // Convertir respuesta a blob (PDF)
+      // El backend ahora devuelve el PDF directamente como blob
       const blob = await response.blob();
+
+      // Verificar que sea un PDF
+      if (blob.type !== 'application/pdf') {
+        throw new Error("El archivo recibido no es un PDF válido");
+      }
+
       const url = window.URL.createObjectURL(blob);
 
       // Crear enlace temporal para descarga
       const link = document.createElement("a");
       link.href = url;
-      link.download = `factura_ticket_${ticketId}.pdf`;
+      link.download = `proforma_ticket_${ticketId}.pdf`;
       link.click();
 
-      // Liberar URL
-      window.URL.revokeObjectURL(url);
+      // Liberar URL después de un breve delay
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+      }, 100);
+
+      console.log(`Proforma del ticket ${ticketId} descargada exitosamente`);
     } catch (err) {
-      console.error("Error al descargar factura:", err);
-      alert("No se pudo descargar la factura.");
+      console.error("Error al descargar proforma:", err);
+      alert(`Error al descargar la proforma: ${err.message}`);
     }
   };
 
@@ -178,26 +199,10 @@ const ClientePage = () => {
                     </div>
                     <div className="flex gap-2">
                       <button
-                        onClick={() =>
-                          handleProformaAction(ticket.id, "aprobar")
-                        }
-                        className="bg-[#B8860B] text-white px-4 py-2 rounded hover:bg-[#8B6914] transition-all"
-                      >
-                        Aprobar
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleProformaAction(ticket.id, "rechazar")
-                        }
-                        className="bg-[#B8860B] text-white px-4 py-2 rounded hover:bg-[#8B6914] transition-all"
-                      >
-                        Rechazar
-                      </button>
-                      <button
-                        onClick={() => handleDownloadInvoice(ticket.id)}
+                        onClick={() => handleViewProforma(ticket)}
                         className="bg-[#B8860B] text-white px-4 py-2 rounded hover:bg-[#8B6914] transition-all flex items-center gap-2"
                       >
-                        <FileDown className="h-4 w-4" /> Factura
+                        <Eye className="h-4 w-4" /> Ver Proforma
                       </button>
                     </div>
                   </div>
@@ -206,6 +211,112 @@ const ClientePage = () => {
             ))}
         </div>
       </div>
+
+      {/* Modal para ver proforma */}
+      {showProformaModal && selectedTicket && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-gray-900">Proforma de Servicio</h3>
+                <button
+                  onClick={() => setShowProformaModal(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              {/* Header de la proforma */}
+              <div className="text-center mb-6">
+                <h4 className="text-2xl font-bold text-gray-900 mb-2">ECUATECHNOLOGY S.A.</h4>
+                <p className="text-lg text-gray-700">PROFORMA DE SERVICIO</p>
+                <div className="w-full h-px bg-gray-300 mt-4"></div>
+              </div>
+
+              {/* Información de la empresa */}
+              <div className="mb-6">
+                <p className="text-sm text-gray-600 mb-1">Dirección: Quito, Ecuador</p>
+                <p className="text-sm text-gray-600 mb-1">Teléfono: +593 962590039</p>
+                <p className="text-sm text-gray-600">Email: contacto@ecuatecnology.com</p>
+              </div>
+
+              {/* Información del ticket y cliente */}
+              <div className="mb-6">
+                <h5 className="font-bold text-gray-900 mb-3">INFORMACIÓN DEL SERVICIO</h5>
+                <div className="space-y-2">
+                  <p><span className="font-medium">Número de Ticket:</span> #{selectedTicket.id}</p>
+                  <p><span className="font-medium">Fecha de solicitud:</span> {new Date(selectedTicket.createdAt).toLocaleDateString('es-ES')}</p>
+                  <p><span className="font-medium">Estado:</span> {selectedTicket.estado}</p>
+                </div>
+              </div>
+
+              {/* Detalles de la proforma */}
+              <div className="mb-6">
+                <h5 className="font-bold text-gray-900 mb-3">DETALLES DEL SERVICIO</h5>
+                <div className="text-gray-700 whitespace-pre-line">
+                  {selectedTicket.proformaDetalles}
+                </div>
+              </div>
+
+              {/* Diagnóstico si existe */}
+              {selectedTicket.diagnostico && (
+                <div className="mb-6">
+                  <h5 className="font-bold text-gray-900 mb-3">DIAGNÓSTICO TÉCNICO</h5>
+                  <div className="text-gray-700 whitespace-pre-line">
+                    {selectedTicket.diagnostico}
+                  </div>
+                </div>
+              )}
+
+              {/* Precio total */}
+              <div className="mb-6">
+                <h5 className="font-bold text-gray-900 mb-3">PRECIO TOTAL</h5>
+                <p className="text-xl font-bold text-[#B8860B]">${selectedTicket.precioTotal}</p>
+              </div>
+
+              {/* Información de aprobación */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm text-gray-600 mb-2">
+                  <span className="font-medium">Estado de la proforma:</span> Pendiente de aprobación
+                </p>
+                <p className="text-sm text-gray-600">
+                  Para aprobar o rechazar esta proforma, revisa los detalles y usa los botones correspondientes.
+                </p>
+              </div>
+
+              {/* Botones de acción */}
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => {
+                    handleProformaAction(selectedTicket.id, "aprobar");
+                    setShowProformaModal(false);
+                  }}
+                  className="bg-[#B8860B] text-white px-6 py-2 rounded hover:bg-[#8B6914] transition-all flex-1"
+                >
+                  Aprobar
+                </button>
+                <button
+                  onClick={() => {
+                    handleProformaAction(selectedTicket.id, "rechazar");
+                    setShowProformaModal(false);
+                  }}
+                  className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition-all flex-1"
+                >
+                  Rechazar
+                </button>
+                <button
+                  onClick={() => handleDownloadProforma(selectedTicket.id)}
+                  className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition-all flex items-center justify-center gap-2"
+                >
+                  <FileDown className="h-4 w-4" /> Descargar PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

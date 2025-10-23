@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Play, XSquare, Plus, FileText, Download, Search, Clock, CheckCircle } from 'lucide-react';
+import jsPDF from 'jspdf';
 import useTicketOperations from '../../hooks/useTicketOperations';
 
 const TicketDetails = ({ ticket, onBack }) => {
@@ -153,49 +154,6 @@ const TicketDetails = ({ ticket, onBack }) => {
     }
   };
 
-  // Función para descargar factura XML
-  const handleDownloadXML = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3000/api/admin/tickets/${currentTicket.id}/invoice/xml`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) throw new Error('Error al obtener XML');
-
-      const xmlText = await response.text();
-      const blob = new Blob([xmlText], { type: 'application/xml' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `factura_${currentTicket.id}.xml`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      alert('Error al descargar XML: ' + err.message);
-    }
-  };
-
-  // Función para descargar factura PDF
-  const handleDownloadPDF = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3000/api/admin/tickets/${currentTicket.id}/invoice/pdf`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) throw new Error('Error al obtener PDF');
-
-      const data = await response.json();
-      window.open(data.pdfUrl, '_blank');
-    } catch (err) {
-      alert('Error al descargar PDF: ' + err.message);
-    }
-  };
   return (
     <div className="space-y-8">
       {/* Información Principal del Ticket */}
@@ -308,7 +266,7 @@ const TicketDetails = ({ ticket, onBack }) => {
               {loading.diagnosis ? 'Procesando...' : 'Agregar Diagnóstico'}
             </button>
             <button
-              className="flex items-center gap-2 w-full px-4 py-3 bg-[#B8860B] text-white rounded-md hover:bg-[#8B6914] transition-all disabled:opacity-50"
+              className="flex items-center gap-2 w-full px-4 py-3 bg-black text-white rounded-md hover:bg-gray-800 transition-all disabled:opacity-50"
               onClick={handleShowProformaModal}
               disabled={loading.proforma}
             >
@@ -323,17 +281,85 @@ const TicketDetails = ({ ticket, onBack }) => {
           <div className="space-y-3">
             <button
               className="flex items-center gap-2 w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-all"
-              onClick={handleDownloadXML}
+              onClick={() => {
+                try {
+                  // Crear instancia de jsPDF usando el import
+                  const doc = new jsPDF();
+
+                  // Configurar fuente y tamaño
+                  doc.setFontSize(20);
+                  doc.text('Ticket de Soporte Técnico', 20, 30);
+
+                  // Información del ticket
+                  doc.setFontSize(12);
+                  let yPosition = 50;
+
+                  doc.text(`Número del Ticket: ${currentTicket.number}`, 20, yPosition);
+                  yPosition += 10;
+
+                  doc.text(`Título: ${currentTicket.title}`, 20, yPosition);
+                  yPosition += 10;
+
+                  doc.text(`Cliente: ${currentTicket.client}`, 20, yPosition);
+                  yPosition += 10;
+
+                  doc.text(`Estado: ${currentTicket.status}`, 20, yPosition);
+                  yPosition += 10;
+
+                  doc.text(`Fecha de Creación: ${currentTicket.date}`, 20, yPosition);
+                  yPosition += 10;
+
+                  // Descripción con manejo de texto largo
+                  doc.text('Descripción:', 20, yPosition);
+                  yPosition += 10;
+
+                  const descriptionLines = doc.splitTextToSize(currentTicket.description, 170);
+                  doc.text(descriptionLines, 20, yPosition);
+
+                  // Descargar el PDF
+                  doc.save(`ticket_${currentTicket.number.replace('#', '')}.pdf`);
+
+                  console.log(`Ticket ${currentTicket.number} descargado como PDF exitosamente`);
+                } catch (error) {
+                  console.error('Error al generar PDF:', error);
+                  alert('Error al generar el PDF: ' + error.message);
+                }
+              }}
             >
               <Download size={16} />
-              Descargar XML
+              Descargar Ticket PDF
             </button>
             <button
               className="flex items-center gap-2 w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-all"
-              onClick={handleDownloadPDF}
+              onClick={async () => {
+                try {
+                  const token = localStorage.getItem("token");
+                  const response = await fetch(`http://localhost:3000/api/admin/tickets/${currentTicket.id}/invoice/xml`, {
+                    headers: {
+                      'Authorization': `Bearer ${token}`
+                    }
+                  });
+
+                  if (!response.ok) throw new Error('Error al obtener XML');
+
+                  const xmlText = await response.text();
+                  const blob = new Blob([xmlText], { type: 'application/xml' });
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `factura_${currentTicket.id}.xml`;
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+
+                  console.log(`XML descargado exitosamente para ticket ${currentTicket.id}`);
+                } catch (err) {
+                  console.error('Error al descargar XML:', err);
+                  alert('Error al descargar XML: ' + err.message);
+                }
+              }}
             >
               <Download size={16} />
-              Descargar PDF
+              Descargar XML
             </button>
           </div>
         </div>
@@ -344,7 +370,7 @@ const TicketDetails = ({ ticket, onBack }) => {
       {/* Modal de Diagnóstico */}
       {showDiagnosisModal && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-          <div className="bg-background rounded-lg shadow-lg w-full max-w-md p-6">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-neutral-200">
               <h2 className="text-xl font-semibold text-neutral m-0">Agregar Diagnóstico</h2>
             </div>
@@ -387,7 +413,7 @@ const TicketDetails = ({ ticket, onBack }) => {
       {/* Modal de Proforma */}
       {showProformaModal && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-          <div className="bg-background rounded-lg shadow-lg w-full max-w-md p-6">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-neutral-200">
               <h2 className="text-xl font-semibold text-neutral m-0">Crear Proforma</h2>
             </div>

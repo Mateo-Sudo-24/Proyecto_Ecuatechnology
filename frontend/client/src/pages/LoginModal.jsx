@@ -1,5 +1,5 @@
 // src/pages/LoginModal.jsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
@@ -7,7 +7,6 @@ import { fetchWithToast } from "../helpers/fetchWithToast";
 import useAuthStore from "../context/storeAuth";
 import { useProfileStore } from "../context/storeProfile";
 import { normalizeEmail } from "../helpers/normalizeEmail"; //Importamos normalizeEmail
-import "../styles/modales.css";
 
 const LoginModal = ({ isOpen, onClose }) => {
   const { fetchDataBackend } = useFetch();
@@ -43,7 +42,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     setIsSubmitting(true);
 
     try {
-      // 🔹 Normalizamos el email antes de enviarlo
+      //Normalizamos el email antes de enviarlo
       const emailNormalized = normalizeEmail(formData.email);
 
       // Detectar admin: si el correo empieza con "admin" (mayúsculas o minúsculas)
@@ -53,7 +52,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       await fetchWithToast(
         fetchDataBackend,
         endpoint,
-        { email: emailNormalized, password: formData.password }, // 🔹 usamos emailNormalized
+        { email: emailNormalized, password: formData.password }, //usamos emailNormalized
         "POST"
       );
 
@@ -125,15 +124,15 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
-      <div className="bg-[#FFF5E6] rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
         <button
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl leading-none"
           onClick={onClose}
         >
           ×
         </button>
 
-        <h2 className="text-2xl font-bold text-center text-[#D4AF37] mb-2">
+        <h2 className="text-2xl font-bold text-center text-primary mb-2">
           {step === "login" ? "Iniciar Sesión" : "Ingresa OTP"}
         </h2>
         <p className="text-center text-gray-600 mb-6">
@@ -154,7 +153,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                 placeholder="tu@email.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] transition-all"
+                className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
                 required
               />
             </div>
@@ -170,7 +169,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                   placeholder="Tu contraseña"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] transition-all"
+                  className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
                   required
                 />
                 <span
@@ -185,8 +184,7 @@ const LoginModal = ({ isOpen, onClose }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 rounded-lg flex items-center justify-center gap-2 text-black transition"
-              style={{ backgroundColor: "var(--primary)" }}
+              className="w-full p-3 rounded-lg flex items-center justify-center gap-2 text-white transition-all bg-[#B8860B] hover:bg-[#8B6914] disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
               {isSubmitting ? "Enviando..." : "Iniciar Sesión"}
             </button>
@@ -196,7 +194,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         {step === "otp" && (
           <form onSubmit={handleVerifyOTP} className="space-y-4">
             {otpMessage && (
-              <p className="text-green-700 text-center font-medium bg-green-100 py-2 rounded-lg">
+              <p className="text-green-700 text-center font-medium bg-green-100 p-2 rounded-lg">
                 {otpMessage}
               </p>
             )}
@@ -209,15 +207,14 @@ const LoginModal = ({ isOpen, onClose }) => {
                 value={otp}
                 placeholder="Ingresa el código recibido"
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full rounded-md border border-[#FFF5E6] px-3 py-3 bg-white focus:outline-none focus:border-[#D4AF37] transition-all"
+                className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
                 required
               />
             </div>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 rounded-lg flex items-center justify-center gap-2 text-black transition"
-              style={{ backgroundColor: "var(--primary)" }}
+              className="w-full p-3 rounded-lg flex items-center justify-center gap-2 text-white transition-all bg-[#B8860B] hover:bg-[#8B6914] disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
               {isSubmitting ? "Verificando..." : "Verificar OTP"}
             </button>

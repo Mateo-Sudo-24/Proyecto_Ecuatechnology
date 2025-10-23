@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { sendMailToRegister, sendMailOTP } from "../config/nodemailer.js";
+import jsPDF from "jspdf";
 
 const prisma = new PrismaClient();
 const SECRET = process.env.JWT_SECRET || "ECUATECH_WEB_SECRET";
@@ -429,6 +430,14 @@ export const getClientTicketStats = async (req, res) => {
             proformaEstado: ticket.proformaEstado
         }));
 
+        res.json({
+            message: "Estadísticas de tickets obtenidas con éxito.",
+            ticketStats: {
+                estadosDetalle,
+                ticketsRecientes
+            }
+        });
+
     } catch (error) {
         res.status(500).json({ error: "Error al obtener estadísticas de tickets.", details: error.message });
     }
@@ -445,22 +454,134 @@ export const getClientInvoicePDF = async (req, res) => {
             where: {
                 id: Number(ticketId),
                 clienteId: clienteId
+            },
+            include: {
+                cliente: {
+                    select: {
+                        nombre: true,
+                        email: true,
+                        telefono: true
+                    }
+                }
             }
         });
 
         if (!ticket) {
-            return res.status(404).json({ message: "Factura no encontrada o no tienes permiso para acceder a ella." });
+            return res.status(404).json({ message: "Proforma no encontrada o no tienes permiso para acceder a ella." });
         }
 
-        // Si la verificación es exitosa, devolvemos los datos simulados.
-        res.json({
-            message: "PDF de factura generado (simulación).",
-            ticketId: ticketId,
-            // Enlace a un PDF de muestra para que el frontend pueda probar la descarga.
-            pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-        });
+        // Verificar que tenga proforma generada
+        if (!ticket.proformaDetalles || !ticket.precioTotal) {
+            return res.status(400).json({
+                message: "La proforma aún no ha sido generada para este ticket.",
+                details: "Contacta al administrador para que genere la proforma."
+            });
+        }
+
+        // Generar PDF con los datos reales de la proforma
+        const doc = new jsPDF();
+
+        // Configuración de fuente y colores
+        doc.setTextColor(51, 51, 51); // Gris oscuro para texto
+
+        // Header de la proforma
+        doc.setFontSize(24);
+        doc.setFont(undefined, 'bold');
+        doc.text('ECUATECHNOLOGY S.A.', 105, 30, { align: 'center' });
+
+        doc.setFontSize(16);
+        doc.text('PROFORMA DE SERVICIO', 105, 45, { align: 'center' });
+
+        // Línea divisoria
+        doc.setLineWidth(0.5);
+        doc.line(20, 55, 190, 55);
+
+        // Información de la empresa
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        doc.text('Dirección: Quito, Ecuador', 20, 70);
+        doc.text('Teléfono: +593 962590039', 20, 80);
+        doc.text('Email: contacto@ecuatecnology.com', 20, 90);
+
+        // Información del ticket y cliente
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text('INFORMACIÓN DEL SERVICIO', 20, 110);
+
+        doc.setFont(undefined, 'normal');
+        let yPosition = 125;
+
+        doc.text(`Número de Ticket: #${ticket.id}`, 20, yPosition);
+        yPosition += 10;
+
+        doc.text(`Cliente: ${ticket.cliente.nombre}`, 20, yPosition);
+        yPosition += 10;
+
+        doc.text(`Email: ${ticket.cliente.email}`, 20, yPosition);
+        yPosition += 10;
+
+        if (ticket.cliente.telefono) {
+            doc.text(`Teléfono: ${ticket.cliente.telefono}`, 20, yPosition);
+            yPosition += 10;
+        }
+
+        doc.text(`Fecha de solicitud: ${ticket.createdAt.toLocaleDateString('es-ES')}`, 20, yPosition);
+        yPosition += 15;
+
+        // Detalles de la proforma
+        doc.setFont(undefined, 'bold');
+        doc.text('DETALLES DEL SERVICIO:', 20, yPosition);
+        yPosition += 15;
+
+        doc.setFont(undefined, 'normal');
+        const descripcionLines = doc.splitTextToSize(ticket.proformaDetalles, 170);
+        doc.text(descripcionLines, 20, yPosition);
+        yPosition += descripcionLines.length * 5 + 10;
+
+        // Información del diagnóstico si existe
+        if (ticket.diagnostico) {
+            doc.setFont(undefined, 'bold');
+            doc.text('DIAGNÓSTICO TÉCNICO:', 20, yPosition);
+            yPosition += 10;
+
+            doc.setFont(undefined, 'normal');
+            const diagnosticoLines = doc.splitTextToSize(ticket.diagnostico, 170);
+            doc.text(diagnosticoLines, 20, yPosition);
+            yPosition += diagnosticoLines.length * 5 + 15;
+        }
+
+        // Precio total
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        doc.text(`PRECIO TOTAL: $${ticket.precioTotal}`, 20, yPosition);
+
+        // Información de aprobación
+        yPosition += 20;
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        doc.text('Estado de la proforma: Pendiente de aprobación', 20, yPosition);
+        yPosition += 10;
+        doc.text('Para aprobar o rechazar esta proforma, contacta con nuestro equipo.', 20, yPosition);
+
+        // Footer
+        doc.setFontSize(8);
+        doc.text('Este documento es una proforma y no representa una factura final.', 105, 280, { align: 'center' });
+        doc.text(`Generado el: ${new Date().toLocaleDateString('es-ES')}`, 105, 290, { align: 'center' });
+
+        // Convertir PDF a buffer y enviar como respuesta
+        const pdfBuffer = doc.output('arraybuffer');
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=proforma_ticket_${ticket.id}.pdf`);
+        res.setHeader('Content-Length', pdfBuffer.byteLength);
+
+        res.send(Buffer.from(pdfBuffer));
 
     } catch (error) {
-        res.status(500).json({ error: "Error al obtener la factura.", details: error.message });
+        console.error('Error al generar PDF de proforma:', error);
+        res.status(500).json({
+            error: "Error al generar la proforma.",
+            details: error.message
+        });
     }
 };

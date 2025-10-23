@@ -86,7 +86,7 @@ const AdminManagement = ({ onBack }) => {
       {/* Modal de Confirmación de Eliminación */}
       {showDeleteModal && adminToDelete && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-          <div className="bg-background rounded-lg shadow-lg w-full max-w-md p-6">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-neutral-200">
               <h2 className="text-xl font-semibold text-neutral m-0">Confirmar Eliminación</h2>
             </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Eye, Pencil, Download, FileSpreadsheet, FileText, ArrowLeft, RefreshCw } from 'lucide-react';
+import jsPDF from 'jspdf';
 import TicketModal from './TicketModal';
 import TicketDetails from './TicketDetails';
 import useFetchAdminTickets from '../../hooks/useFetchAdminTickets';
@@ -11,21 +12,8 @@ const AdminTickets = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('Todos los estados');
   const [dateFilter, setDateFilter] = useState('');
-  const [showDownloadOptions, setShowDownloadOptions] = useState(null);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (showDownloadOptions && !event.target.closest('.download-container')) {
-        setShowDownloadOptions(null);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [showDownloadOptions]);
 
   // Función para mapear datos del backend al formato de la interfaz
   const mapTicketForDisplay = (backendTicket) => {
@@ -102,49 +90,6 @@ const AdminTickets = () => {
     return matchesSearch && matchesStatus && matchesDate;
   });
 
-  const handleDownload = async (format, ticket) => {
-    setShowDownloadOptions(null);
-
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert('No hay token de autenticación válido');
-        return;
-      }
-
-      if (format === 'pdf') {
-        // Descargar el ticket como HTML (que se puede guardar como PDF)
-        const response = await fetch(`http://localhost:3000/api/admin/tickets/${ticket.id}/download`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Error al descargar el ticket');
-        }
-
-        const htmlContent = await response.text();
-        const blob = new Blob([htmlContent], { type: 'text/html' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `ticket_${ticket.number}.html`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-
-        console.log(`Ticket #${ticket.number} descargado exitosamente`);
-      } else if (format === 'excel') {
-        // Para Excel, por ahora solo mostramos un mensaje
-        // En una implementación completa, crearíamos un endpoint que genere Excel
-        alert('La descarga en formato Excel estará disponible próximamente');
-      }
-    } catch (error) {
-      console.error('Error al descargar:', error);
-      alert('Error al descargar el ticket: ' + error.message);
-    }
-  };
 
 
   if (selectedTicket) {
@@ -286,33 +231,6 @@ const AdminTickets = () => {
                       >
                         <Eye size={20} />
                       </button>
-                      <div className="relative">
-                        <button
-                          className="p-2 text-gray-600 hover:bg-gray-50 rounded-md transition-all"
-                          title="Descargar ticket"
-                          onClick={() => setShowDownloadOptions(ticket.id)}
-                        >
-                          <Download size={20} />
-                        </button>
-                        {showDownloadOptions === ticket.id && (
-                          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-neutral-200 z-10">
-                            <button
-                              className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-50 transition-all"
-                              onClick={() => handleDownload('pdf', ticket)}
-                            >
-                              <FileText size={16} />
-                              PDF
-                            </button>
-                            <button
-                              className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-50 transition-all"
-                              onClick={() => handleDownload('excel', ticket)}
-                            >
-                              <FileSpreadsheet size={16} />
-                              Excel
-                            </button>
-                          </div>
-                        )}
-                      </div>
                     </div>
                   </td>
                 </tr>

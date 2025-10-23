@@ -20,7 +20,7 @@ function Home() {
     <section
       id="home"
       style={{ color: "var(--neutral)", background: "var(--background)" }}
-      className="py-10 mt-[6.1rem] mx-auto px-[8.75rem] font-sans w-full"
+      className="py-10 mt-[7.5rem] mx-auto px-[8.75rem] font-sans w-full"
     >
       {/* Sección principal */}
       <div className="grid lg:grid-cols-2 gap-16 items-center" style={{ color: "var(--neutral)" }}>

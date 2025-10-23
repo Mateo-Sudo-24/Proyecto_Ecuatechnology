@@ -280,68 +280,74 @@ const AdminConfiguration = () => {
       {/* Modal para cambiar contraseña */}
       {showPasswordModal && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-          <div className="bg-peach-light rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-neutral-200">
               <h2 className="text-xl font-semibold text-neutral m-0">Cambiar Contraseña</h2>
               <button
-                className="bg-background border-none text-gray-500 hover:text-neutral p-2 rounded transition-all"
+                className="bg-white border-none text-gray-500 hover:text-neutral p-2 rounded transition-all"
                 onClick={closePasswordModal}
               >
                 <X size={24} />
               </button>
             </div>
 
-            <form onSubmit={handlePasswordSubmit} className="password-form">
+            <form onSubmit={handlePasswordSubmit} className="space-y-6">
               {passwordSuccess && (
-                <div className="success-message">
-                  {passwordSuccess}
+                <div className="bg-green-50 border-l-4 border-green-500 p-3 rounded-lg animate-in slide-in-from-top duration-300">
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-500 text-lg">✅</span>
+                    <p className="text-green-700 text-sm font-medium">{passwordSuccess}</p>
+                  </div>
                 </div>
               )}
 
               {passwordError && (
-                <div className="error-message">
-                  {passwordError}
+                <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded-lg animate-in slide-in-from-top duration-300">
+                  <div className="flex items-center gap-2">
+                    <span className="text-red-500 text-lg">⚠️</span>
+                    <p className="text-red-700 text-sm font-medium">{passwordError}</p>
+                  </div>
                 </div>
               )}
 
-              <div className="form-group">
-                <label>Nueva Contraseña</label>
-                <div className="password-input-container">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-600">Nueva Contraseña</label>
+                <div className="relative">
                   <input
                     type={showNewPassword ? "text" : "password"}
                     value={passwordForm.newPassword}
                     onChange={(e) => handlePasswordFormChange('newPassword', e.target.value)}
                     placeholder="Ingresa tu nueva contraseña"
-                    className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
+                    className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all pr-12"
                     required
                     minLength={8}
                   />
                   <button
                     type="button"
-                    className="password-toggle"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                     onClick={() => setShowNewPassword(!showNewPassword)}
                   >
                     {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
-                <small className="input-help">Mínimo 8 caracteres, una mayúscula, una minúscula, un número, y un carácter especial</small>
+                <small className="text-gray-500 text-xs">Mínimo 8 caracteres, una mayúscula, una minúscula, un número, y un carácter especial</small>
               </div>
 
-              <div className="form-group">
-                <label>Confirmar Contraseña</label>
-                <div className="password-input-container">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-600">Confirmar Contraseña</label>
+                <div className="relative">
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     value={passwordForm.confirmPassword}
                     onChange={(e) => handlePasswordFormChange('confirmPassword', e.target.value)}
                     placeholder="Confirma tu nueva contraseña"
-                    className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
+                    className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all pr-12"
                     required
                     minLength={8}
                   />
                   <button
                     type="button"
-                    className="password-toggle"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
                     {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -349,14 +355,14 @@ const AdminConfiguration = () => {
                 </div>
                 {passwordForm.newPassword && passwordForm.confirmPassword &&
                  passwordForm.newPassword !== passwordForm.confirmPassword && (
-                  <small className="error-text">Las contraseñas no coinciden</small>
+                  <small className="text-red-500 text-xs">Las contraseñas no coinciden</small>
                 )}
               </div>
 
-              <div className="modal-actions">
+              <div className="flex justify-end gap-4 pt-6 border-t border-neutral-200">
                 <button
                   type="button"
-                  className="cancel-button"
+                  className="px-6 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-all font-medium disabled:opacity-50"
                   onClick={closePasswordModal}
                   disabled={passwordLoading}
                 >
@@ -364,7 +370,7 @@ const AdminConfiguration = () => {
                 </button>
                 <button
                   type="submit"
-                  className="submit-button"
+                  className="px-6 py-3 bg-[#B8860B] text-white rounded-md hover:bg-[#8B6914] transition-all font-medium disabled:opacity-50"
                   disabled={passwordLoading}
                 >
                   {passwordLoading ? 'Actualizando...' : 'Actualizar Contraseña'}

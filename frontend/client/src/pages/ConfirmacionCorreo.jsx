@@ -36,12 +36,12 @@ const ConfirmacionCorreo = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
-      <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg text-center shadow-md">
+      <div className="bg-success-light border border-success text-success-dark p-6 rounded-lg text-center shadow-md">
         <h2 className="text-2xl font-bold mb-2">¡Cuenta confirmada!</h2>
         <p>Ya puedes ir al login y acceder a tu cuenta.</p>
         <button
           onClick={() => navigate("/login")}
-          className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+          className="mt-4 px-4 py-2 bg-success text-white rounded hover:bg-success-dark transition-all"
         >
           Ir al login
         </button>

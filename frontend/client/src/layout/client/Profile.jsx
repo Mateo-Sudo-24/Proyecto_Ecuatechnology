@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useFetch from '../../hooks/useFetch';
 import useAuthStore from '../../context/storeAuth';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
 
 const Profile = () => {
   const { fetchDataBackend } = useFetch();
@@ -165,20 +165,6 @@ const Profile = () => {
         <h3 className="text-lg font-semibold mb-2">Información Personal</h3>
         <p className="text-gray-600 mb-4">Actualiza tu información personal y datos de contacto</p>
 
-        {/* Foto */}
-        <div className="flex items-center gap-4 mb-4">
-          <img
-            src="profile-pic.jpg"
-            alt="Foto de Perfil"
-            className="w-24 h-24 rounded-full object-cover"
-          />
-          <div className="flex flex-col gap-2">
-            <button className="px-4 py-2 bg-[#B8860B] text-white rounded-lg hover:bg-[#8B6914] transition-colors">
-              Cambiar Foto
-            </button>
-            <p className="text-sm text-gray-500">JPG, PNG o GIF, Máximo 2MB</p>
-          </div>
-        </div>
 
         {/* Detalles */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -225,12 +211,23 @@ const Profile = () => {
 
         <div className="mt-4">
           <p className="text-sm text-gray-600">
-            Estado de verificación: {profile.confirmEmail ? (
-              <span className="text-green-600 font-medium">Verificado</span>
+            Estado de la cuenta: {profile.confirmEmail ? (
+              <span className="text-green-600 font-medium flex items-center gap-1">
+                <CheckCircle size={16} />
+                Cuenta verificada y activa
+              </span>
             ) : (
-              <span className="text-yellow-600 font-medium">Pendiente de verificación</span>
+              <span className="text-yellow-600 font-medium flex items-center gap-1">
+                <AlertCircle size={16} />
+                Cuenta pendiente de verificación
+              </span>
             )}
           </p>
+          {!profile.confirmEmail && (
+            <p className="text-xs text-gray-500 mt-1">
+              Revisa tu correo para verificar tu cuenta
+            </p>
+          )}
         </div>
         <button
           onClick={handleSaveChanges}

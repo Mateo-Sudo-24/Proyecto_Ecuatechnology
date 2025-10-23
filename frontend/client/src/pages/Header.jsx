@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-scroll';
 import { Home, Wrench, Users, Phone, Mail, Clock, Contact, LogIn, UserPlus } from 'lucide-react';
 import LoginModal from './LoginModal.jsx';
@@ -13,8 +13,8 @@ const Header = () => {
 
   return (
     <header className="z-50 font-sans">
-      {/* Barra superior */}
-      <section className="bg-neutral text-white px-8 py-2 flex justify-between items-center">
+      {/* Barra de información superior */}
+      <section className="bg-[#333333] text-white px-8 py-2 flex justify-between items-center">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-2">
             <Phone size={16} />
@@ -95,8 +95,7 @@ const Header = () => {
             <button
               type="button"
               onClick={() => setIsLoginOpen(true)}
-              className="flex items-center justify-center gap-2 text-black px-4 py-2 rounded-lg transition"
-              style={{ backgroundColor: 'var(--primary)' }}
+              className="flex items-center justify-center gap-2 bg-[#B8860B] text-black px-4 py-2 rounded-lg transition-all hover:bg-[#8B6914] font-medium"
               data-login-button
             >
               <LogIn size={16} />
@@ -107,8 +106,7 @@ const Header = () => {
             <button
               type="button"
               onClick={() => setIsRegistroOpen(true)}
-              className="flex items-center justify-center gap-2 text-black px-4 py-2 rounded-lg transition"
-              style={{ backgroundColor: 'var(--primary)' }}
+              className="flex items-center justify-center gap-2 bg-[#B8860B] text-black px-4 py-2 rounded-lg transition-all hover:bg-[#8B6914] font-medium"
               data-registro-button
             >
               <UserPlus size={16} />
