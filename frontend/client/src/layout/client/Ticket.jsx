@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Ticket, Plus } from "lucide-react";
 import ModalCrearTicket from "../../components/Tickets/ModalCrearTicket";
 import useFetch from "../../hooks/useFetch";

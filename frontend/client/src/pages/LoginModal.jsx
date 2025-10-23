@@ -150,7 +150,6 @@ const LoginModal = ({ isOpen, onClose }) => {
               <input
                 type="email"
                 name="email"
-                placeholder="tu@email.com"
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
@@ -166,7 +165,6 @@ const LoginModal = ({ isOpen, onClose }) => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  placeholder="Tu contraseña"
                   value={formData.password}
                   onChange={handleChange}
                   className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"

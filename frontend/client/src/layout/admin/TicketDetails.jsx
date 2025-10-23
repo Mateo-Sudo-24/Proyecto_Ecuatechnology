@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Play, XSquare, Plus, FileText, Download, Search, Clock, CheckCircle } from 'lucide-react';
 import jsPDF from 'jspdf';
 import useTicketOperations from '../../hooks/useTicketOperations';

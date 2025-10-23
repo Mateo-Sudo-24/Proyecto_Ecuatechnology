@@ -1,5 +1,5 @@
 // src/layout/client/ClientePage.jsx
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Ticket, FileDown, Eye, X } from "lucide-react";
 import useFetch from "../../hooks/useFetch";
 

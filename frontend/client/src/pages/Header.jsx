@@ -18,7 +18,7 @@ const Header = () => {
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-2">
             <Phone size={16} />
-            <span>+593 962590039</span>
+            <span>0962590039</span>
           </div>
           <div className="flex items-center gap-2">
             <Mail size={16} />

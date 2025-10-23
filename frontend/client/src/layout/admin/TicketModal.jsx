@@ -1,5 +1,4 @@
-import React from 'react';
-
+// Modal para creación de tickets
 const TicketModal = ({ isOpen, onClose, title, ticket, onSubmit }) => {
   if (!isOpen) return null;
 

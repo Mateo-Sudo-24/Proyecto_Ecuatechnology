@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Eye, Pencil, Download, FileSpreadsheet, FileText, ArrowLeft, RefreshCw } from 'lucide-react';
-import jsPDF from 'jspdf';
-import TicketModal from './TicketModal';
+import React, { useState} from 'react';
+import { Search, Eye, RefreshCw } from 'lucide-react';
 import TicketDetails from './TicketDetails';
 import useFetchAdminTickets from '../../hooks/useFetchAdminTickets';
 

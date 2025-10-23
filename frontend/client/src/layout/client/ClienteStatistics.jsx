@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BarChart3, TrendingUp, Calendar, DollarSign, Activity, Users } from 'lucide-react';
 import useFetch from '../../hooks/useFetch';
 import useAuthStore from '../../context/storeAuth';

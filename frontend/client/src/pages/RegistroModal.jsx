@@ -1,6 +1,6 @@
 // src/pages/RegistroModal.jsx
-import React, { useState, useEffect } from "react";
-import { UserPlus, Eye, EyeOff } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { fetchWithToast } from "../helpers/fetchWithToast";
@@ -73,7 +73,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
             <input
               type="text"
               name="nombre"
-              placeholder="Ej. Juan Pérez"
               value={formData.nombre}
               onChange={handleChange}
               className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
@@ -86,7 +85,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
             <input
               type="email"
               name="email"
-              placeholder="tu@email.com"
               value={formData.email}
               onChange={handleChange}
               className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
@@ -99,7 +97,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
             <input
               type="text"
               name="telefono"
-              placeholder="+593 999 999 999"
               value={formData.telefono}
               onChange={handleChange}
               className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
@@ -112,7 +109,6 @@ const RegistroModal = ({ isOpen, onClose }) => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Mínimo 8 caracteres"
                 value={formData.password}
                 onChange={handleChange}
                 className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Key, Download, Database, Check, Eye, EyeOff, X } from 'lucide-react';
+import { useState } from 'react';
+import { Key,Eye, EyeOff, X } from 'lucide-react';
 import useUpdatePassword from '../../hooks/useUpdatePassword';
 
 const AdminConfiguration = () => {
@@ -8,16 +8,11 @@ const AdminConfiguration = () => {
 
   const [companyInfo, setCompanyInfo] = useState({
     name: 'Ecuatecnology S.A.',
-    phone: '099 123 4567',
-    email: 'admin@ecuatechnology.com',
-    address: 'Quito, Ecuador'
+    phone: '0962590039 - 098 143 2601',
+    email: 'contacto@ecuatecnology.com',
+    address: 'Tomás de Berlanga y Lara Mariquez - Quito, Ecuador'
   });
 
-  const [notifications, setNotifications] = useState({
-    emailNotifications: true,
-    automaticBackup: true,
-    scheduledMaintenance: false
-  });
 
   // Estados para el modal de cambio de contraseña
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -37,23 +32,6 @@ const AdminConfiguration = () => {
   };
 
 
-  const handleNotificationChange = (field) => {
-    setNotifications(prev => ({
-      ...prev,
-      [field]: !prev[field]
-    }));
-  };
-
-  const handleSaveConfiguration = () => {
-    // Guardar configuración en localStorage
-    const config = {
-      companyInfo,
-      notifications
-    };
-    localStorage.setItem('admin_configuration', JSON.stringify(config));
-    console.log('Configuración guardada:', config);
-    alert('Configuración guardada exitosamente');
-  };
 
   const handleChangePassword = () => {
     console.log('Boton "Cambiar Contrasena" clickeado');
@@ -136,15 +114,6 @@ const AdminConfiguration = () => {
     setPasswordSuccess('');
   };
 
-  const handleExportData = () => {
-    console.log('Exportar datos');
-    // Aquí implementarías la lógica para exportar datos
-  };
-
-  const handleManualBackup = () => {
-    console.log('Realizar backup manual');
-    // Aquí implementarías la lógica para backup manual
-  };
 
   return (
     <div className="w-full max-w-none m-0">
@@ -198,54 +167,6 @@ const AdminConfiguration = () => {
         </div>
 
 
-        {/* Notificaciones y Automatización */}
-        <div className="bg-background border border-neutral-200 rounded-lg p-8 shadow-sm max-w-[1000px] m-0">
-          <h2 className="text-xl font-semibold text-neutral mb-6">Notificaciones y Automatización</h2>
-          <div className="flex flex-col gap-6">
-            <div className="flex justify-between items-center p-4 bg-neutral-50 rounded-md border border-neutral-200">
-              <div>
-                <h3 className="text-lg font-semibold text-neutral mb-1">Notificaciones por Email</h3>
-                <p className="text-sm text-gray-600">Recibir notificaciones de tickets y cambios importantes</p>
-              </div>
-              <button
-                className={`w-6 h-6 border-2 rounded border-neutral-300 bg-background cursor-pointer transition-all flex items-center justify-center ${
-                  notifications.emailNotifications ? 'bg-[#B8860B] border-[#B8860B]' : ''
-                }`}
-                onClick={() => handleNotificationChange('emailNotifications')}
-              >
-                {notifications.emailNotifications && <Check size={16} className="text-background" />}
-              </button>
-            </div>
-            <div className="flex justify-between items-center p-4 bg-neutral-50 rounded-md border border-neutral-200">
-              <div>
-                <h3 className="text-lg font-semibold text-neutral mb-1">Backup Automático</h3>
-                <p className="text-sm text-gray-600">Realizar respaldo automático diario de los datos</p>
-              </div>
-              <button
-                className={`w-6 h-6 border-2 rounded border-neutral-300 bg-background cursor-pointer transition-all flex items-center justify-center ${
-                  notifications.automaticBackup ? 'bg-[#B8860B] border-[#B8860B]' : ''
-                }`}
-                onClick={() => handleNotificationChange('automaticBackup')}
-              >
-                {notifications.automaticBackup && <Check size={16} className="text-background" />}
-              </button>
-            </div>
-            <div className="flex justify-between items-center p-4 bg-neutral-50 rounded-md border border-neutral-200">
-              <div>
-                <h3 className="text-lg font-semibold text-neutral mb-1">Mantenimiento Programado</h3>
-                <p className="text-sm text-gray-600">Activar ventana de mantenimiento los domingos a las 2:00 AM</p>
-              </div>
-              <button
-                className={`w-6 h-6 border-2 rounded border-neutral-300 bg-background cursor-pointer transition-all flex items-center justify-center ${
-                  notifications.scheduledMaintenance ? 'bg-[#B8860B] border-[#B8860B]' : ''
-                }`}
-                onClick={() => handleNotificationChange('scheduledMaintenance')}
-              >
-                {notifications.scheduledMaintenance && <Check size={16} className="text-background" />}
-              </button>
-            </div>
-          </div>
-        </div>
 
         {/* Seguridad y Datos */}
         <div className="bg-background border border-neutral-200 rounded-lg p-8 shadow-sm max-w-[1000px] m-0">
@@ -257,20 +178,6 @@ const AdminConfiguration = () => {
             >
               <Key size={20} />
               Cambiar Contraseña
-            </button>
-            <button
-              className="flex items-center gap-4 p-4 rounded-md text-sm font-medium cursor-pointer transition-all text-left bg-background text-neutral border border-neutral-200 hover:bg-neutral-50"
-              onClick={handleExportData}
-            >
-              <Download size={20} />
-              Exportar Datos
-            </button>
-            <button
-              className="flex items-center gap-4 p-4 rounded-md text-sm font-medium cursor-pointer transition-all text-left bg-background text-neutral border border-neutral-200 hover:bg-neutral-50"
-              onClick={handleManualBackup}
-            >
-              <Database size={20} />
-              Realizar Backup Manual
             </button>
           </div>
         </div>

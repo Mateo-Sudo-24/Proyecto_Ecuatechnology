@@ -1,5 +1,4 @@
-import React from 'react';
-import { Facebook, Instagram, Linkedin, MapPin, Phone, Mail } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -48,6 +47,9 @@ const Footer = () => {
             </a>
             <a href="https://linkedin.com/company/ecuatecnology" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none' }} className="hover:text-primary">
               <Linkedin size={24} />
+            </a>
+            <a href="https://wa.me/593962590039" target="_blank" rel="noopener noreferrer" style={{ color: '#25D366', textDecoration: 'none' }} className="hover:opacity-80">
+              <MessageCircle size={24} />
             </a>
           </div>
         </div>
@@ -116,11 +118,7 @@ const Footer = () => {
             </li>
             <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Phone size={20} />
-              +593 962590039
-            </li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Phone size={20} />
-              +593 98 143 2601
+              098 143 2601
             </li>
             <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Mail size={20} />

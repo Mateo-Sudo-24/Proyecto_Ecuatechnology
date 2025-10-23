@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Plus, Pencil, Trash, X } from 'lucide-react';
+import { useState } from 'react';
+import { Trash} from 'lucide-react';
 import useAdmins from '../../hooks/useAdmins';
 import useDeleteAdmin from '../../hooks/useDeleteAdmin';
 
