@@ -57,17 +57,17 @@ const RegistroModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm md:max-w-md p-4 md:p-6 relative">
         <button
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl leading-none"
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl md:text-2xl leading-none"
           onClick={onClose}
         >
           ×
         </button>
-        <h2 className="text-2xl font-bold text-center text-primary mb-2">Registro</h2>
-        <p className="text-center text-gray-600 mb-6">Crea tu cuenta en Ecuatecnology</p>
+        <h2 className="text-xl md:text-2xl font-bold text-center text-primary mb-2">Registro</h2>
+        <p className="text-center text-gray-600 mb-4 md:mb-6 text-sm md:text-base">Crea tu cuenta en Ecuatecnology</p>
 
-        <form onSubmit={handleRegister} className="space-y-4">
+        <form onSubmit={handleRegister} className="space-y-3 md:space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Nombre completo</label>
             <input
@@ -75,7 +75,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
               name="nombre"
               value={formData.nombre}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
+              className="w-full rounded-lg border border-gray-300 p-2 md:p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all text-sm md:text-base"
               required
             />
           </div>
@@ -87,7 +87,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
+              className="w-full rounded-lg border border-gray-300 p-2 md:p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all text-sm md:text-base"
               required
             />
           </div>
@@ -99,7 +99,7 @@ const RegistroModal = ({ isOpen, onClose }) => {
               name="telefono"
               value={formData.telefono}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
+              className="w-full rounded-lg border border-gray-300 p-2 md:p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all text-sm md:text-base"
             />
           </div>
 
@@ -111,14 +111,14 @@ const RegistroModal = ({ isOpen, onClose }) => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all"
+                className="w-full rounded-lg border border-gray-300 p-2 md:p-3 bg-white text-neutral focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25 transition-all text-sm md:text-base"
                 required
               />
               <span
-                className="absolute top-3 right-3 cursor-pointer text-gray-500"
+                className="absolute top-2 md:top-3 right-3 cursor-pointer text-gray-500"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                {showPassword ? <Eye size={16} md:size={18} /> : <EyeOff size={16} md:size={18} />}
               </span>
             </div>
           </div>
@@ -126,12 +126,12 @@ const RegistroModal = ({ isOpen, onClose }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full p-3 rounded-lg flex items-center justify-center gap-2 text-white transition-all bg-[#B8860B] hover:bg-[#8B6914] disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+            className="w-full p-2 md:p-3 rounded-lg flex items-center justify-center gap-2 text-white transition-all bg-[#B8860B] hover:bg-[#8B6914] disabled:opacity-50 disabled:cursor-not-allowed font-medium text-sm md:text-base"
           >
             {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
           </button>
 
-          <div className="text-center text-sm mt-4">
+          <div className="text-center text-xs md:text-sm mt-4">
             ¿Ya tienes cuenta? <span className="text-[#B8860B] font-medium cursor-pointer" onClick={() => {onClose(); document.querySelector('[data-login-button]')?.click();}}>Inicia sesión aquí</span>
           </div>
         </form>

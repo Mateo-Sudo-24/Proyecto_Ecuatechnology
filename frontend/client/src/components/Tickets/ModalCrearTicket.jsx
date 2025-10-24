@@ -36,18 +36,18 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm md:max-w-md p-4 md:p-6 relative">
         <button
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl leading-none"
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl md:text-2xl leading-none"
           onClick={onClose}
         >
           ×
         </button>
         {/* Header con icono */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="bg-[#B8860B] p-3 rounded-lg">
+        <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+          <div className="bg-[#B8860B] p-2 md:p-3 rounded-lg">
             <svg
-              className="w-6 h-6 text-background"
+              className="w-5 h-5 md:w-6 md:h-6 text-background"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -61,35 +61,35 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
             </svg>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-center text-[#B8860B] mb-2">Nuevo Ticket</h2>
-            <p className="text-center text-gray-600 mb-6">
+            <h2 className="text-xl md:text-2xl font-bold text-[#B8860B] mb-1 md:mb-2">Nuevo Ticket</h2>
+            <p className="text-xs md:text-sm text-gray-600">
               Completa la información requerida
             </p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           {/* Título */}
           <div className="form-group">
-            <label className="block text-sm font-medium mb-1">Título</label>
+            <label className="block text-xs md:text-sm font-medium mb-1">Título</label>
             <input
               type="text"
               placeholder="Ej: Error en el sistema de pagos"
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
+              className="w-full rounded-lg border border-gray-300 p-2 md:p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all text-sm md:text-base"
               required
             />
           </div>
 
           {/* Descripción */}
           <div className="form-group">
-            <label className="block text-sm font-medium mb-1">Descripción</label>
+            <label className="block text-xs md:text-sm font-medium mb-1">Descripción</label>
             <textarea
               placeholder="Describe el problema detalladamente..."
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all resize-vertical min-h-[100px]"
+              className="w-full rounded-lg border border-gray-300 p-2 md:p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all resize-vertical min-h-[80px] md:min-h-[100px] text-sm md:text-base"
               rows={4}
               required
             />
@@ -97,11 +97,11 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
 
           {/* Prioridad */}
           <div className="form-group">
-            <label className="block text-sm font-medium mb-1">Prioridad</label>
+            <label className="block text-xs md:text-sm font-medium mb-1">Prioridad</label>
             <select
               value={prioridad}
               onChange={(e) => setPrioridad(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all"
+              className="w-full rounded-lg border border-gray-300 p-2 md:p-3 bg-white text-neutral focus:outline-none focus:border-[#B8860B] focus:ring-2 focus:ring-[#B8860B]/25 transition-all text-sm md:text-base"
             >
               <option value="baja">Baja</option>
               <option value="media">Media</option>
@@ -111,27 +111,27 @@ const ModalCrearTicket = ({ isOpen, onClose, onTicketCreated }) => {
 
           {/* Error */}
           {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded-lg animate-in slide-in-from-top duration-300">
+            <div className="bg-red-50 border-l-4 border-red-500 p-2 md:p-3 rounded-lg animate-in slide-in-from-top duration-300">
               <div className="flex items-center gap-2">
-                <span className="text-red-500 text-lg">⚠️</span>
-                <p className="text-red-700 text-sm font-medium">{error}</p>
+                <span className="text-red-500 text-base md:text-lg">⚠️</span>
+                <p className="text-red-700 text-xs md:text-sm font-medium">{error}</p>
               </div>
             </div>
           )}
 
           {/* Botones */}
-          <div className="flex gap-3 pt-6">
+          <div className="flex flex-col sm:flex-row gap-2 md:gap-3 pt-4 md:pt-6">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-neutral hover:text-[#B8860B] transition-colors"
+              className="flex-1 px-3 md:px-4 py-2 text-neutral hover:text-[#B8860B] transition-colors text-sm md:text-base"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-[#B8860B] text-white rounded-lg hover:bg-[#8B6914] transition-colors disabled:opacity-50"
+              className="flex-1 px-3 md:px-4 py-2 bg-[#B8860B] text-white rounded-lg hover:bg-[#8B6914] transition-colors disabled:opacity-50 text-sm md:text-base"
             >
               {loading ? "Creando..." : "Crear Ticket"}
             </button>

@@ -27,12 +27,14 @@ const LandingPage = ({ showLoginModal = false }) => {
   const handleLoginClose = () => setIsLoginOpen(false);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header onLogin={handleLoginOpen} />
-      <Home />
+      <main className="flex-1">
+        <Home />
+      </main>
       <Footer />
       {isLoginOpen && <LoginModal isOpen={isLoginOpen} onClose={handleLoginClose} />}
-    </>
+    </div>
   );
 };
 // Inicializar storeProfile desde localStorage al cargar la app
