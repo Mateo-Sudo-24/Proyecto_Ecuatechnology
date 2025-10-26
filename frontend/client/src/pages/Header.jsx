@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-scroll';
-import { Home, Wrench, Users, Phone, Mail, Clock, Contact, LogIn, UserPlus } from 'lucide-react';
+import { Home, Wrench, Users, Phone, Mail, Clock, LogIn, UserPlus, MapIcon } from 'lucide-react';
 import LoginModal from './LoginModal.jsx';
 import RegistroModal from './RegistroModal.jsx';
 import ContactoModal from './ContactoModal.jsx';
@@ -85,8 +85,8 @@ const Header = () => {
               onClick={() => setIsContactOpen(true)}
               className="flex items-center gap-1 text-neutral hover:text-secondary cursor-pointer text-sm md:text-base"
             >
-              <Contact size={16} />
-              <span className="hidden sm:inline">Contacto</span>
+              <MapIcon size={16} />
+              <span className="hidden sm:inline">Ubicanos</span>
             </button>
           </li>
 
