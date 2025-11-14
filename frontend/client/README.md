@@ -141,9 +141,42 @@ npm run build
 `--peach-light` | #FFF5E6 | Fondos de tarjetas, secciones claras
 
 ## Despliegue
-Esta aplicación frontend está desplegada en Vercel. Solo la parte frontend está desplegada, mientras que el backend se aloja por separado.
 
-**Despliegue en Vivo: https://ecuatechnology.vercel.app/**
+Esta aplicación frontend está desplegada en **Vercel**, una plataforma de despliegue en la nube optimizada para aplicaciones web modernas.
+
+### Tecnología de Despliegue
+- **Plataforma:** Vercel (anteriormente Zeit)
+- **Framework de Build:** Vite 7.1.2
+- **Comandos de Build:**
+  - `npm run build` - Genera el build de producción
+  - `npm run preview` - Vista previa local del build
+- **Configuración:** Automática detección de Vite
+- **Optimizaciones:** Code splitting, tree shaking y minificación automática
+
+### Arquitectura de Despliegue
+- **Frontend:** Desplegado completamente en Vercel
+- **Backend:** Alohado por separado (no incluido en este despliegue)
+- **Integración:** Comunicación vía APIs REST con variables de entorno
+
+### Variables de Entorno en Vercel
+- `VITE_URL_BACK`: URL del backend principal
+- `VITE_API_DESK`: URL del API alternativo
+
+### Proceso de Despliegue
+1. **Conexión Git:** Integración automática con repositorio Git
+2. **Build Automático:** Se ejecuta `npm run build` en cada push
+3. **Deploy Preview:** Generación de previews para pull requests
+4. **CDN Global:** Distribución automática en edge network de Vercel
+
+### Dominio y URL
+**Despliegue en Vivo:** [https://ecuatechnology.vercel.app/](https://ecuatechnology.vercel.app/)
+
+### Características de Vercel
+- **Despliegue Instantáneo:** Builds rápidos y optimizados
+- **SSL Automático:** Certificados HTTPS incluidos
+- **Analytics Integrado:** Métricas de rendimiento incluidas
+- **Rollback Fácil:** Versiones anteriores disponibles
+- **Edge Functions:** Posibilidad de serverless functions (no implementadas actualmente)
 
 
 ## Características Responsivas Implementadas

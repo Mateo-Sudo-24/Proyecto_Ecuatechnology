@@ -444,6 +444,66 @@ fetchDataBackend(endpoint, data, method, backend)
 
 ---
 
+### Despliegue y Producción
+
+#### Plataforma de Despliegue
+- **Proveedor:** Vercel (anteriormente Zeit)
+- **Tipo de Despliegue:** Serverless/Static Site Generation
+- **Framework de Build:** Vite 7.1.2
+- **URL de Producción:** https://ecuatechnology.vercel.app/
+
+#### Arquitectura de Despliegue
+- **Frontend:** Completamente desplegado en Vercel
+- **Backend:** Alohado por separado (arquitectura desacoplada)
+- **Comunicación:** APIs REST vía HTTP/HTTPS
+- **CDN:** Edge Network global de Vercel
+
+#### Configuración de Build en Vercel
+- **Comando de Build:** `npm run build`
+- **Directorio de Output:** `dist/` (generado por Vite)
+- **Node Version:** Automáticamente detectado
+- **Build Time:** Optimizado con cache inteligente
+
+#### Variables de Entorno
+```bash
+VITE_URL_BACK=https://api.ecuatechnology.com  # Backend principal
+VITE_API_DESK=https://desk.ecuatechnology.com # API alternativo
+```
+
+#### Proceso de Despliegue Automático
+1. **Git Integration:** Conexión automática con repositorio Git
+2. **Build Triggers:** Automático en cada push a rama main
+3. **Preview Deployments:** Generados para pull requests
+4. **Production Deployments:** Solo desde rama main
+5. **Rollback:** Versiones anteriores disponibles instantáneamente
+
+#### Características de Vercel
+- **SSL Automático:** Certificados HTTPS incluidos
+- **Performance:** Optimizaciones automáticas (compression, caching)
+- **Analytics:** Métricas de rendimiento integradas
+- **Edge Functions:** Soporte para serverless functions (no implementado)
+- **Domains:** Configuración automática de dominios personalizados
+
+#### Monitoreo en Producción
+- **Error Tracking:** Logs de errores en tiempo real
+- **Performance Monitoring:** Core Web Vitals
+- **Uptime Monitoring:** Disponibilidad 99.9% SLA
+- **Traffic Analytics:** Métricas de uso y rendimiento
+
+#### Estrategia de Backup y Recuperación
+- **Version Control:** Git como sistema de backup principal
+- **Deploy History:** Vercel mantiene historial de despliegues
+- **Rollback Time:** Instantáneo (< 1 minuto)
+- **Data Backup:** Gestionado por el backend separado
+
+#### Costos y Escalabilidad
+- **Plan Actual:** Hobby/Free tier de Vercel
+- **Escalabilidad:** Automática según demanda
+- **Limits:** 100GB bandwidth mensual (free tier)
+- **Upgrade Path:** Pro plan para mayor capacidad
+
+---
+
 ### Conclusiones
 
 El frontend del sistema de gestión de tickets de Ecuatecnology es una aplicación moderna desarrollada con las mejores prácticas de React y JavaScript. La arquitectura modular, la gestión de estado centralizada y el diseño responsive proporcionan una base sólida para el crecimiento futuro de la aplicación.
