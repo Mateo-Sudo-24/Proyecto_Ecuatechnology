@@ -44,7 +44,6 @@ function Cliente_Page() {
   // Sacar las funciones de auth global
   const logout = useAuthStore((state) => state.logout);
   const initializeUser = useAuthStore((state) => state.initializeUser);
-  const isLoading = useAuthStore((state) => state.isLoading);
   const usuario = useProfileStore((state) => state.user) || {};
 
 

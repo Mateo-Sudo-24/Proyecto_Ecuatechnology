@@ -3,7 +3,7 @@ import { Play, XSquare, Plus, FileText, Download, Search, Clock, CheckCircle } f
 import jsPDF from 'jspdf';
 import useTicketOperations from '../../hooks/useTicketOperations';
 
-const TicketDetails = ({ ticket, onBack }) => {
+const TicketDetails = ({ ticket }) => {
   const [currentTicket, setCurrentTicket] = useState(ticket);
   const [showDiagnosisModal, setShowDiagnosisModal] = useState(false);
   const [showProformaModal, setShowProformaModal] = useState(false);
@@ -14,7 +14,7 @@ const TicketDetails = ({ ticket, onBack }) => {
   });
 
   // Usar el hook para operaciones de tickets
-  const { updateDiagnosis, createProforma, updateStatus, loading, error } = useTicketOperations();
+  const { updateDiagnosis, createProforma, updateStatus, loading } = useTicketOperations();
 
   // Función para obtener la clase CSS correcta para cada estado
   const getStatusClass = (estado) => {

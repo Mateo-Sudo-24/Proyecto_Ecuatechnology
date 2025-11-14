@@ -20,7 +20,6 @@ const Profile = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
 
   // Estados para controlar visibilidad de contraseñas
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -37,7 +36,6 @@ const Profile = () => {
 
       try {
         setLoading(true);
-        setError('');
         const data = await fetchDataBackend('clientes/profile', null, 'GET', true);
 
         if (data && data.profile) {
@@ -54,7 +52,6 @@ const Profile = () => {
         }
       } catch (err) {
         console.error('Error al cargar el perfil:', err);
-        setError('Error al cargar el perfil: ' + (err.message || 'Error desconocido'));
 
         // Usar datos por defecto si hay error
         setProfile({
@@ -75,7 +72,6 @@ const Profile = () => {
   const handleSaveChanges = async () => {
     try {
       setSaving(true);
-      setError('');
       setMessage('');
 
       const response = await fetchDataBackend('clientes/profile', {
@@ -90,8 +86,6 @@ const Profile = () => {
       }
     } catch (err) {
       console.error('Error al actualizar perfil:', err);
-      setError('Error al actualizar el perfil: ' + (err.message || 'Error desconocido'));
-      setTimeout(() => setError(''), 5000);
     } finally {
       setSaving(false);
     }
@@ -100,27 +94,20 @@ const Profile = () => {
   const handleChangePassword = async () => {
     // Solo proceder si hay datos en los campos
     if (!currentPassword.trim() || !newPassword.trim() || !confirmPassword.trim()) {
-      setError('Por favor completa todos los campos');
-      setTimeout(() => setError(''), 3000);
       return;
     }
 
     // Validaciones básicas
     if (newPassword !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
-      setTimeout(() => setError(''), 3000);
       return;
     }
 
     if (newPassword.length < 6) {
-      setError('La nueva contraseña debe tener al menos 6 caracteres');
-      setTimeout(() => setError(''), 3000);
       return;
     }
 
     try {
       setSaving(true);
-      setError('');
       setMessage('');
 
       const response = await fetchDataBackend('clientes/change-password', {
@@ -129,7 +116,7 @@ const Profile = () => {
       }, 'POST', true);
 
       if (response) {
-        setMessage('✅ Contraseña cambiada con éxito');
+        setMessage('Contraseña cambiada con éxito');
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
@@ -137,8 +124,6 @@ const Profile = () => {
       }
     } catch (err) {
       console.error('Error al cambiar contraseña:', err);
-      setError('❌ Error al cambiar la contraseña: ' + (err.message || 'Error desconocido'));
-      setTimeout(() => setError(''), 5000);
     } finally {
       setSaving(false);
     }

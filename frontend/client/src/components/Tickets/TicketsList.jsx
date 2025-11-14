@@ -21,7 +21,7 @@ export default function TicketsList() {
     };
 
     loadTickets();
-  }, []);
+  }, [fetchDataBackend]);
 
   if (loading) return <p>Cargando tickets...</p>;
   if (!tickets.length) return <p>No hay tickets aún.</p>;

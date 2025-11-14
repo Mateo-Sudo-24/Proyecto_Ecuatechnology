@@ -15,7 +15,7 @@ export default function CreateTicket() {
     setMessage("");
 
     try {
-      const data = await fetchDataBackend("/tickets", { descripcion, tipo }, "POST");
+      await fetchDataBackend("/tickets", { descripcion, tipo }, "POST");
       setMessage("Ticket creado con éxito.");
       setDescripcion("");
       setTipo("General");

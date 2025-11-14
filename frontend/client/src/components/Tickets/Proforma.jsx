@@ -1,5 +1,5 @@
 // src/components/tickets/Proforma.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 
 export default function Proforma({ ticketId, estadoActual }) {

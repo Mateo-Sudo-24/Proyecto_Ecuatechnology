@@ -3,7 +3,7 @@ import { Trash} from 'lucide-react';
 import useAdmins from '../../hooks/useAdmins';
 import useDeleteAdmin from '../../hooks/useDeleteAdmin';
 
-const AdminManagement = ({ onBack }) => {
+const AdminManagement = () => {
   // Hook para obtener administradores
   const { administradores, loading: adminsLoading, error: adminsError, getAdministradores } = useAdmins();
 

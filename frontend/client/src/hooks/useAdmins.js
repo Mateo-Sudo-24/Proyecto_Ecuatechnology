@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import useFetch from './useFetch';
 
 const useAdmins = () => {
@@ -7,7 +7,7 @@ const useAdmins = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const getAdministradores = async () => {
+  const getAdministradores = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -21,12 +21,12 @@ const useAdmins = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [fetchDataBackend]);
 
   // Llamar a getAdministradores cuando se monte el componente
   useEffect(() => {
     getAdministradores();
-  }, []);
+  }, [getAdministradores]);
 
   return {
     administradores,

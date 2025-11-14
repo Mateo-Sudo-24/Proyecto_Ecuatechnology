@@ -17,7 +17,7 @@ const ConfirmacionCorreo = () => {
         const res = await fetchDataBackend(`/clientes/confirm/${token}`, null, "GET", "web");
 
 
-        // ✅ Mostramos toast verde de éxito
+        // Mostramos toast verde de éxito
         toast.update(toastId, {
           render: res.message || "Correo confirmado con éxito",
           type: "success",
@@ -32,7 +32,7 @@ const ConfirmacionCorreo = () => {
     };
 
     confirmarCorreo();
-  }, [token]);
+  }, [token, fetchDataBackend]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
