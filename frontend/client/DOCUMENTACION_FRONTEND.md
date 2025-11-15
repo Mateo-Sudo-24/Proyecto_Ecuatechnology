@@ -6,7 +6,7 @@
 ### Información General del Proyecto
 
 **Nombre del Proyecto:** Sistema de Gestión de Tickets  
-**Empresa:** Ecuatecnology S.A.  
+**Empresa:** Deltron - Ecuatecnology S.A.  
 **Versión Frontend:** 1.0.0  
 **Fecha de Documentación:** 10 de Noviembre de 2025  
 **Documentado por:** María Paula Girón Cedeño - Junior Frontend Developer
