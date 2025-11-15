@@ -31,9 +31,6 @@ El sistema está dividido en dos módulos principales:
 - 📱 Diseño responsivo (mobile-first)
 - 📧 Sistema de confirmación por email
 - 📄 Generación automática de PDFs
-- ☁️ Almacenamiento en la nube (Cloudinary)
-- 💳 Integración con Stripe para pagos
-- 🔄 Notificaciones en tiempo real (Socket.io)
 
 ## Tecnologías Utilizadas
 
