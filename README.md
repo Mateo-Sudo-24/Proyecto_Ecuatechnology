@@ -226,14 +226,6 @@ El frontend está desplegado en **Vercel** y se puede acceder en:
 El backend debe desplegarse en un servidor separado (ej: Heroku, Railway, VPS).
 Requiere configuración de base de datos SQL Server en producción.
 
-## Contribución
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
 ### Guías de Desarrollo
 - Sigue las reglas de ESLint y Stylelint
 - Usa commits descriptivos
@@ -245,9 +237,7 @@ Requiere configuración de base de datos SQL Server en producción.
 Este proyecto está bajo la Licencia ISC. Ver el archivo `LICENSE` para más detalles.
 
 ## Autores
-
-- **María Paula Girón Cedeño** - *Desarrolladora Frontend* - Junior Frontend Developer
-- **Equipo de Ecuatechnology S.A.** - Empresa desarrolladora
+- **Equipo de Ecuatecnology S.A.** - Empresa desarrolladora
 
 ## Soporte
 
