@@ -1,4 +1,4 @@
-# Ecuatechnology - Sistema de Gestión de Tickets
+# Ecuatecnology - Sistema de Gestión de Tickets
 
 ## Descripción
 
