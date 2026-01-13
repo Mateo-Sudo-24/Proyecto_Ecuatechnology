@@ -227,10 +227,6 @@ Requiere configuración de base de datos SQL Server en producción.
 - Mantén la documentación actualizada
 - Prueba en múltiples dispositivos
 
-## Licencia
-
-Este proyecto está bajo la Licencia ISC. Ver el archivo `LICENSE` para más detalles.
-
 ## Autores
 - **Equipo de Ecuatecnology S.A.** - Empresa desarrolladora
 
