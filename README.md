@@ -41,8 +41,6 @@ El sistema está dividido en dos módulos principales:
 - **JWT** - Autenticación
 - **bcrypt** - Encriptación de contraseñas
 - **Nodemailer** - Envío de emails
-- **Socket.io** - Comunicación en tiempo real
-- **Stripe** - Procesamiento de pagos
 
 ### Frontend
 - **React 19** - Framework de interfaz de usuario
