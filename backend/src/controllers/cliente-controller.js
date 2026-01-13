@@ -2,7 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { sendMailToRegister, sendMailOTP } from "../config/nodemailer.js";
-import jsPDF from "jspdf";
+import { jsPDF } from "jspdf";
+
 
 const prisma = new PrismaClient();
 const SECRET = process.env.JWT_SECRET || "ECUATECH_WEB_SECRET";
